@@ -8,12 +8,6 @@
     </div>
 
     <ul class="nav flex-column gap-1 flex-grow-1">
-        <li class="nav-item">
-            <a href="{{ route('dashboard') }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('dashboard') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
-                <i class="bi bi-grid-fill"></i> <span class="sidebar-label">Dashboard</span>
-            </a>
-        </li>
 
         <li class="nav-item">
             <a href="#submenuAkun" data-bs-toggle="collapse" role="button"
@@ -21,7 +15,7 @@
                class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded">
                 <i class="bi bi-journal-bookmark-fill"></i>
                 <span class="sidebar-label">Manajemen Akun</span>
-                <i class="bi bi-chevron-down ms-auto small sidebar-label"></i>
+                <i class="bi bi -chevron-down ms-auto small sidebar-label"></i>
             </a>
             <div class="collapse {{ request()->routeIs('pengguna.*') ? 'show' : '' }}" id="submenuAkun">
                 <ul class="nav flex-column ms-4 mt-1 sidebar-label">
@@ -56,8 +50,8 @@
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('pelayanan.index') }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('pelayanan.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
+            <a href="{{ route('admin.pelayanan.index') }}"
+               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('admin.pelayanan.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
                 <i class="bi bi-people-fill"></i> <span class="sidebar-label">Pelayanan</span>
             </a>
         </li>

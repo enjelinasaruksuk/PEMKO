@@ -1,4 +1,4 @@
-@extends('layouts.pengguna')
+@extends('layouts.instansi')
 @section('title', 'Profile')
 
 @section('content')

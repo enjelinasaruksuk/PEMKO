@@ -35,13 +35,7 @@
                     <li class="nav-item">
                         <a href="{{ Route::has('pengesahan_sk.index') ? route('pengesahan_sk.index') : '#' }}"
                            class="nav-link text-white px-3 py-2 rounded {{ request()->routeIs('pengesahan_sk.index') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
-                            Daftar SK
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ Route::has('pengesahan_sk.create') ? route('pengesahan_sk.create') : '#' }}"
-                           class="nav-link text-white px-3 py-2 rounded {{ request()->routeIs('pengesahan_sk.create') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
-                            Ajukan SK
+                            Bagian Organisasi
                         </a>
                     </li>
                 </ul>

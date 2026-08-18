@@ -10,21 +10,42 @@
         .sidebar .nav-link:hover { background: rgba(255,255,255,.15); }
         .sidebar .bi-chevron-down { transition: transform .2s; }
         .sidebar a[aria-expanded="true"] .bi-chevron-down { transform: rotate(180deg); }
+        .sidebar.collapsed {
+            width: 80px !important;
+        }
+        .sidebar.collapsed .sidebar-label {
+            display: none;
+        }
+        .sidebar.collapsed .sidebar-logo-text {
+            display: none;
+        }
+        .sidebar.collapsed .nav-link {
+            justify-content: center;
+        }
+        .sidebar.collapsed ul.ms-4 {
+            margin-left: 0 !important;
+        }
     </style>
     @stack('styles')
 </head>
 <body>
     <div class="d-flex">
-    <x-sidebar_instansi />
+        <x-sidebar_instansi />
 
-    <div class="flex-grow-1">
-        <x-navbar_instansi />
-        <main class="p-4">
-            @yield('content')
-        </main>
+        <div class="flex-grow-1">
+            <x-navbar_instansi />
+            <main class="p-4">
+                @yield('content')
+            </main>
+        </div>
     </div>
-</div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>
