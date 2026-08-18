@@ -73,56 +73,67 @@ Route::post('/admin/pelayanan', fn() => redirect()->route('admin.pelayanan.index
 Route::put('/admin/pelayanan/{id}', fn($id) => redirect()->route('admin.pelayanan.index'))->name('admin.pelayanan.update');
 Route::delete('/admin/pelayanan/{id}', fn($id) => redirect()->route('admin.pelayanan.index'))->name('admin.pelayanan.destroy');
 
-
-Route::post('/pelayanan', fn() => redirect()->route('pelayanan.index'))->name('pelayanan.store');
-Route::put('/pelayanan/{id}', fn($id) => redirect()->route('pelayanan.index'))->name('pelayanan.update');
-Route::delete('/pelayanan/{id}', fn($id) => redirect()->route('pelayanan.index'))->name('pelayanan.destroy');
-Route::post('/logout', fn() => redirect('/test-admin'))->name('logout');
-
 /*
 |--------------------------------------------------------------------------
 | Route Profile (dipakai instansi & unit layanan)
 |--------------------------------------------------------------------------
 */
-Route::get('/profile', function () {
+/*
+|--------------------------------------------------------------------------
+| Route Profile - Instansi
+|--------------------------------------------------------------------------
+*/
+Route::get('/instansi/profile', function () {
     $profile = null;
-    $role = 'unit_layanan'; // ganti ke 'instansi' buat testing sidebar instansi
+    return view('pages.instansi.profile', compact('profile'));
+})->name('instansi.profile');
 
-    return match ($role) {
-        'instansi' => view('pages.instansi.profile', compact('profile')),
-        'unit_layanan' => view('pages.unit_layanan.profile', compact('profile')),
-    };
-})->name('profile');
+Route::put('/instansi/profile', function () {
+    return redirect()->route('instansi.profile');
+})->name('instansi.profile.update');
 
-Route::put('/profile', function () {
-    return redirect()->route('profile');
-})->name('profile.update');
+/*
+|--------------------------------------------------------------------------
+| Route Profile - Unit Layanan
+|--------------------------------------------------------------------------
+*/
+Route::get('/unit-layanan/profile', function () {
+    $profile = null;
+    return view('pages.unit_layanan.profile', compact('profile'));
+})->name('unit_layanan.profile');
+
+Route::put('/unit-layanan/profile', function () {
+    return redirect()->route('unit_layanan.profile');
+})->name('unit_layanan.profile.update');
 
 /*
 |--------------------------------------------------------------------------
 | Route Perda & Perwali (dipakai instansi & unit layanan)
 |--------------------------------------------------------------------------
 */
-Route::get('/perda-perwali', function () {
+/*
+|--------------------------------------------------------------------------
+| Route Perda & Perwali - Instansi
+|--------------------------------------------------------------------------
+*/
+Route::get('/instansi/perda-perwali', function () {
     $perdaList = collect();
     $perwaliList = collect();
     $namaUnit = 'Sekretariat Daerah';
-    $role = 'unit_layanan'; // samain sama role di route profile
+    return view('pages.instansi.perda_perwali', compact('perdaList', 'perwaliList', 'namaUnit'));
+})->name('instansi.perda_perwali.index');
 
-    return match ($role) {
-        'instansi' => view('pages.instansi.perda_perwali', compact('perdaList', 'perwaliList', 'namaUnit')),
-        'unit_layanan' => view('pages.unit_layanan.perda_perwali', compact('perdaList', 'perwaliList', 'namaUnit')),
-    };
-})->name('perda_perwali.index');
-
-Route::post('/perda', fn() => redirect()->route('perda_perwali.index'))->name('perda.store');
-Route::put('/perda/{id}', fn($id) => redirect()->route('perda_perwali.index'))->name('perda.update');
-Route::delete('/perda/{id}', fn($id) => redirect()->route('perda_perwali.index'))->name('perda.destroy');
-
-Route::post('/perwali', fn() => redirect()->route('perda_perwali.index'))->name('perwali.store');
-Route::put('/perwali/{id}', fn($id) => redirect()->route('perda_perwali.index'))->name('perwali.update');
-Route::delete('/perwali/{id}', fn($id) => redirect()->route('perda_perwali.index'))->name('perwali.destroy');
-
+/*
+|--------------------------------------------------------------------------
+| Route Perda & Perwali - Unit Layanan
+|--------------------------------------------------------------------------
+*/
+Route::get('/unit-layanan/perda-perwali', function () {
+    $perdaList = collect();
+    $perwaliList = collect();
+    $namaUnit = 'Sekretariat Daerah';
+    return view('pages.unit_layanan.perda_perwali', compact('perdaList', 'perwaliList', 'namaUnit'));
+})->name('unit_layanan.perda_perwali.index');
 /*
 |--------------------------------------------------------------------------
 | Route Manajemen Akun - Admin

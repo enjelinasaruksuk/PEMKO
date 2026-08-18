@@ -7,7 +7,7 @@
             <h5 class="fw-bold text-primary mb-1">Profil Unit Layanan - {{ $profile->nama_unit ?? 'Unit Layanan' }}</h5>
             <p class="text-muted small mb-0">Form profil unit layanan anda</p>
         </div>
-        <a href="{{ Route::has('perda_perwali.index') ? route('perda_perwali.index') : '#' }}"
+        <a href="{{ Route::has('unit_layanan.perda_perwali.index') ? route('unit_layanan.perda_perwali.index') : '#' }}"
            class="btn btn-primary btn-sm rounded-pill px-3">
             <i class="bi bi-plus-circle"></i> Tambah Perda dan Perwali
         </a>
@@ -29,5 +29,5 @@
         <i class="bi bi-plus-circle"></i> Tambah Data
     </button>
 
-    <x-modal_profile_form :profile="$profile" />
+   <x-modal_profile_form :profile="$profile" update-route="unit_layanan.profile.update" />
 @endsection

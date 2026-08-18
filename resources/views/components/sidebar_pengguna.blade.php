@@ -9,8 +9,8 @@
 
     <ul class="nav flex-column gap-1 flex-grow-1">
         <li class="nav-item">
-            <a href="{{ Route::has('profile') ? route('profile') : '#' }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('profile') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
+            <a href="{{ Route::has('unit_layanan.profile') ? route('unit_layanan.profile') : '#' }}"
+            class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('unit_layanan.profile') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
                 <i class="bi bi-person-fill"></i> <span class="sidebar-label">Profile</span>
             </a>
         </li>
