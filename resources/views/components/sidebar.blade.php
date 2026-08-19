@@ -1,4 +1,8 @@
-<aside class="sidebar bg-primary text-white d-flex flex-column p-3" id="sidebar" style="width: 260px; min-height: 100vh; transition: width .2s;">
+<aside
+    class="sidebar bg-primary text-white d-flex flex-column p-3"
+    id="sidebar"
+    style="width: 260px; min-height: 100vh; transition: width .2s;"
+>
 
     {{-- Logo --}}
     <div class="d-flex align-items-center gap-2 mb-4 px-1">
@@ -9,69 +13,160 @@
 
     <ul class="nav flex-column gap-1 flex-grow-1">
 
+        {{-- =========================================================
+             MANAJEMEN AKUN
+        ========================================================== --}}
         <li class="nav-item">
-            <a href="#submenuAkun" data-bs-toggle="collapse" role="button"
-               aria-expanded="{{ request()->routeIs('pengguna.*') ? 'true' : 'false' }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded">
+
+            <a
+                href="#submenuAkun"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="{{ request()->routeIs('admin.pengguna.*') ? 'true' : 'false' }}"
+                class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded"
+            >
                 <i class="bi bi-journal-bookmark-fill"></i>
-                <span class="sidebar-label">Manajemen Akun</span>
-                <i class="bi bi -chevron-down ms-auto small sidebar-label"></i>
+
+                <span class="sidebar-label">
+                    Manajemen Akun
+                </span>
+
+                <i class="bi bi-chevron-down ms-auto small sidebar-label"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('pengguna.*') ? 'show' : '' }}" id="submenuAkun">
+
+            <div
+                class="collapse {{ request()->routeIs('admin.pengguna.*') ? 'show' : '' }}"
+                id="submenuAkun"
+            >
                 <ul class="nav flex-column ms-4 mt-1 sidebar-label">
+
                     <li class="nav-item">
-                        <a href="{{ route('pengguna.index') }}"
-                           class="nav-link text-white px-3 py-2 rounded {{ request()->routeIs('pengguna.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
+                        <a
+                            href="{{ route('admin.pengguna.index') }}"
+                            class="nav-link text-white px-3 py-2 rounded
+                            {{ request()->routeIs('admin.pengguna.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}"
+                        >
                             Akun Pengguna
                         </a>
                     </li>
+
                 </ul>
             </div>
+
         </li>
 
+
+        {{-- =========================================================
+             MANAJEMEN INSTANSI
+        ========================================================== --}}
         <li class="nav-item">
-            <a href="#submenuInstansi" data-bs-toggle="collapse" role="button"
-               aria-expanded="{{ request()->routeIs('instansi.*') ? 'true' : 'false' }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded">
-                <i class="bi bi-journal-bookmark-fill"></i>
-                <span class="sidebar-label">Manajemen Instansi</span>
+
+            <a
+                href="#submenuInstansi"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="{{ request()->routeIs('admin.instansi.*') ? 'true' : 'false' }}"
+                class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded"
+            >
+                <i class="bi bi-building-fill"></i>
+
+                <span class="sidebar-label">
+                    Manajemen Instansi
+                </span>
+
                 <i class="bi bi-chevron-down ms-auto small sidebar-label"></i>
             </a>
-            <div class="collapse {{ request()->routeIs('instansi.*') ? 'show' : '' }}" id="submenuInstansi">
+
+            <div
+                class="collapse {{ request()->routeIs('admin.instansi.*') ? 'show' : '' }}"
+                id="submenuInstansi"
+            >
                 <ul class="nav flex-column ms-4 mt-1 sidebar-label">
+
                     <li class="nav-item">
-                        <a href="{{ route('instansi.index') }}"
-                           class="nav-link text-white px-3 py-2 rounded {{ request()->routeIs('instansi.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
+                        <a
+                            href="{{ route('admin.instansi.index') }}"
+                            class="nav-link text-white px-3 py-2 rounded
+                            {{ request()->routeIs('admin.instansi.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}"
+                        >
                             Instansi
                         </a>
                     </li>
+
                 </ul>
             </div>
+
         </li>
 
+
+        {{-- =========================================================
+             PELAYANAN
+        ========================================================== --}}
         <li class="nav-item">
-            <a href="{{ route('admin.pelayanan.index') }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('admin.pelayanan.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
-                <i class="bi bi-people-fill"></i> <span class="sidebar-label">Pelayanan</span>
+
+            <a
+                href="{{ route('admin.pelayanan.index') }}"
+                class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded
+                {{ request()->routeIs('admin.pelayanan.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}"
+            >
+                <i class="bi bi-people-fill"></i>
+
+                <span class="sidebar-label">
+                    Pelayanan
+                </span>
             </a>
+
         </li>
 
+
+        {{-- =========================================================
+             SK
+        ========================================================== --}}
         <li class="nav-item">
-            <a href="{{ route('sk.index') }}"
-               class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded {{ request()->routeIs('sk.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}">
-                <i class="bi bi-file-earmark-text-fill"></i> <span class="sidebar-label">SK</span>
+
+            <a
+                href="{{ route('admin.sk.index') }}"
+                class="nav-link text-white d-flex align-items-center gap-2 px-3 py-2 rounded
+                {{ request()->routeIs('admin.sk.*') ? 'bg-white bg-opacity-25 fw-semibold' : '' }}"
+            >
+                <i class="bi bi-file-earmark-text-fill"></i>
+
+                <span class="sidebar-label">
+                    SK
+                </span>
             </a>
+
         </li>
+
     </ul>
 
+
+    {{-- =============================================================
+         LOGOUT
+    ============================================================== --}}
     <ul class="nav flex-column">
+
         <li class="nav-item">
+
             <form method="POST" action="{{ route('logout') }}">
+
                 @csrf
-                <button type="submit" class="nav-link text-white bg-transparent border-0 d-flex align-items-center gap-2 px-3 py-2">
-                    <i class="bi bi-box-arrow-right"></i> <span class="sidebar-label">Logout</span>
+
+                <button
+                    type="submit"
+                    class="nav-link text-white bg-transparent border-0 d-flex align-items-center gap-2 px-3 py-2 w-100"
+                >
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span class="sidebar-label">
+                        Logout
+                    </span>
                 </button>
+
             </form>
+
         </li>
+
     </ul>
+
 </aside>

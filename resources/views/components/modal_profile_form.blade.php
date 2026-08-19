@@ -1,4 +1,4 @@
-@props(['profile' => null])
+@props(['profile' => null, 'updateRoute'])
 
 <div class="modal fade" id="modalTambahDataProfile" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -12,7 +12,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ route('profile.update') }}" method="POST">
+                <form action="{{ route($updateRoute) }}" method="POST">
                     @csrf
                     @method('PUT')
 
