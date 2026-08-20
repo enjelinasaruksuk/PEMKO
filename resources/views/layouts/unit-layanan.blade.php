@@ -88,6 +88,9 @@
             justify-content: center;
 
             background: #fff;
+
+            transition: .2s;
+            overflow: hidden;
         }
 
 
@@ -95,6 +98,18 @@
             max-width: 145px;
             max-height: 48px;
             object-fit: contain;
+        }
+
+
+        .logo-area.collapsed {
+            width: 75px;
+            min-width: 75px;
+        }
+
+
+        .logo-area.collapsed img,
+        .logo-area.collapsed .logo-placeholder {
+            display: none;
         }
 
 
@@ -912,10 +927,10 @@
 
 
         {{-- Logo --}}
-        <div class="logo-area">
+        <div class="logo-area" id="logoArea">
 
             <img
-                src="{{ asset('images/logo-asap.png') }}"
+                src="{{ asset('images/logo.asap.png') }}"
                 alt="ASAP"
                 onerror="
                     this.style.display='none';
@@ -1193,12 +1208,21 @@
             const sidebar =
                 document.querySelector('.unit-sidebar');
 
+            const logoArea =
+                document.getElementById('logoArea');
+
 
             if (toggle && sidebar) {
 
                 toggle.addEventListener('click', function () {
 
                     sidebar.classList.toggle('collapsed');
+
+                    if (logoArea) {
+
+                        logoArea.classList.toggle('collapsed');
+
+                    }
 
                 });
 
