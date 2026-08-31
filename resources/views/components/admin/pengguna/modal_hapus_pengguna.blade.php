@@ -10,7 +10,7 @@
                     Akun <strong>{{ $pengguna->nama }}</strong> akan dihapus permanen dan tidak dapat dikembalikan.
                 </p>
 
-                <form action="{{ Route::has('pengguna.destroy') ? route('pengguna.destroy', $pengguna->id) : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.pengguna.destroy') ? route('admin.pengguna.destroy', $pengguna->id) : '#' }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="d-flex justify-content-center gap-2 mt-3">

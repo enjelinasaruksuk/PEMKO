@@ -17,7 +17,7 @@ Route::prefix('instansi')
             $profile = null;
 
             return view(
-                'pages.instansi.profile.index',
+                'pages.instansi.profile',
                 compact('profile')
             );
         })->name('profile');

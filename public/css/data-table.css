@@ -1,0 +1,275 @@
+/* =========================================================
+   PAGE
+========================================================= */
+.dt-page { width: 100%; }
+
+.dt-page-header { margin-bottom: 28px; }
+
+.dt-page-title {
+    margin: 0 0 6px;
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #163f73;
+}
+
+.dt-page-subtitle {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #9aa7b8;
+}
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+.dt-main-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .10);
+    overflow: hidden;
+}
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+.dt-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+}
+
+.dt-section-title {
+    margin: 0 0 5px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #204b7d;
+}
+
+.dt-section-description {
+    margin: 0;
+    font-size: 13px;
+    color: #9aa7b8;
+}
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+.dt-add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 22px;
+    background: #2878d7;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .2s ease;
+    text-decoration: none;
+}
+
+.dt-add-button:hover { background: #216bc4; color: #fff; }
+.dt-add-button i { font-size: 16px; }
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+.dt-card {
+    margin: 0 24px 24px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #e5e9ee;
+    border-radius: 8px;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+.dt-table-toolbar {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+}
+
+.dt-show { display: flex; align-items: center; gap: 5px; color: #73829a; font-size: 13px; }
+
+.dt-select {
+    width: 50px; height: 28px;
+    padding: 2px 5px;
+    border: 1px solid #aab6c8;
+    border-radius: 4px;
+    background: #fff;
+    color: #53667e;
+    font-size: 12px;
+    outline: none;
+}
+
+.dt-search {
+    width: 220px; height: 34px;
+    display: flex; align-items: center;
+    padding: 0 10px;
+    border: 1px solid #9aabc0;
+    border-radius: 6px;
+    background: #fff;
+    color: #31577f;
+}
+
+.dt-search i { font-size: 13px; }
+
+.dt-search input {
+    width: 100%;
+    padding-left: 8px;
+    border: 0; outline: 0;
+    background: transparent;
+    font-size: 13px;
+}
+
+.dt-search input::placeholder { color: #8997a9; }
+
+/* =========================================================
+   TABLE
+========================================================= */
+.dt-table-wrapper { width: 100%; overflow-x: auto; }
+
+.dt-table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    color: #4c6380;
+    font-size: 13px;
+}
+
+.dt-table thead { background: #f6f8fa; }
+
+.dt-table th {
+    height: 48px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #dfe4ea;
+    color: #365a82;
+    font-size: 12px;
+    font-weight: 600;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.dt-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e4e8ed;
+    color: #4c6380;
+    vertical-align: middle;
+}
+
+.dt-table tbody tr:last-child td { border-bottom: 0; }
+
+/* =========================================================
+   AVATAR
+========================================================= */
+.dt-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf5ff;
+    color: #2878d7;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* =========================================================
+   BADGE
+========================================================= */
+.dt-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dt-badge.blue { background: #edf5ff; color: #2878d7; }
+.dt-badge.green { background: #e9f8ef; color: #198754; }
+.dt-badge.gray { background: #f1f2f4; color: #6c757d; }
+
+/* =========================================================
+   ICON BUTTON
+========================================================= */
+.dt-icon-btn {
+    width: 32px; height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    transition: .15s ease;
+    text-decoration: none;
+}
+
+.dt-icon-btn:hover { background: #f1f4f8; }
+.dt-icon-btn.view { color: #6c757d; }
+.dt-icon-btn.edit { color: #2878d7; }
+.dt-icon-btn.info { color: #17a2b8; }
+.dt-icon-btn.delete { color: #dc3545; }
+
+.dt-actions { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
+
+/* =========================================================
+   EMPTY
+========================================================= */
+.dt-empty { padding: 40px 20px; color: #8995a5; text-align: center; }
+.dt-empty i { display: block; margin-bottom: 10px; font-size: 32px; }
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+.dt-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 18px;
+}
+
+.dt-pagination button {
+    width: 32px; height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #dce2ea;
+    border-radius: 5px;
+    background: #fff;
+    color: #527092;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.dt-pagination button:hover:not(.active) { background: #f4f7fa; }
+.dt-pagination button.active { border-color: #2878d7; background: #2878d7; color: #fff; }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 768px) {
+    .dt-section-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .dt-add-button { align-self: flex-end; }
+    .dt-table-toolbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .dt-search { width: 100%; }
+    .dt-card { margin-left: 12px; margin-right: 12px; }
+}

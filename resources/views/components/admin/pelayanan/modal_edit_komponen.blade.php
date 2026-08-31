@@ -9,7 +9,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ Route::has('pelayanan.update') ? route('pelayanan.update', $komponen->id) : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.pelayanan.update') ? route('admin.pelayanan.update', $komponen->id) : '#' }}" method="POST">
                     @csrf
                     @method('PUT')
 

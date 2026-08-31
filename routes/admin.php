@@ -162,21 +162,25 @@ Route::prefix('admin')
                     'id' => 1,
                     'nama' => 'Bagian Organisasi',
                     'email' => 'organisasi@batam.go.id',
+                    'level_akun' => 2,
                 ],
                 (object) [
                     'id' => 2,
                     'nama' => 'Bagian Hukum',
                     'email' => 'hukum@batam.go.id',
+                    'level_akun' => 2,
                 ],
                 (object) [
                     'id' => 3,
                     'nama' => 'Bagian Lembaga',
                     'email' => 'lembaga@batam.go.id',
+                    'level_akun' => 2,
                 ],
                 (object) [
                     'id' => 4,
                     'nama' => 'Bagian Umum',
                     'email' => 'umum@batam.go.id',
+                    'level_akun' => 2,
                 ],
             ]);
 

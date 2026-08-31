@@ -9,7 +9,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ Route::has('sk.confirm') ? route('sk.confirm', $sk->id) : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.sk.confirm') ? route('admin.sk.confirm', $sk->id) : '#' }}" method="POST">
                     @csrf
                     @method('PUT')
 

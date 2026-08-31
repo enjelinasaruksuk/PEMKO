@@ -2,103 +2,150 @@
 @section('title', 'SK')
 
 @section('content')
-    <x-breadcrumb :items="['Dashboard']" title="SK" />
+<div class="sk-page">
 
-    <div class="bg-white rounded shadow-sm p-3">
-
-        {{-- Toolbar: Show entries + Search --}}
-        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-muted small">Show</span>
-                <select class="form-select form-select-sm w-auto">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </select>
-                <span class="text-muted small">entries</span>
-            </div>
-
-            <div class="input-group w-auto">
-                <input type="text" class="form-control form-control-sm" placeholder="Search">
-                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-            </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table align-middle">
-                <thead>
-                    <tr class="bg-light">
-                        <th style="width:50px">No</th>
-                        <th>Nama Dinas</th>
-                        <th>No SK</th>
-                        <th>Tanggal SK</th>
-                        <th>Status</th>
-                        <th class="text-center">Pengajuan SK (Kepala PD)</th>
-                        <th>Konfirmasi</th>
-                        <th style="width:120px">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($skList ?? [] as $i => $sk)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $sk->nama_dinas }}</td>
-                            <td>{{ $sk->no_sk }}</td>
-                            <td>{{ $sk->tanggal_sk }}</td>
-                            <td>
-                                <span class="badge rounded-pill {{ $sk->status == 'Aktif' ? 'bg-success' : 'bg-secondary' }}">
-                                    {{ $sk->status }}
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                @if ($sk->sudah_diajukan)
-                                    <i class="bi bi-check-square-fill text-primary" title="Sudah diajukan"></i>
-                                @else
-                                    <i class="bi bi-square text-muted" title="Belum diajukan"></i>
-                                @endif
-                            </td>
-                            <td>
-                                <button type="button"
-                                        class="btn btn-sm border-0 d-flex align-items-center gap-1 {{ $sk->konfirmasi_status == 'disetujui' ? 'text-success' : 'text-warning' }}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modalKonfirmasiSk{{ $sk->id }}">
-                                    @if ($sk->konfirmasi_status == 'disetujui')
-                                        <i class="bi bi-check-circle-fill"></i> Sudah disetujui
-                                    @else
-                                        <i class="bi bi-clock-fill"></i> Belum disetujui
-                                    @endif
-                                </button>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a href="#" class="text-primary" title="Lihat">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                <a href="#" class="text-secondary" title="Print">
-                                <i class="bi bi-printer"></i>
-                                </a>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <x-admin.sk.modal_konfirmasi_sk :sk="$sk" />
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-3">Belum ada data SK.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        {{-- Pagination sederhana, sesuaikan dengan $skList->links() jika pakai paginate() --}}
-        <div class="d-flex justify-content-center gap-2 mt-3">
-            <button class="btn btn-sm btn-light border rounded-circle"><i class="bi bi-chevron-double-left"></i></button>
-            <button class="btn btn-sm btn-light border rounded-circle"><i class="bi bi-chevron-left"></i></button>
-            <button class="btn btn-sm btn-primary rounded-circle">1</button>
-            <button class="btn btn-sm btn-light border rounded-circle"><i class="bi bi-chevron-right"></i></button>
-            <button class="btn btn-sm btn-light border rounded-circle"><i class="bi bi-chevron-double-right"></i></button>
-        </div>
-
+    <div class="sk-page-header">
+        <h1 class="sk-page-title">SK</h1>
+        <p class="sk-page-subtitle">Daftar Surat Keputusan dari seluruh dinas.</p>
     </div>
+
+    <div class="sk-main-card">
+
+        <div class="sk-section-header">
+            <div>
+                <h2 class="sk-section-title">Data SK</h2>
+                <p class="sk-section-description">Kelola dan konfirmasi pengajuan SK dari setiap dinas.</p>
+            </div>
+        </div>
+
+        <div class="sk-card">
+
+            <div class="sk-table-toolbar">
+                <div class="sk-show">
+                    <span>Show</span>
+                    <select id="skPerPage" class="sk-select">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>entries</span>
+                </div>
+
+                <div class="sk-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="skSearch" placeholder="Search:" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="sk-table-wrapper">
+                <table class="sk-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Dinas</th>
+                            <th>No SK</th>
+                            <th>Tanggal SK</th>
+                            <th>Status</th>
+                            <th class="text-center">Pengajuan SK <span>(Kepala PD)</span></th>
+                            <th class="text-center">Konfirmasi</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="skTableBody">
+                        @forelse ($skList ?? [] as $i => $sk)
+                            <tr>
+                                <td class="text-center">{{ $i + 1 }}</td>
+                                <td>{{ $sk->nama_dinas }}</td>
+                                <td>
+                                    <div class="sk-number">{{ $sk->no_sk }}</div>
+                                </td>
+                                <td>{{ $sk->tanggal_sk }}</td>
+
+                                {{-- STATUS: read-only, tanpa tombol edit --}}
+                                <td>
+                                    @if ($sk->status === 'Aktif')
+                                        <span class="status-active"><i class="bi bi-check-circle"></i> Aktif</span>
+                                    @else
+                                        <span class="status-inactive"><i class="bi bi-x-circle"></i> Tidak Aktif</span>
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+                                    @if ($sk->sudah_diajukan)
+                                        <span class="approval approved"><i class="bi bi-check-circle"></i> Sudah diajukan</span>
+                                    @else
+                                        <span class="approval pending"><i class="bi bi-clock"></i> Belum diajukan</span>
+                                    @endif
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="sk-confirmation">
+                                        @if ($sk->konfirmasi_status === 'disetujui')
+                                            <button type="button" class="sk-icon-btn success" data-bs-toggle="modal"
+                                                    data-bs-target="#modalKonfirmasiSk{{ $sk->id }}" title="Sudah disetujui">
+                                                <i class="bi bi-check-circle"></i>
+                                            </button>
+                                        @else
+                                            <button type="button" class="sk-icon-btn clock" data-bs-toggle="modal"
+                                                    data-bs-target="#modalKonfirmasiSk{{ $sk->id }}" title="Belum disetujui">
+                                                <i class="bi bi-clock"></i>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </td>
+
+                                <td class="text-center">
+                                    <x-admin.sk.aksi_sk :sk="$sk" />
+                                </td>
+                            </tr>
+                            <x-admin.sk.modal_konfirmasi_sk :sk="$sk" />
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <div class="sk-empty">
+                                        <i class="bi bi-inbox"></i>
+                                        <div>Belum ada data SK.</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="sk-pagination">
+                <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
+                <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
+                <button type="button" class="active">1</button>
+                <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
+                <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/sk.css') }}">
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('skSearch');
+        const tableBody = document.getElementById('skTableBody');
+
+        if (searchInput && tableBody) {
+            searchInput.addEventListener('input', function () {
+                const keyword = this.value.toLowerCase().trim();
+                tableBody.querySelectorAll('tr').forEach(function (row) {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
+                });
+            });
+        }
+    });
+</script>
+@endpush

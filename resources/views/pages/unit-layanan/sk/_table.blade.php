@@ -82,7 +82,7 @@
                     </th>
 
                     <th class="text-center">
-                        Actions
+                        Aksi
                     </th>
 
                 </tr>

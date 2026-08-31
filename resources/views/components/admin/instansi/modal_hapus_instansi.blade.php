@@ -10,7 +10,7 @@
                     Data <strong>{{ $instansi->nama }}</strong> akan dihapus permanen.
                 </p>
 
-                <form action="{{ Route::has('instansi.destroy') ? route('instansi.destroy', $instansi->id) : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.instansi.destroy') ? route('admin.instansi.destroy', $instansi->id) : '#' }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="d-flex justify-content-center gap-2 mt-3">

@@ -7,7 +7,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ Route::has('pelayanan.store') ? route('pelayanan.store') : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.pelayanan.store') ? route('admin.pelayanan.store') : '#' }}" method="POST">
                     @csrf
 
                     <div class="mb-3">

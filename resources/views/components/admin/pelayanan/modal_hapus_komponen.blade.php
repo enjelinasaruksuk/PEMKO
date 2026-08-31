@@ -13,7 +13,7 @@
 
                 <div class="d-flex gap-2 justify-content-center">
                     <button type="button" class="btn btn-light border px-4" data-bs-dismiss="modal">Batal</button>
-                    <form action="{{ Route::has('pelayanan.destroy') ? route('pelayanan.destroy', $komponen->id) : '#' }}" method="POST">
+                    <form action="{{ Route::has('admin.pelayanan.destroy') ? route('admin.pelayanan.destroy', $komponen->id) : '#' }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger px-4">Ya, Hapus</button>

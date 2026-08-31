@@ -1,19 +1,19 @@
 @props(['pengguna'])
 
-<div class="d-flex gap-2">
-    <a href="{{ Route::has('pengguna.show') ? route('pengguna.show', $pengguna->id) : '#' }}" class="text-dark" title="Lihat">
+<div class="dt-actions">
+    <a href="{{ Route::has('admin.pengguna.show') ? route('admin.pengguna.show', $pengguna->id) : '#' }}"
+       class="dt-icon-btn view" title="Lihat">
         <i class="bi bi-eye"></i>
     </a>
-    <a href="{{ Route::has('pengguna.edit') ? route('pengguna.edit', $pengguna->id) : '#' }}" class="text-primary" title="Edit">
-        <i class="bi bi-pencil-square"></i>
+    <a href="{{ Route::has('admin.pengguna.edit') ? route('admin.pengguna.edit', $pengguna->id) : '#' }}"
+       class="dt-icon-btn edit" title="Edit">
+        <i class="bi bi-pencil"></i>
     </a>
-    <a href="#" class="text-info" title="Reset Password">
+    <a href="#" class="dt-icon-btn info" title="Reset Password">
         <i class="bi bi-arrow-repeat"></i>
     </a>
-    <a href="#" class="text-dark" title="Detail">
-        <i class="bi bi-record-circle"></i>
-    </a>
-    <button type="button" class="btn btn-link p-0 text-danger" data-bs-toggle="modal" data-bs-target="#modalHapusPengguna{{ $pengguna->id }}" title="Hapus">
+    <button type="button" class="dt-icon-btn delete" data-bs-toggle="modal"
+            data-bs-target="#modalHapusPengguna{{ $pengguna->id }}" title="Hapus">
         <i class="bi bi-trash"></i>
     </button>
 </div>
