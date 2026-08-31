@@ -172,7 +172,7 @@
     aria-hidden="true"
 >
 
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
 
         <div class="modal-content">
 
@@ -210,12 +210,13 @@
                             Peraturan Daerah
                         </label>
 
-                        <input
-                            type="text"
+                        <textarea
                             name="perda"
-                            class="form-control"
+                            class="form-control modal-field"
                             placeholder="Masukkan Peraturan Daerah"
-                        >
+                            rows="5"
+                            style="resize: vertical; min-height: 120px;"
+                        ></textarea>
 
                     </div>
 
@@ -262,7 +263,7 @@
     aria-hidden="true"
 >
 
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
 
         <div class="modal-content">
 
@@ -300,12 +301,13 @@
                             Peraturan Wali Kota
                         </label>
 
-                        <input
-                            type="text"
+                        <textarea
                             name="perwali"
-                            class="form-control"
+                            class="form-control modal-field"
                             placeholder="Masukkan Peraturan Wali Kota"
-                        >
+                            rows="5"
+                            style="resize: vertical; min-height: 120px;"
+                        ></textarea>
 
                     </div>
 
