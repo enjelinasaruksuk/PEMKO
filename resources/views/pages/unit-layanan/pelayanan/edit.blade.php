@@ -46,12 +46,7 @@
     @method('PUT')
 
 
-    @include(
-        'pages.unit-layanan.pelayanan._form',
-        [
-            'data' => $data
-        ]
-    )
+      <x-unit-layanan.pelayanan.form :data="$data" />
 
 
     <div class="d-flex justify-content-end gap-2 mb-4">

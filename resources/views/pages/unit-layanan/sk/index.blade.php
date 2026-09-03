@@ -103,7 +103,8 @@
 
         {{-- TABLE --}}
 
-        @include('pages.unit-layanan.sk._table')
+       {{-- TABLE --}}
+<x-unit-layanan.sk.table :sk-list="$skList" />
 
     </div>
 
@@ -114,15 +115,16 @@
      MODAL TAMBAH / EDIT
 ========================================================= --}}
 
-@include('pages.unit-layanan.sk._modal-form')
+<x-unit-layanan.sk.modal-form :sk-list="$skList" />
+<x-unit-layanan.sk.modal-delete />
+
 
 
 {{-- =========================================================
      MODAL STATUS
 ========================================================= --}}
 
-@include('pages.unit-layanan.sk._status-modal')
-
+<x-unit-layanan.sk.modal-status />
 
 @endsection
 

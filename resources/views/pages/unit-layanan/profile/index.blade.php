@@ -256,9 +256,7 @@
 
 
 {{-- MODAL TAMBAH PROFILE --}}
-@include(
-    'pages.unit-layanan.profile.modals.create-profile'
-)
+   <x-unit-layanan.profile.modal-profile :profile="$profile ?? null" />
 
 
 @endsection
