@@ -14,17 +14,17 @@
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Nama Komponen</label>
-                        <input type="text" name="nama_komponen" class="form-control"
-                               value="{{ $komponen->nama_komponen }}" required>
+                        <label class="form-label small fw-semibold">Kategori</label>
+                        <select name="kategori" class="form-select" required>
+                            <option value="Penyampaian" {{ $komponen->kategori == 'Penyampaian' ? 'selected' : '' }}>Penyampaian Pelayanan </option>
+                            <option value="Pengelolaan" {{ $komponen->kategori == 'Pengelolaan' ? 'selected' : '' }}>Pengelolaan Pelayanan</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Kategori</label>
-                        <select name="kategori" class="form-select" required>
-                            <option value="Penyampaian" {{ $komponen->kategori == 'Penyampaian' ? 'selected' : '' }}>Penyampaian</option>
-                            <option value="Pengelolaan" {{ $komponen->kategori == 'Pengelolaan' ? 'selected' : '' }}>Pengelolaan</option>
-                        </select>
+                        <label class="form-label small fw-semibold">Nama Komponen</label>
+                        <input type="text" name="nama_komponen" class="form-control"
+                               value="{{ $komponen->nama_komponen }}" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Simpan Perubahan</button>

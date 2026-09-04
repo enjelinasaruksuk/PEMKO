@@ -11,18 +11,18 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Nama Komponen</label>
-                        <input type="text" name="nama_komponen" class="form-control"
-                               placeholder="Masukan Nama Komponen" required>
-                    </div>
-
-                    <div class="mb-3">
                         <label class="form-label small fw-semibold">Kategori</label>
                         <select name="kategori" class="form-select" required>
                             <option value="" selected disabled>Penyampaian Pelayanan</option>
-                            <option value="Penyampaian">Penyampaian</option>
-                            <option value="Pengelolaan">Pengelolaan</option>
+                            <option value="Penyampaian">Penyampaian Pelayanan</option>
+                            <option value="Pengelolaan">Pengelolaan Pelayanan</option>
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Nama Komponen</label>
+                        <input type="text" name="nama_komponen" class="form-control"
+                               placeholder="Masukan Nama Komponen" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Simpan</button>

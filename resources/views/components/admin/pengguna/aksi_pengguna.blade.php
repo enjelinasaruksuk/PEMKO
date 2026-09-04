@@ -12,6 +12,13 @@
     <a href="#" class="dt-icon-btn info" title="Reset Password">
         <i class="bi bi-arrow-repeat"></i>
     </a>
+    <form action="{{ Route::has('admin.pengguna.toggle_status') ? route('admin.pengguna.toggle_status', $pengguna->id) : '#' }}" method="POST" class="d-inline">
+        @csrf
+        @method('PUT')
+        <button type="submit" class="dt-icon-btn status" title="{{ $pengguna->status === 'Aktif' ? 'Nonaktifkan Akun' : 'Aktifkan Akun' }}">
+            <i class="bi bi-record-circle"></i>
+        </button>
+    </form>
     <button type="button" class="dt-icon-btn delete" data-bs-toggle="modal"
             data-bs-target="#modalHapusPengguna{{ $pengguna->id }}" title="Hapus">
         <i class="bi bi-trash"></i>

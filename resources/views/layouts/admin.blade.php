@@ -30,7 +30,7 @@
         .unit-navbar { flex: 1; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
         .sidebar-toggle { border: none; background: transparent; font-size: 25px; color: #222; padding: 0; line-height: 1; cursor: pointer; }
         .sidebar-toggle:hover { color: var(--primary); }
-        .unit-badge { background: var(--primary); color: white; border-radius: 20px; padding: 7px 25px; font-size: 11px; }
+        .unit-badge { background: var(--primary); color: white; border-radius: 24px; padding: 10px 28px; font-size: 14px; font-weight: 500; }
 
         .body-wrapper { display: flex; min-height: calc(100vh - 64px); }
 
@@ -44,6 +44,48 @@
         .unit-sidebar.collapsed .nav-link { justify-content: center; }
         .unit-sidebar.collapsed .ms-auto { display: none; }
         .logout-area { padding: 15px 12px 25px; }
+        .unit-sidebar.collapsed .collapse {display: none !important;}
+
+        /* =========================================================
+           SUBMENU (clean minimal style)
+        ========================================================= */
+
+        .unit-sidebar .nav-parent {
+            font-weight: 400;
+        }
+
+        .unit-sidebar .nav-parent-icon {
+            font-size: 13px;
+            transition: transform .2s;
+        }
+
+        .unit-sidebar .nav-parent[aria-expanded="true"] .nav-parent-icon {
+            transform: rotate(45deg);
+        }
+
+        .unit-sidebar .submenu {
+            padding: 6px 0 10px 34px;
+        }
+
+        .unit-sidebar .submenu-link {
+            display: block;
+            color: rgba(255, 255, 255, .85);
+            font-weight: 400;
+            font-size: 14.5px;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 6px;
+            transition: .2s;
+        }
+
+        .unit-sidebar .submenu-link:hover {
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+        }
+
+        .unit-sidebar .submenu-link.active {
+            color: #fff;
+        }
 
         .main-content { flex: 1; min-width: 0; }
         .content-wrapper { padding: 24px; }

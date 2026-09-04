@@ -226,6 +226,7 @@
 .dt-icon-btn.edit { color: #2878d7; }
 .dt-icon-btn.info { color: #17a2b8; }
 .dt-icon-btn.delete { color: #dc3545; }
+.dt-icon-btn.status { color: #495057; }
 
 .dt-actions { display: flex; align-items: center; justify-content: flex-end; gap: 2px; }
 

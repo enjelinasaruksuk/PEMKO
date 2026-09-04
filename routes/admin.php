@@ -148,6 +148,10 @@ Route::prefix('admin')
             return redirect()->route('admin.pengguna.index');
         })->name('pengguna.destroy');
 
+        Route::put('/pengguna/{id}/toggle-status', function ($id) {
+            return redirect()->route('admin.pengguna.index');
+        })->name('pengguna.toggle_status');
+
 
         /*
         |--------------------------------------------------------------------------
@@ -227,4 +231,68 @@ Route::prefix('admin')
         Route::delete('/instansi/{id}', function ($id) {
             return redirect()->route('admin.instansi.index');
         })->name('instansi.destroy');
+
+        /*
+|--------------------------------------------------------------------------
+| Pengajuan Akun Instansi
+|--------------------------------------------------------------------------
+*/
+Route::get('/instansi-pengajuan', function () {
+
+    $pengajuanList = collect([
+        (object) [
+            'id' => 1,
+            'instansi_level_1' => 'Sekretariat Daerah',
+            'instansi_level_2' => 'Bagian Organisasi',
+            'email' => 'organisasi@batam.go.id',
+            'status' => 'pending',
+        ],
+        (object) [
+            'id' => 2,
+            'instansi_level_1' => 'Badan Pendapatan Daerah',
+            'instansi_level_2' => null,
+            'email' => 'bapenda@batam.go.id',
+            'status' => 'disetujui',
+        ],
+        (object) [
+            'id' => 3,
+            'instansi_level_1' => 'Bagian Lembaga',
+            'instansi_level_2' => null,
+            'email' => 'lembaga@batam.go.id',
+            'status' => 'ditolak',
+        ],
+    ]);
+
+    return view('pages.admin.instansi_pengajuan.index', compact('pengajuanList'));
+})->name('instansi_pengajuan.index');
+
+Route::put('/instansi-pengajuan/{id}', function ($id) {
+    return redirect()->route('admin.instansi_pengajuan.index');
+})->name('instansi_pengajuan.update');
+
+/*
+|--------------------------------------------------------------------------
+| Maklumat
+|--------------------------------------------------------------------------
+*/
+Route::get('/maklumat', function () {
+
+    $maklumatList = collect([
+        (object) [
+            'id' => 1,
+            'isi' => 'Kami siap memberikan pelayanan sesuai dengan standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.',
+            'nama_penjebat' => 'Otok Kuswandaru',
+            'tanggal_input' => '11 Agustus 2025',
+            'status' => 'pending',
+        ],
+    ]);
+
+    return view('pages.admin.maklumat.index', compact('maklumatList'));
+})->name('maklumat.index');
+
+Route::put('/maklumat/{id}', function ($id) {
+    return redirect()->route('admin.maklumat.index');
+})->name('maklumat.update');
     });
+
+    
