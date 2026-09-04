@@ -41,9 +41,7 @@
     @csrf
 
 
-    @include(
-        'pages.unit-layanan.pelayanan._form'
-    )
+      <x-unit-layanan.pelayanan.form />
 
 
     <div class="d-flex justify-content-end gap-2 mb-4">
