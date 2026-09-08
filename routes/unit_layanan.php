@@ -115,3 +115,7 @@ Route::prefix('unit-layanan')
             'updateStatus'
         ])->name('sk.status');
     });
+
+Route::get('/unit-layanan/maklumat', function () {
+    return view('pages.unit-layanan.maklumat.index');
+})->name('unit_layanan.maklumat.index');

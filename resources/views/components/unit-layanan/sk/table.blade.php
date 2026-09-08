@@ -106,58 +106,58 @@
                     </td>
 
                     <td class="text-center">
-                    <th class="text-center">Aksi</th>
-                    <button type="button" class="sk-icon-btn pdf" title="PDF" data-pdf-id="{{ $sk->id }}">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                    </button>
+                        <div class="sk-actions">
+                            <button type="button" class="sk-icon-btn pdf" title="PDF" data-pdf-id="{{ $sk->id }}">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </button>
 
-                    @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
-                    <button type="button" class="sk-icon-btn edit" title="Edit"
-                        data-bs-toggle="modal" data-bs-target="#skModal"
-                        data-sk-id="{{ $sk->id }}"
-                        data-no-sk="{{ $sk->no_sk }}"
-                        data-tanggal-sk="{{ $sk->tanggal_sk }}"
-                        data-jenis-sk="{{ $sk->jenis_sk }}"
-                        data-no-sk-sebelumnya="{{ $sk->no_sk_sebelumnya }}">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    @endif
+                            @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
+                            <button type="button" class="sk-icon-btn edit" title="Edit"
+                                data-bs-toggle="modal" data-bs-target="#skModal"
+                                data-sk-id="{{ $sk->id }}"
+                                data-no-sk="{{ $sk->no_sk }}"
+                                data-tanggal-sk="{{ $sk->tanggal_sk }}"
+                                data-jenis-sk="{{ $sk->jenis_sk }}"
+                                data-no-sk-sebelumnya="{{ $sk->no_sk_sebelumnya }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            @endif
 
-                    <button type="button" class="sk-icon-btn view" title="Detail" data-detail-id="{{ $sk->id }}">
-                        <i class="bi bi-file-text"></i>
-                    </button>
+                            <button type="button" class="sk-icon-btn view" title="Detail" data-detail-id="{{ $sk->id }}">
+                                <i class="bi bi-file-text"></i>
+                            </button>
 
-                    @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
-                    <button type="button" class="sk-icon-btn delete" title="Hapus"
-                        data-bs-toggle="modal" data-bs-target="#deleteSKModal"
-                        data-delete-id="{{ $sk->id }}">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    @endif
+                            @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
+                            <button type="button" class="sk-icon-btn delete" title="Hapus"
+                                data-bs-toggle="modal" data-bs-target="#deleteSKModal"
+                                data-delete-id="{{ $sk->id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <div class="sk-empty">
+                            <i class="bi bi-inbox"></i>
+                            <div>Belum ada data SK.</div>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-    </td>
-    </tr>
-    @empty
-    <tr>
-        <td colspan="8" class="text-center">
-            <div class="sk-empty">
-                <i class="bi bi-inbox"></i>
-                <div>Belum ada data SK.</div>
-            </div>
-        </td>
-    </tr>
-    @endforelse
-    </tbody>
-    </table>
-</div>
 
-{{-- PAGINATION --}}
-<div class="sk-pagination">
-    <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
-    <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
-    <button type="button" class="active">1</button>
-    <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
-    <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
-</div>
+    {{-- PAGINATION --}}
+    <div class="sk-pagination">
+        <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
+        <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="active">1</button>
+        <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
+        <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
+    </div>
 
 </div>

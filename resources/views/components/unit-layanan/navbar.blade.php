@@ -1,4 +1,4 @@
-<header class="unit-navbar">
+<div class="unit-navbar">
 
     {{-- Hamburger --}}
     <button
@@ -6,15 +6,12 @@
         class="sidebar-toggle"
         id="sidebarToggle"
     >
-
         <i class="bi bi-list"></i>
-
     </button>
-
 
     {{-- Nama Unit --}}
     <span class="unit-badge">
         Organisasi
     </span>
 
-</header>
+</div>
