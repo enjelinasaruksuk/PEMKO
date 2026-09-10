@@ -1,16 +1,15 @@
-@extends('layouts.unit-layanan')
-
-@section('title', 'Informasi Layanan')
+@extends('layouts.instansi')
+@section('title', 'Nama Pelayanan')
 
 @section('content')
 
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
         <h1 class="page-title mb-1">Informasi Layanan</h1>
-        <p class="page-description mb-0">Informasi layanan yang tercatat pada Bagian Organisasi</p>
+        <p class="page-description mb-0">Informasi layanan yang tercatat pada Sekretariat Daerah</p>
     </div>
 
-    <a href="{{ route('unit_layanan.pelayanan.create') }}" class="btn-primary-custom text-decoration-none">
+    <a href="{{ route('instansi.pelayanan.create') }}" class="btn-primary-custom text-decoration-none">
         <i class="bi bi-plus-circle me-1"></i> Tambah Data
     </a>
 </div>
@@ -28,11 +27,9 @@
             entries
         </div>
 
-        <div>
-            <div class="input-group input-group-sm">
-                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
+        <div class="input-group input-group-sm" style="max-width:220px;">
+            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" placeholder="Search">
         </div>
     </div>
 
@@ -46,13 +43,13 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($pelayananList as $index => $pelayanan)
+                @forelse ($pelayananList ?? [] as $index => $pelayanan)
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $pelayanan['nama_layanan'] ?? '-' }}</td>
                         <td>
                             <div class="d-flex gap-2">
-                                <a href="{{ route('unit_layanan.pelayanan.edit', $pelayanan['id']) }}"
+                                <a href="{{ route('instansi.pelayanan.edit', $pelayanan['id']) }}"
                                    class="btn-action btn-edit text-decoration-none">
                                     Edit
                                 </a>
@@ -80,6 +77,6 @@
 
 </div>
 
-<x-unit-layanan.pelayanan.modal-delete :base-url="url('unit-layanan/pelayanan')" />
+<x-unit-layanan.pelayanan.modal-delete :base-url="url('instansi/pelayanan')" />
 
 @endsection

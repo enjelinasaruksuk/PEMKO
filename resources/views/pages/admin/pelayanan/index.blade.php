@@ -48,7 +48,7 @@
                             <th style="width:50px">No</th>
                             <th>Nama Komponen</th>
                             <th>Kategori</th>
-                            <th class="text-end">Actions</th>
+                            <th class="text-end">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="komponenTableBody">

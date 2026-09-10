@@ -30,8 +30,7 @@
 </div>
 
 <div class="card-custom p-4 mb-4">
-    <h2 class="section-title mb-4">PENYAMPAIAN LAYANAN</h2>
-
+<h2 class="section-title text-center mb-4">PENYAMPAIAN LAYANAN</h2>
     @foreach ($penyampaianFields as $name => $label)
         @php $value = old($name, $data->$name ?? ''); @endphp
         <div class="mb-4">
@@ -43,8 +42,7 @@
 </div>
 
 <div class="card-custom p-4 mb-4">
-    <h2 class="section-title mb-4">PENGELOLAAN PELAYANAN</h2>
-
+<h2 class="section-title text-center mb-4">PENGELOLAAN PELAYANAN</h2>
     @foreach ($pengelolaanFields as $name => $label)
         @php $value = old($name, $data->$name ?? ''); @endphp
         <div class="mb-4">

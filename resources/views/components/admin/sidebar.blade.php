@@ -46,14 +46,14 @@
 
     </div>
 
-    <div class="logout-area">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="nav-link d-flex align-items-center gap-2 bg-transparent border-0 w-100 text-start">
-                <i class="bi bi-box-arrow-right"></i>
-                <span class="sidebar-text">Logout</span>
-            </button>
-        </form>
+        <div class="logout-area">
+        <button type="button" class="nav-link d-flex align-items-center gap-2 bg-transparent border-0 w-100 text-start"
+                data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="sidebar-text">Logout</span>
+        </button>
     </div>
 
 </aside>
+
+<x-logout-modal />

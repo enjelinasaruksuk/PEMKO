@@ -1,3 +1,5 @@
+@props(['baseUrl' => url('unit-layanan/pelayanan')])
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const nameElement = document.getElementById('deleteServiceName');
         if (!form || !nameElement) return;
 
-        form.action = '{{ url("unit-layanan/pelayanan") }}/' + id;
+        form.action = '{{ $baseUrl }}/' + id;
         nameElement.textContent = '"' + name + '"';
     });
 });

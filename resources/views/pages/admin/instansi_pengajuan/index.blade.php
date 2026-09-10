@@ -46,7 +46,7 @@
                             <th>Instansi Level 2</th>
                             <th>Email</th>
                             <th>Status</th>
-                            <th class="text-end">Actions</th>
+                            <th class="text-end">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="pengajuanTableBody">
