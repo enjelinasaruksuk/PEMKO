@@ -33,7 +33,7 @@
             <select name="instansi_level_1" class="auth-reg-select">
                 <option value="" selected disabled>Pilih Instansi Level 1</option>
                 @foreach ($instansiLevel1 ?? [] as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                    <option value="{{ $item->id_instansi }}">{{ $item->nama_instansi }}</option>
                 @endforeach
             </select>
         </div>
@@ -43,14 +43,14 @@
             <select name="instansi_level_2" class="auth-reg-select">
                 <option value="" selected disabled>Pilih Instansi Level 2</option>
                 @foreach ($instansiLevel2 ?? [] as $item)
-                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                    <option value="{{ $item->id_instansi }}">{{ $item->nama_instansi }}</option>
                 @endforeach
             </select>
         </div>
 
         <div class="mb-4">
             <label class="auth-reg-label">Email Instansi</label>
-            <input type="email" name="email" class="auth-reg-input" placeholder="Masukan Email Instansi" required>
+            <input type="email" name="email" class="auth-reg-input" value="{{ old('email') }}" placeholder="Masukan Email Instansi" required>
         </div>
 
         <div class="d-flex justify-content-end gap-2">

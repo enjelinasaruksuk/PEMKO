@@ -26,7 +26,7 @@
                 <label class="auth-label"><i class="bi bi-person-fill"></i> Email Pengguna:</label>
                 <div class="auth-input-group">
                     <i class="bi bi-person"></i>
-                    <input type="email" name="email" class="auth-input" placeholder="Masukan Email Pengguna" required>
+                    <input type="text" name="username" class="auth-input" placeholder="Masukan Email Pengguna" required>
                 </div>
             </div>
 
@@ -34,7 +34,10 @@
                 <label class="auth-label"><i class="bi bi-lock-fill"></i> Kata Sandi:</label>
                 <div class="auth-input-group">
                     <i class="bi bi-lock"></i>
-                    <input type="password" name="password" class="auth-input" placeholder="Masukan Kata Sandi" required>
+                        <input type="password" name="password" id="passwordInput" class="auth-input" placeholder="Masukan Kata Sandi" required>
+                    <button type="button" class="auth-toggle-password" id="togglePassword" aria-label="Tampilkan kata sandi">
+                         <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                    </button>
                 </div>
             </div>
 
@@ -52,4 +55,22 @@
     </div>
 
 </div>
+@push('scripts')
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const input = document.getElementById('passwordInput');
+        const icon = document.getElementById('toggleIcon');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        }
+    });
+</script>
+@endpush
 @endsection
