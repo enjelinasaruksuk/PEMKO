@@ -109,6 +109,51 @@
         .search-box { max-width: 220px; }
         .empty-data { color: #8d939c; font-size: 12px; padding: 25px !important; }
 
+       /* =========================================================
+            NOTIFICATION MODAL
+        ========================================================= */
+
+        .admin-modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 16px;
+        }
+
+        .admin-modal-icon-success {
+            background: #e9f8ef;
+            color: #198754;
+        }
+
+        .admin-modal-icon-danger {
+            background: rgba(231,44,53,.1);
+            color: var(--danger);
+        }
+
+        .admin-modal-title {
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .admin-modal-text {
+            color: #6c7a8f;
+            font-size: 13.5px;
+            margin-bottom: 20px;
+        }
+
+        .admin-modal-error-list {
+            text-align: left;
+            color: #6c7a8f;
+            font-size: 13.5px;
+            margin: 0 0 20px;
+            padding-left: 20px;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .logo-area { width: 160px; min-width: 160px; }
@@ -140,21 +185,41 @@
         <div class="main-content">
             <main class="content-wrapper">
 
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              @if (session('success'))
+                    <div class="modal fade" id="adminSuccessModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body text-center p-4">
+                                    <div class="admin-modal-icon admin-modal-icon-success">
+                                        <i class="bi bi-check-lg"></i>
+                                    </div>
+                                    <h5 class="admin-modal-title">Berhasil!</h5>
+                                    <p class="admin-modal-text">{{ session('success') }}</p>
+                                    <button type="button" class="btn-primary-custom" data-bs-dismiss="modal">Oke, Mengerti</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal fade" id="adminErrorModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body text-center p-4">
+                                    <div class="admin-modal-icon admin-modal-icon-danger">
+                                        <i class="bi bi-exclamation-lg"></i>
+                                    </div>
+                                    <h5 class="admin-modal-title">Terjadi Kesalahan</h5>
+                                    <ul class="admin-modal-error-list">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-danger-custom" data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endif
 
@@ -170,6 +235,15 @@
             const toggle = document.getElementById('sidebarToggle');
             const sidebar = document.querySelector('.unit-sidebar');
             const logoArea = document.getElementById('logoArea');
+            const successModal = document.getElementById('adminSuccessModal');
+            if (successModal) {
+                new bootstrap.Modal(successModal).show();
+            }
+
+            const errorModal = document.getElementById('adminErrorModal');
+            if (errorModal) {
+                new bootstrap.Modal(errorModal).show();
+            }
 
             if (toggle && sidebar) {
                 toggle.addEventListener('click', function () {

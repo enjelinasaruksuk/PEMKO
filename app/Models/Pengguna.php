@@ -12,7 +12,7 @@ class Pengguna extends Authenticatable
 
     protected $table = 'pengguna';
     protected $primaryKey = 'id_pengguna';
-    protected $fillable = ['id_role', 'id_instansi', 'nama_pengguna', 'username', 'password', 'status', 'masuk_terakhir'];
+    protected $fillable = ['id_role', 'id_instansi', 'nama_pengguna', 'email', 'username', 'password', 'status', 'masuk_terakhir'];
     protected $hidden = ['password'];
 
     public function role()

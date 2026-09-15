@@ -99,18 +99,14 @@ private function redirectPath(Pengguna $user): string
     }
 
     Pengguna::create([
-        'id_role' => $role->id_role,
-        'id_instansi' => $instansiTerpilih->id_instansi,
-        'nama_pengguna' => $instansiTerpilih->nama_instansi,
-        'username' => null,
-        'password' => null,
-        'status' => 'pending',
-    ]);
-
-    // update email_instansi kalau instansi belum punya email tersimpan
-    if (empty($instansiTerpilih->email_instansi)) {
-        $instansiTerpilih->update(['email_instansi' => $request->email]);
-    }
+    'id_role' => $role->id_role,
+    'id_instansi' => $instansiTerpilih->id_instansi,
+    'nama_pengguna' => $instansiTerpilih->nama_instansi,
+    'email' => $request->email,
+    'username' => null,
+    'password' => null,
+    'status' => 'pending',
+]);
 
     return redirect()->route('login')->with('success', 'Pengajuan akun berhasil dikirim. Menunggu persetujuan admin.');
 }

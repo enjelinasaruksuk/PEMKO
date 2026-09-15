@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
  *
  * Endpoint untuk login, logout, dan cek data user yang sedang login.
  */
-class AuthApiController extends Controller
+class LoginApiController extends Controller
 {
     /**
      * Login
@@ -44,9 +44,15 @@ class AuthApiController extends Controller
 
         $pengguna = Pengguna::where('username', $request->username)->first();
 
-        if (! $pengguna || ! Auth::validate(['username' => $request->username, 'password' => $request->password])) {
+        if (! $pengguna || $pengguna->status !== 'aktif') {
+            return response()->json(['message' => 'Akun tidak ditemukan atau belum aktif.'], 401);
+        }
+
+        if (! Auth::validate(['username' => $request->username, 'password' => $request->password])) {
             return response()->json(['message' => 'Username atau kata sandi salah.'], 401);
         }
+
+        $pengguna->update(['masuk_terakhir' => now()]);
 
         $token = $pengguna->createToken('api-token')->plainTextToken;
 
@@ -55,31 +61,5 @@ class AuthApiController extends Controller
             'token' => $token,
             'user' => $pengguna,
         ]);
-    }
-
-    /**
-     * Data user saat ini
-     *
-     * Mengambil data user yang sedang login berdasarkan token.
-     *
-     * @authenticated
-     */
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
-    }
-
-    /**
-     * Logout
-     *
-     * Menghapus token akses yang sedang dipakai.
-     *
-     * @authenticated
-     */
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Logout berhasil']);
     }
 }

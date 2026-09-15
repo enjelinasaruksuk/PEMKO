@@ -23,7 +23,7 @@
             @csrf
 
             <div class="mb-3">
-                <label class="auth-label"><i class="bi bi-person-fill"></i> Email Pengguna:</label>
+                <label class="auth-label"><i class="bi bi-person-fill"></i> Username:</label>
                 <div class="auth-input-group">
                     <i class="bi bi-person"></i>
                     <input type="text" name="username" class="auth-input" placeholder="Masukan Email Pengguna" required>

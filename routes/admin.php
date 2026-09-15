@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\InstansiPengajuanController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -226,38 +227,8 @@ Route::prefix('admin')
 | Pengajuan Akun Instansi
 |--------------------------------------------------------------------------
 */
-Route::get('/instansi-pengajuan', function () {
-
-    $pengajuanList = collect([
-        (object) [
-            'id' => 1,
-            'instansi_level_1' => 'Sekretariat Daerah',
-            'instansi_level_2' => 'Bagian Organisasi',
-            'email' => 'organisasi@batam.go.id',
-            'status' => 'pending',
-        ],
-        (object) [
-            'id' => 2,
-            'instansi_level_1' => 'Badan Pendapatan Daerah',
-            'instansi_level_2' => null,
-            'email' => 'bapenda@batam.go.id',
-            'status' => 'disetujui',
-        ],
-        (object) [
-            'id' => 3,
-            'instansi_level_1' => 'Bagian Lembaga',
-            'instansi_level_2' => null,
-            'email' => 'lembaga@batam.go.id',
-            'status' => 'ditolak',
-        ],
-    ]);
-
-    return view('pages.admin.instansi_pengajuan.index', compact('pengajuanList'));
-})->name('instansi_pengajuan.index');
-
-Route::put('/instansi-pengajuan/{id}', function ($id) {
-    return redirect()->route('admin.instansi_pengajuan.index');
-})->name('instansi_pengajuan.update');
+Route::get('/instansi-pengajuan', [InstansiPengajuanController::class, 'index'])->name('instansi_pengajuan.index');
+Route::put('/instansi-pengajuan/{id}', [InstansiPengajuanController::class, 'update'])->name('instansi_pengajuan.update');
 
 /*
 |--------------------------------------------------------------------------
