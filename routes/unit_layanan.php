@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UnitLayanan\ProfileController;
 use App\Http\Controllers\UnitLayanan\PelayananController;
 use App\Http\Controllers\UnitLayanan\SkController;
+use App\Http\Controllers\UnitLayanan\PerdaController;
+use App\Http\Controllers\UnitLayanan\PerwaliController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,50 @@ Route::prefix('unit-layanan')
             ProfileController::class,
             'regulations'
         ])->name('profile.regulations');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Perda
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/perda', [
+            PerdaController::class,
+            'store'
+        ])->name('perda.store');
+
+        Route::put('/perda/{perda}', [
+            PerdaController::class,
+            'update'
+        ])->name('perda.update');
+
+        Route::delete('/perda/{perda}', [
+            PerdaController::class,
+            'destroy'
+        ])->name('perda.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Perwali
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/perwali', [
+            PerwaliController::class,
+            'store'
+        ])->name('perwali.store');
+
+        Route::put('/perwali/{perwali}', [
+            PerwaliController::class,
+            'update'
+        ])->name('perwali.update');
+
+        Route::delete('/perwali/{perwali}', [
+            PerwaliController::class,
+            'destroy'
+        ])->name('perwali.destroy');
 
 
         /*

@@ -1,0 +1,268 @@
+name: 'Unit Layanan - Profil'
+description: |-
+
+  Endpoint untuk mengelola data Profil Unit Layanan beserta Perda & Perwali terkait.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/unit-layanan/profile
+    metadata:
+      custom: []
+      groupName: 'Unit Layanan - Profil'
+      groupDescription: |-
+
+        Endpoint untuk mengelola data Profil Unit Layanan beserta Perda & Perwali terkait.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Ambil data profil'
+      description: 'Mengambil data profil unit layanan beserta daftar Perda dan Perwali milik instansi yang login.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "profile": {
+              "id": 1,
+              "id_instansi": 1,
+              "nama_unit": "Bagian Organisasi",
+              "nama_kepala": "Drs. Ahmad Fauzi, M.Si",
+              "jabatan": "Non PLT",
+              "website": null,
+              "alamat": "Jln Engku Putri",
+              "nip": "19750101 200003 1 001",
+              "pangkat": "Pembina Utama Muda (IV/c)",
+              "email": "123@gmail.com",
+              "misi": "bersikap baik",
+              "telepon": "0899764532109",
+              "faksimile": "(0778) 123457",
+              "motto": "bersikap baik",
+              "visi": "bersikap baik"
+            },
+            "perda": [
+              { "id": 1, "tentang": "Peraturan Daerah (Perda) Kota Batam Nomor 1 Tahun 2026 tentang Penyelenggaraan Administrasi Kependudukan" }
+            ],
+            "perwali": [
+              { "id": 1, "tentang": "Peraturan Walikota (Perwali) Kota Batam Nomor 4 Tahun 2025 tentang Perubahan Atas Peraturan Wali Kota Batam Nomor 47 Tahun 2023 Tentang Penyelenggaraan Pengelolaan Tanah Di Atas Hak Pengelolaan Pemerintah Kota Batam" }
+            ]
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: api/unit-layanan/profile
+    metadata:
+      custom: []
+      groupName: 'Unit Layanan - Profil'
+      groupDescription: |-
+
+        Endpoint untuk mengelola data Profil Unit Layanan beserta Perda & Perwali terkait.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Simpan / perbarui profil'
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      nama_unit:
+        custom: []
+        name: nama_unit
+        description: 'Nama unit layanan.'
+        required: false
+        example: 'Bagian Organisasi'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      nama_kepala:
+        custom: []
+        name: nama_kepala
+        description: 'Nama kepala dinas/UUP.'
+        required: false
+        example: 'Drs. Ahmad Fauzi, M.Si'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      jabatan:
+        custom: []
+        name: jabatan
+        description: 'Salah satu dari: Non PLT, PLT.'
+        required: false
+        example: 'Non PLT'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      website:
+        custom: []
+        name: website
+        description: 'Laman/website unit layanan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      alamat:
+        custom: []
+        name: alamat
+        description: 'Alamat unit layanan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      nip:
+        custom: []
+        name: nip
+        description: 'NIP kepala dinas.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      pangkat:
+        custom: []
+        name: pangkat
+        description: 'Pangkat kepala dinas.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      email:
+        custom: []
+        name: email
+        description: 'Email unit layanan.'
+        required: false
+        example: gbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      misi:
+        custom: []
+        name: misi
+        description: 'Misi unit layanan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      telepon:
+        custom: []
+        name: telepon
+        description: 'Nomor telepon.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      faksimile:
+        custom: []
+        name: faksimile
+        description: 'Nomor faksimile.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      motto:
+        custom: []
+        name: motto
+        description: 'Motto unit layanan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      visi:
+        custom: []
+        name: visi
+        description: 'Visi unit layanan.'
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      nama_unit: 'Bagian Organisasi'
+      nama_kepala: 'Drs. Ahmad Fauzi, M.Si'
+      jabatan: 'Non PLT'
+      website: architecto
+      alamat: architecto
+      nip: architecto
+      pangkat: architecto
+      email: gbailey@example.net
+      misi: architecto
+      telepon: architecto
+      faksimile: architecto
+      motto: architecto
+      visi: architecto
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "message": "Data profil berhasil disimpan.",
+            "profile": { "id": 1, "id_instansi": 1, "nama_unit": "Bagian Organisasi" }
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

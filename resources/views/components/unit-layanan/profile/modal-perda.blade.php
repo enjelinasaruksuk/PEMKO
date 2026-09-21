@@ -1,7 +1,7 @@
 <div class="modal fade" id="tambahPerdaModal" tabindex="-1" aria-labelledby="tambahPerdaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('unit_layanan.perda.store') }}">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="tambahPerdaModalLabel">Tambah Peraturan Daerah</h5>
@@ -12,7 +12,7 @@
                     <p class="modal-description mb-3">Tambahkan Peraturan Daerah.</p>
                     <div>
                         <label class="form-label-custom">Peraturan Daerah</label>
-                        <textarea name="perda" class="form-control modal-field" placeholder="Masukkan Peraturan Daerah" rows="5" style="resize: vertical; min-height: 120px;"></textarea>
+                        <textarea name="tentang" class="form-control modal-field" placeholder="Peraturan Daerah (Perda) Kota Batam Nomor 1 Tahun 2026 tentang Penyelenggaraan Administrasi Kependudukan" rows="5" style="resize: vertical; min-height: 120px;" required></textarea>
                     </div>
                 </div>
 

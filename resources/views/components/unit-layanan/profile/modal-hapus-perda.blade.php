@@ -19,7 +19,7 @@
 
             <div class="modal-footer justify-content-center gap-2">
                 <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('unit_layanan.perda.destroy', $id) }}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-danger-custom">

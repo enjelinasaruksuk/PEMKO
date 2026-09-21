@@ -8,7 +8,7 @@
 <div class="modal fade" id="editPerdaModal{{ $id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('unit_layanan.perda.update', $id) }}">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -20,7 +20,7 @@
                     <p class="modal-description mb-3">Ubah Peraturan Daerah di bawah ini.</p>
                     <div>
                         <label class="form-label-custom">Peraturan Daerah</label>
-                        <textarea name="perda" class="form-control modal-field" rows="5" style="resize: vertical; min-height: 120px;">{{ $tentang }}</textarea>
+                        <textarea name="tentang" class="form-control modal-field" rows="5" style="resize: vertical; min-height: 120px;" required>{{ $tentang }}</textarea>
                     </div>
                 </div>
 
