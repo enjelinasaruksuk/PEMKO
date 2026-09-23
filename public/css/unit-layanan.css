@@ -239,19 +239,19 @@ body {
 }
 
 .page-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text);
 }
 
 .page-description {
-    font-size: 11px;
-    color: #b0b5c0;
+    font-size: 13px;
+    color: #8a96a6;
 }
 
 .section-title {
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -282,8 +282,9 @@ body {
     border: none;
     color: white;
     border-radius: 20px;
-    padding: 7px 16px;
-    font-size: 12px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
     text-decoration: none;
     cursor: pointer;
     transition: .2s;
@@ -302,8 +303,9 @@ body {
     border: none;
     color: white;
     border-radius: 20px;
-    padding: 7px 16px;
-    font-size: 12px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
     cursor: pointer;
 }
 
@@ -320,8 +322,9 @@ body {
     border: none;
     color: white;
     border-radius: 20px;
-    padding: 7px 16px;
-    font-size: 12px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
     text-decoration: none;
     cursor: pointer;
     transition: .2s;
@@ -336,13 +339,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 6px;
     background: #fff;
     border: 1px solid #d8d8d8;
     color: var(--text);
     border-radius: 20px;
-    padding: 7px 16px;
-    font-size: 12px;
+    padding: 9px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
     text-decoration: none;
     cursor: pointer;
     transition: .2s;
@@ -361,15 +365,17 @@ body {
 .form-label-custom {
     display: block;
     color: var(--text);
-    font-size: 11px;
-    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
 
 .form-control,
 .form-select {
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid var(--border);
-    font-size: 13px;
+    font-size: 14px;
+    padding: 9px 13px;
 }
 
 .form-control:focus,
@@ -384,7 +390,7 @@ body {
 ========================================================== */
 
 .table-custom {
-    font-size: 11px;
+    font-size: 13.5px;
     vertical-align: middle;
 }
 
@@ -392,19 +398,22 @@ body {
     background: #f5f6f8;
     color: var(--text);
     font-weight: 600;
+    font-size: 13px;
     white-space: nowrap;
 }
 
 .table-custom td {
     color: var(--text);
+    font-size: 14px;
 }
 
 .btn-action {
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     color: #fff;
-    font-size: 10px;
-    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
@@ -434,7 +443,7 @@ body {
 ========================================================== */
 
 .alert {
-    font-size: 12px;
+    font-size: 13.5px;
 }
 
 
@@ -444,59 +453,60 @@ body {
 
 .modal-content {
     border: none;
-    border-radius: 7px;
+    border-radius: 8px;
     box-shadow: 0 3px 15px rgba(0, 0, 0, .25);
 }
 
 .modal-header {
     border-bottom: 1px solid #eeeeee;
-    padding: 18px 20px;
+    padding: 22px 24px;
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 24px;
 }
 
 .modal-footer {
     border-top: 1px solid #eeeeee;
-    padding: 15px 20px;
+    padding: 16px 24px;
 }
 
 .modal-title {
     color: var(--text);
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 700;
 }
 
 .modal-description {
-    font-size: 11px;
-    color: #222;
+    font-size: 13.5px;
+    color: #6c7a8f;
     line-height: 1.6;
 }
 
 .modal-field {
     background: #f1f1f1;
     border: none;
-    border-radius: 4px;
-    padding: 12px;
+    border-radius: 6px;
+    padding: 14px;
+    font-size: 14px;
 }
 
 .delete-warning-icon {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 15px;
+    margin: 0 auto 16px;
     border-radius: 50%;
     background: rgba(231, 44, 53, .1);
     color: var(--danger);
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .delete-modal-title {
     color: var(--text);
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 700;
     text-align: center;
     margin-bottom: 8px;
@@ -504,7 +514,7 @@ body {
 
 .delete-modal-text {
     color: #666;
-    font-size: 12px;
+    font-size: 13.5px;
     text-align: center;
     line-height: 1.6;
     margin-bottom: 0;
@@ -517,7 +527,7 @@ body {
 
 .rich-editor-wrapper {
     border: 1px solid var(--border);
-    border-radius: 5px;
+    border-radius: 6px;
     background: #fff;
     overflow: hidden;
 }
@@ -527,14 +537,14 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 3px;
-    padding: 7px;
+    padding: 8px;
     background: #f5f6f8;
     border-bottom: 1px solid var(--border);
 }
 
 .rich-editor-toolbar button {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -543,7 +553,7 @@ body {
     color: #173b69;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .rich-editor-toolbar button:hover {
@@ -565,11 +575,11 @@ body {
 }
 
 .rich-editor {
-    min-height: 130px;
-    padding: 12px;
+    min-height: 140px;
+    padding: 14px;
     outline: none;
     color: #173b69;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.6;
     background: #fff;
 }
@@ -608,7 +618,7 @@ body {
 ========================================================== */
 
 .search-box {
-    max-width: 220px;
+    max-width: 240px;
 }
 
 
@@ -618,8 +628,8 @@ body {
 
 .empty-data {
     color: #8d939c;
-    font-size: 12px;
-    padding: 25px !important;
+    font-size: 13.5px;
+    padding: 28px !important;
 }
 
 
@@ -631,18 +641,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4px;
-    margin-top: 20px;
+    gap: 5px;
+    margin-top: 22px;
 }
 
 .pagination-custom button {
     border: 1px solid #ddd;
     background: #fff;
     color: #555;
-    border-radius: 4px;
-    min-width: 30px;
-    height: 30px;
-    font-size: 11px;
+    border-radius: 5px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 12.5px;
 }
 
 .pagination-custom button:hover {
@@ -653,6 +663,61 @@ body {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
+}
+
+
+/* =========================================================
+   PROFILE DISPLAY (Data Profil)
+========================================================== */
+
+.profile-item {
+    margin-bottom: 24px;
+}
+
+.profile-label {
+    color: #8a96a6;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: 7px;
+}
+
+.profile-value {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    min-height: 22px;
+    word-break: break-word;
+}
+
+.empty-profile {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 14px;
+}
+
+.empty-profile h5 {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.empty-profile p {
+    color: #a5a9b2;
+    font-size: 14px;
+    margin-bottom: 0;
 }
 
 
@@ -681,7 +746,8 @@ body {
     }
 
     .unit-badge {
-        padding: 7px 15px;
+        padding: 8px 18px;
+        font-size: 13px;
     }
 
     .search-box {

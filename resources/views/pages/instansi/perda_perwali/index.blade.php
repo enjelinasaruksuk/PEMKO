@@ -37,25 +37,25 @@
             </thead>
             <tbody>
                 @forelse ($perdaList ?? [] as $i => $perda)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ $perda->tentang }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerda{{ $perda->id }}">Edit</button>
-                                <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerda{{ $perda->id }}">Hapus</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <x-instansi.perda_perwali.modal-edit-perda :perda="$perda" />
-                    <x-instansi.perda_perwali.modal-hapus-perda :perda="$perda" />
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $perda->tentang }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerda{{ $perda->id }}"><i class="bi bi-pencil"></i> Edit</button>
+                            <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerda{{ $perda->id }}"><i class="bi bi-trash"></i> Hapus</button>
+                        </div>
+                    </td>
+                </tr>
+                <x-instansi.perda_perwali.modal-edit-perda :perda="$perda" />
+                <x-instansi.perda_perwali.modal-hapus-perda :perda="$perda" />
                 @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-5">
-                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            Belum ada data Perda.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                        Belum ada data Perda.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
@@ -84,25 +84,25 @@
             </thead>
             <tbody>
                 @forelse ($perwaliList ?? [] as $i => $perwali)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ $perwali->tentang }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerwali{{ $perwali->id }}">Edit</button>
-                                <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerwali{{ $perwali->id }}">Hapus</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <x-instansi.perda_perwali.modal-edit-perwali :perwali="$perwali" />
-                    <x-instansi.perda_perwali.modal-hapus-perwali :perwali="$perwali" />
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $perwali->tentang }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerwali{{ $perwali->id }}"><i class="bi bi-pencil"></i> Edit</button>
+                            <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerwali{{ $perwali->id }}"><i class="bi bi-trash"></i> Hapus</button>
+                        </div>
+                    </td>
+                </tr>
+                <x-instansi.perda_perwali.modal-edit-perwali :perwali="$perwali" />
+                <x-instansi.perda_perwali.modal-hapus-perwali :perwali="$perwali" />
                 @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-5">
-                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            Belum ada data Perwali.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                        Belum ada data Perwali.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

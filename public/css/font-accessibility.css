@@ -1,0 +1,144 @@
+/* =========================================================
+   FONT ACCESSIBILITY - Base Typography
+   Menyamakan ukuran huruf di SEMUA halaman (admin, instansi,
+   unit-layanan, auth) agar nyaman untuk pengguna dewasa (30th+).
+   Pakai !important karena banyak file lama (sk.*, dt.*,
+   maklumat.*, unit-layanan.css, auth.css) sudah punya ukuran
+   sendiri yang berbeda-beda dan lebih spesifik.
+========================================================= */
+
+:root {
+    --app-font-base: 16px;
+    --app-line-height: 1.6;
+}
+
+html {
+    font-size: var(--app-font-base);
+}
+
+body {
+    line-height: var(--app-line-height) !important;
+}
+
+/* =========================================================
+   JUDUL HALAMAN (semua varian nama class di seluruh halaman)
+========================================================= */
+h1,
+.page-title,
+.dt-page-title,
+.sk-page-title,
+.maklumat-page-title,
+.auth-header-title,
+.auth-register-title {
+    font-size: 22px !important;
+    line-height: 1.35 !important;
+}
+
+/* =========================================================
+   SUBJUDUL / DESKRIPSI HALAMAN
+========================================================= */
+.page-description,
+.dt-page-subtitle,
+.sk-page-subtitle,
+.maklumat-page-subtitle,
+.auth-register-desc,
+.modal-description {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+/* =========================================================
+   JUDUL SEKSI / KARTU
+========================================================= */
+h2,
+.section-title,
+.dt-section-title,
+.sk-section-title,
+.sk-organization-title,
+.auth-form-title {
+    font-size: 17px !important;
+    line-height: 1.4 !important;
+}
+
+/* =========================================================
+   ISI TABEL (semua varian tabel di project)
+========================================================= */
+.table-custom,
+.dt-table,
+.sk-table,
+.maklumat-table,
+table.table {
+    font-size: 14px !important;
+}
+
+.table-custom th,
+.dt-table th,
+.sk-table th,
+.maklumat-table th {
+    font-size: 13px !important;
+}
+
+.sk-table th span {
+    font-size: 12px !important;
+}
+
+/* =========================================================
+   BADGE / STATUS / LABEL KECIL
+========================================================= */
+.dt-badge,
+.status-active,
+.status-inactive,
+.approval,
+.sk-number,
+.sk-previous {
+    font-size: 13px !important;
+}
+
+/* =========================================================
+   LABEL & ISI FORM
+========================================================= */
+.form-label-custom,
+.form-label-small,
+label,
+.auth-label,
+.auth-reg-label {
+    font-size: 14px !important;
+}
+
+input,
+select,
+textarea,
+.form-control,
+.form-select,
+.auth-input,
+.auth-reg-input,
+.auth-reg-select {
+    font-size: 14px !important;
+}
+
+/* =========================================================
+   TOMBOL
+========================================================= */
+button,
+.btn,
+.btn-primary-custom,
+.btn-danger-custom,
+.btn-secondary-custom,
+.sk-add-button,
+.dt-add-button,
+.auth-submit-btn,
+.auth-reg-btn-submit,
+.auth-reg-btn-cancel {
+    font-size: 14px !important;
+}
+
+/* =========================================================
+   PROFIL / DETAIL ITEM
+========================================================= */
+.profile-label {
+    font-size: 13px !important;
+}
+
+.profile-value {
+    font-size: 14px !important;
+}

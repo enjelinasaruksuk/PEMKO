@@ -53,29 +53,29 @@
                     </thead>
                     <tbody id="komponenTableBody">
                         @forelse ($komponenList ?? [] as $i => $komponen)
-                            <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td class="fw-semibold">{{ $komponen->nama_komponen }}</td>
-                                <td>
-                                    <span class="dt-badge {{ $komponen->kategori === 'Penyampaian' ? 'blue' : 'gray' }}">
-                                        {{ $komponen->kategori }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <x-admin.pelayanan.aksi_komponen :komponen="$komponen" />
-                                </td>
-                            </tr>
-                            <x-admin.pelayanan.modal_edit_komponen :komponen="$komponen" />
-                            <x-admin.pelayanan.modal_hapus_komponen :komponen="$komponen" />
+                        <tr>
+                            <td>{{ $i + 1 }}</td>
+                            <td class="fw-semibold">{{ $komponen->nama_komponen }}</td>
+                            <td>
+                                <span class="dt-badge {{ $komponen->kategori === 'Penyampaian' ? 'blue' : 'gray' }}">
+                                    {{ $komponen->kategori }}
+                                </span>
+                            </td>
+                            <td>
+                                <x-admin.pelayanan.aksi_komponen :komponen="$komponen" />
+                            </td>
+                        </tr>
+                        <x-admin.pelayanan.modal_edit_komponen :komponen="$komponen" />
+                        <x-admin.pelayanan.modal_hapus_komponen :komponen="$komponen" />
                         @empty
-                            <tr>
-                                <td colspan="4">
-                                    <div class="dt-empty">
-                                        <i class="bi bi-inbox"></i>
-                                        <div>Belum ada data komponen.</div>
-                                    </div>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="dt-empty">
+                                    <i class="bi bi-inbox"></i>
+                                    <div>Belum ada data komponen.</div>
+                                </div>
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
@@ -97,19 +97,19 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/data-table.css') }}">
+<link rel="stylesheet" href="{{ asset('css/data-table.css') }}">
 @endpush
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('komponenSearch');
         const tableBody = document.getElementById('komponenTableBody');
 
         if (searchInput && tableBody) {
-            searchInput.addEventListener('input', function () {
+            searchInput.addEventListener('input', function() {
                 const keyword = this.value.toLowerCase().trim();
-                tableBody.querySelectorAll('tr').forEach(function (row) {
+                tableBody.querySelectorAll('tr').forEach(function(row) {
                     const text = row.textContent.toLowerCase();
                     row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
                 });

@@ -44,31 +44,31 @@
             </thead>
             <tbody>
                 @forelse (($perda ?? []) as $i => $item)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ is_object($item) ? $item->tentang : $item }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <button type="button" class="btn-action btn-edit"
-                                    data-bs-toggle="modal" data-bs-target="#editPerdaModal{{ is_object($item) ? $item->id : $i }}">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn-action btn-delete"
-                                    data-bs-toggle="modal" data-bs-target="#hapusPerdaModal{{ is_object($item) ? $item->id : $i }}">
-                                    Hapus
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <x-unit-layanan.profile.modal-edit-perda :perda="$item" :index="$i" />
-                    <x-unit-layanan.profile.modal-hapus-perda :perda="$item" :index="$i" />
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ is_object($item) ? $item->tentang : $item }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn-action btn-edit"
+                                data-bs-toggle="modal" data-bs-target="#editPerdaModal{{ is_object($item) ? $item->id : $i }}">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            <button type="button" class="btn-action btn-delete"
+                                data-bs-toggle="modal" data-bs-target="#hapusPerdaModal{{ is_object($item) ? $item->id : $i }}">
+                                <i class="bi bi-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <x-unit-layanan.profile.modal-edit-perda :perda="$item" :index="$i" />
+                <x-unit-layanan.profile.modal-hapus-perda :perda="$item" :index="$i" />
                 @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-5">
-                            <i class="bi bi-file-earmark-text fs-3 d-block mb-2"></i>
-                            Belum ada Peraturan Daerah.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-5">
+                        <i class="bi bi-file-earmark-text fs-3 d-block mb-2"></i>
+                        Belum ada Peraturan Daerah.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
@@ -103,31 +103,31 @@
             </thead>
             <tbody>
                 @forelse (($perwali ?? []) as $i => $item)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ is_object($item) ? $item->tentang : $item }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ is_object($item) ? $item->tentang : $item }}</td>
+                    <td>
+                                                    <div class="d-flex gap-2">
                                 <button type="button" class="btn-action btn-edit"
                                     data-bs-toggle="modal" data-bs-target="#editPerwaliModal{{ is_object($item) ? $item->id : $i }}">
-                                    Edit
+                                    <i class="bi bi-pencil"></i> Edit
                                 </button>
                                 <button type="button" class="btn-action btn-delete"
                                     data-bs-toggle="modal" data-bs-target="#hapusPerwaliModal{{ is_object($item) ? $item->id : $i }}">
-                                    Hapus
+                                    <i class="bi bi-trash"></i> Hapus
                                 </button>
                             </div>
-                        </td>
-                    </tr>
-                    <x-unit-layanan.profile.modal-edit-perwali :perwali="$item" :index="$i" />
-                    <x-unit-layanan.profile.modal-hapus-perwali :perwali="$item" :index="$i" />
+                    </td>
+                </tr>
+                <x-unit-layanan.profile.modal-edit-perwali :perwali="$item" :index="$i" />
+                <x-unit-layanan.profile.modal-hapus-perwali :perwali="$item" :index="$i" />
                 @empty
-                    <tr>
-                        <td colspan="3" class="text-center text-muted py-5">
-                            <i class="bi bi-file-earmark-text fs-3 d-block mb-2"></i>
-                            Belum ada Peraturan Wali Kota.
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-5">
+                        <i class="bi bi-file-earmark-text fs-3 d-block mb-2"></i>
+                        Belum ada Peraturan Wali Kota.
+                    </td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
