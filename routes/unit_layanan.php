@@ -156,7 +156,9 @@ Route::prefix('unit-layanan')
             'destroy'
         ])->name('sk.destroy');
 
-        Route::patch('/pengesahan-sk/{sk}/status', [
+        // FIX: sebelumnya Route::patch, tapi form modal-status.blade.php
+        // mengirim @method('PUT'), sehingga selalu gagal 405.
+        Route::put('/pengesahan-sk/{sk}/status', [
             SkController::class,
             'updateStatus'
         ])->name('sk.status');

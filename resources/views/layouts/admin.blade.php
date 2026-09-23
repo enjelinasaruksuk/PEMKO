@@ -505,6 +505,7 @@
             }
         });
     </script>
+    <script src="{{ asset('js/tooltips.js') }}"></script>
 
     @stack('scripts')
 </body>

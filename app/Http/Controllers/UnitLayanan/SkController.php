@@ -64,6 +64,19 @@ class SkController extends Controller
 
 
     /**
+     * Menampilkan halaman Tambah SK.
+     *
+     * Catatan: form tambah SK saat ini sudah dipindah ke modal
+     * pada halaman index (lihat x-unit-layanan.sk.modal-form),
+     * jadi route ini hanya menampilkan halaman penunjuk balik.
+     */
+    public function create()
+    {
+        return view('pages.unit-layanan.sk.create');
+    }
+
+
+    /**
      * Menyimpan data SK.
      */
     public function store(Request $request)
@@ -86,6 +99,19 @@ class SkController extends Controller
         return redirect()
             ->route('unit_layanan.sk.index')
             ->with('success', 'Data SK berhasil disimpan.');
+    }
+
+
+    /**
+     * Menampilkan halaman Edit SK.
+     *
+     * Catatan: form edit SK saat ini sudah dipindah ke modal
+     * pada halaman index, jadi route ini hanya menampilkan
+     * halaman penunjuk balik.
+     */
+    public function edit($id)
+    {
+        return view('pages.unit-layanan.sk.edit');
     }
 
 
