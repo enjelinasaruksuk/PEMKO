@@ -37,6 +37,9 @@
 
     <div class="row g-4">
 
+        {{-- =========================================================
+             KOLOM 1 → Laman (Website), lalu Maklumat di bawahnya
+        ========================================================== --}}
         <div class="col-md-4">
             <div class="profile-item">
                 <div class="profile-label">Nama Unit Layanan</div>
@@ -54,8 +57,24 @@
                 <div class="profile-label">Laman (Website)</div>
                 <div class="profile-value">{{ $profile->website ?? '-' }}</div>
             </div>
+
+            @if ($maklumatList->isNotEmpty())
+            @php $maklumatAktif = $maklumatList->first(); @endphp
+            <div class="profile-item">
+                <div class="profile-label">Maklumat</div>
+                <div class="profile-value">{{ $maklumatAktif->isi_maklumat }}</div>
+                @if (!empty($maklumatAktif->nama_penjabat))
+                <div class="profile-value fw-semibold mt-2">
+                    Ttd,<br>{{ $maklumatAktif->nama_penjabat }}
+                </div>
+                @endif
+            </div>
+            @endif
         </div>
 
+        {{-- =========================================================
+             KOLOM 2 → Misi, lalu Perwali di bawahnya
+        ========================================================== --}}
         <div class="col-md-4">
             <div class="profile-item">
                 <div class="profile-label">Alamat</div>
@@ -73,8 +92,29 @@
                 <div class="profile-label">Email</div>
                 <div class="profile-value">{{ $profile->email ?? '-' }}</div>
             </div>
+            <div class="profile-item">
+                <div class="profile-label">Misi</div>
+                <div class="profile-value">{{ $profile->misi ?? '-' }}</div>
+            </div>
+
+            @if ($perwaliList->isNotEmpty())
+            <div class="profile-item">
+                <div class="profile-label">Perwali</div>
+                <div class="profile-list">
+                    @foreach ($perwaliList as $i => $item)
+                    <div class="profile-list-item">
+                        <span class="profile-list-number">{{ $i + 1 }}.</span>
+                        <span class="profile-list-text">{{ $item->tentang }}</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
 
+        {{-- =========================================================
+             KOLOM 3 → Motto, Visi (+ Perda)
+        ========================================================== --}}
         <div class="col-md-4">
             <div class="profile-item">
                 <div class="profile-label">Telepon</div>
@@ -92,29 +132,23 @@
                 <div class="profile-label">Visi</div>
                 <div class="profile-value">{{ $profile->visi ?? '-' }}</div>
             </div>
+
+            @if ($perdaList->isNotEmpty())
+            <div class="profile-item">
+                <div class="profile-label">Perda</div>
+                <div class="profile-list">
+                    @foreach ($perdaList as $i => $item)
+                    <div class="profile-list-item">
+                        <span class="profile-list-number">{{ $i + 1 }}.</span>
+                        <span class="profile-list-text">{{ $item->tentang }}</span>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
 
     </div>
-
-
-    @if ($perdaList->isNotEmpty())
-        <div class="profile-item mt-2">
-            <div class="profile-label">Perda</div>
-            @foreach ($perdaList as $i => $item)
-                <div class="profile-value">{{ $i + 1 }}. {{ $item->tentang }}</div>
-            @endforeach
-        </div>
-    @endif
-
-
-    @if ($perwaliList->isNotEmpty())
-        <div class="profile-item mt-2">
-            <div class="profile-label">Perwali</div>
-            @foreach ($perwaliList as $i => $item)
-                <div class="profile-value">{{ $i + 1 }}. {{ $item->tentang }}</div>
-            @endforeach
-        </div>
-    @endif
 
 
     <div class="d-flex justify-content-end mt-3">
@@ -162,7 +196,7 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         new bootstrap.Modal(document.getElementById('successModal')).show();
     });
 </script>

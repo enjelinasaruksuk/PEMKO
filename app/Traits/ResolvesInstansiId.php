@@ -27,4 +27,29 @@ trait ResolvesInstansiId
 
         return $fallbackId;
     }
+
+    /**
+     * Ambil id_instansi level 1 (induk tertinggi / Sekda) dari instansi
+     * milik user yang login.
+     *
+     * - Kalau user login sebagai Instansi/Sekda (level 1, id_instansi_induk null),
+     *   ini akan mengembalikan id miliknya sendiri.
+     * - Kalau user login sebagai Unit Layanan (level 2, punya id_instansi_induk),
+     *   ini akan naik satu tingkat ke induknya.
+     *
+     * Dipakai khusus untuk data yang DIKELOLA di level Sekda/Instansi tapi
+     * DITAMPILKAN di level Unit Layanan, misalnya Maklumat.
+     */
+    protected function currentInduknyaInstansiId(): int
+    {
+        $id = $this->currentInstansiId();
+
+        $instansi = Instansi::find($id);
+
+        if ($instansi && $instansi->id_instansi_induk) {
+            return $instansi->id_instansi_induk;
+        }
+
+        return $id;
+    }
 }

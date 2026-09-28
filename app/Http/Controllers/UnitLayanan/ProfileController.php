@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UnitLayanan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Maklumat;
 use App\Models\Perda;
 use App\Models\Perwali;
 use App\Models\ProfilUnitLayanan;
@@ -17,13 +18,17 @@ class ProfileController extends Controller
     {
         $idInstansi = $this->currentInstansiId();
 
-        $profile     = ProfilUnitLayanan::where('id_instansi', $idInstansi)->first();
-        $perdaList   = Perda::where('id_instansi', $idInstansi)->latest()->get();
-        $perwaliList = Perwali::where('id_instansi', $idInstansi)->latest()->get();
+        $profile      = ProfilUnitLayanan::where('id_instansi', $idInstansi)->first();
+        $perdaList    = Perda::where('id_instansi', $idInstansi)->latest()->get();
+        $perwaliList  = Perwali::where('id_instansi', $idInstansi)->latest()->get();
+        $maklumatList = Maklumat::where('id_instansi', $idInstansi)->latest()->get();
+
+        
+        // ================================================
 
         return view(
             'pages.unit-layanan.profile.index',
-            compact('profile', 'perdaList', 'perwaliList')
+            compact('profile', 'perdaList', 'perwaliList', 'maklumatList')
         );
     }
 

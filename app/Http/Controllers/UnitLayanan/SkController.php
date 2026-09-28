@@ -3,158 +3,108 @@
 namespace App\Http\Controllers\UnitLayanan;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UnitLayanan\StoreSkRequest;
+use App\Http\Requests\UnitLayanan\UpdateSkRequest;
+use App\Http\Requests\UnitLayanan\UpdateSkStatusRequest;
+use App\Models\Sk;
+use App\Traits\ResolvesInstansiId;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SkController extends Controller
 {
-    /**
-     * Menampilkan halaman Pengesahan SK.
-     */
-    public function index()
+    use ResolvesInstansiId;
+
+    public function index(): View
     {
-        /*
-        |--------------------------------------------------------------------------
-        | Data sementara
-        |--------------------------------------------------------------------------
-        | Nanti bagian ini bisa diganti dengan query database.
-        */
+        $skList = Sk::query()
+            ->milikInstansi($this->currentInstansiId())
+            ->with('instansi')
+            ->latest('tanggal_sk')
+            ->get();
 
-        $skList = collect([
-
-            (object) [
-                'id' => 1,
-                'nama_dinas' => 'Bagian Organisasi',
-                'no_sk' => '001/2026',
-                'tanggal_sk' => '2026-01-10',
-                'jenis_sk' => 'SK Baru',
-                'no_sk_sebelumnya' => null,
-                'status' => 'Aktif',
-                'pengesahan' => 'Sudah disetujui',
-            ],
-
-            (object) [
-                'id' => 2,
-                'nama_dinas' => 'Bagian Organisasi',
-                'no_sk' => '002/2026',
-                'tanggal_sk' => '2026-02-15',
-                'jenis_sk' => 'Menggantikan SK Sebelumnya',
-                'no_sk_sebelumnya' => '003/2025',
-                'status' => 'Aktif',
-                'pengesahan' => 'Belum disetujui',
-            ],
-
-            (object) [
-                'id' => 3,
-                'nama_dinas' => 'Bagian Organisasi',
-                'no_sk' => '003/2026',
-                'tanggal_sk' => '2026-03-20',
-                'jenis_sk' => 'SK Baru',
-                'no_sk_sebelumnya' => null,
-                'status' => 'Tidak Aktif',
-                'pengesahan' => 'Belum disetujui',
-            ],
-
-        ]);
-
-        return view(
-            'pages.unit-layanan.sk.index',
-            compact('skList')
-        );
+        return view('pages.unit-layanan.sk.index', compact('skList'));
     }
 
-
-    /**
-     * Menampilkan halaman Tambah SK.
-     *
-     * Catatan: form tambah SK saat ini sudah dipindah ke modal
-     * pada halaman index (lihat x-unit-layanan.sk.modal-form),
-     * jadi route ini hanya menampilkan halaman penunjuk balik.
-     */
-    public function create()
+    public function create(): View
     {
         return view('pages.unit-layanan.sk.create');
     }
 
-
-    /**
-     * Menyimpan data SK.
-     */
-    public function store(Request $request)
+    public function store(StoreSkRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'no_sk' => ['required', 'string', 'max:255'],
-            'tanggal_sk' => ['required', 'date'],
-            'jenis_sk' => ['required', 'string', 'max:255'],
-            'no_sk_sebelumnya' => ['nullable', 'string', 'max:255'],
+        Sk::create([
+            ...$request->validated(),
+            'id_instansi' => $this->currentInstansiId(),
         ]);
-
-        /*
-        |--------------------------------------------------------------------------
-        | Sementara
-        |--------------------------------------------------------------------------
-        | Nanti bisa diganti dengan:
-        | Sk::create($validated);
-        */
 
         return redirect()
             ->route('unit_layanan.sk.index')
             ->with('success', 'Data SK berhasil disimpan.');
     }
 
-
-    /**
-     * Menampilkan halaman Edit SK.
-     *
-     * Catatan: form edit SK saat ini sudah dipindah ke modal
-     * pada halaman index, jadi route ini hanya menampilkan
-     * halaman penunjuk balik.
-     */
-    public function edit($id)
+    public function edit(Sk $sk): View
     {
-        return view('pages.unit-layanan.sk.edit');
+        $this->authorizeOwnership($sk);
+
+        return view('pages.unit-layanan.sk.edit', ['sk' => $sk]);
     }
 
-
-    /**
-     * Memperbarui data SK.
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateSkRequest $request, Sk $sk): RedirectResponse
     {
-        $validated = $request->validate([
-            'no_sk' => ['required', 'string', 'max:255'],
-            'tanggal_sk' => ['required', 'date'],
-            'jenis_sk' => ['required', 'string', 'max:255'],
-            'no_sk_sebelumnya' => ['nullable', 'string', 'max:255'],
-        ]);
+        $this->authorizeOwnership($sk);
+
+        // SK yang sudah disetujui tidak boleh diubah lagi dari sisi unit layanan.
+        abort_if(
+            $sk->pengesahan === 'Sudah disetujui',
+            403,
+            'SK yang sudah disetujui tidak dapat diubah.'
+        );
+
+        $sk->update($request->validated());
 
         return redirect()
             ->route('unit_layanan.sk.index')
             ->with('success', 'Data SK berhasil diperbarui.');
     }
 
-
-    /**
-     * Memperbarui status SK.
-     */
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(UpdateSkStatusRequest $request, Sk $sk): RedirectResponse
     {
-        $validated = $request->validate([
-            'status' => ['required', 'in:Aktif,Tidak Aktif'],
-        ]);
+        $this->authorizeOwnership($sk);
+
+        $sk->update($request->validated());
 
         return redirect()
             ->route('unit_layanan.sk.index')
             ->with('success', 'Status SK berhasil diperbarui.');
     }
 
-
-    /**
-     * Menghapus data SK.
-     */
-    public function destroy($id)
+    public function destroy(Sk $sk): RedirectResponse
     {
+        $this->authorizeOwnership($sk);
+
+        abort_if(
+            $sk->pengesahan === 'Sudah disetujui',
+            403,
+            'SK yang sudah disetujui tidak dapat dihapus.'
+        );
+
+        $sk->delete();
+
         return redirect()
             ->route('unit_layanan.sk.index')
             ->with('success', 'Data SK berhasil dihapus.');
+    }
+
+    /**
+     * Pastikan record yang diakses benar-benar milik instansi yang login.
+     */
+    private function authorizeOwnership(Sk $sk): void
+    {
+        abort_unless(
+            $sk->id_instansi === $this->currentInstansiId(),
+            403,
+            'Anda tidak memiliki akses ke data SK ini.'
+        );
     }
 }

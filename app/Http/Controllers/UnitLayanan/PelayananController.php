@@ -3,199 +3,85 @@
 namespace App\Http\Controllers\UnitLayanan;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UnitLayanan\StorePelayananRequest;
+use App\Http\Requests\UnitLayanan\UpdatePelayananRequest;
+use App\Models\Pelayanan;
+use App\Traits\ResolvesInstansiId;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PelayananController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | INDEX
-    |--------------------------------------------------------------------------
-    */
+    use ResolvesInstansiId;
 
-    public function index(Request $request)
+    public function index(): View
     {
-        $pelayananList = $request->session()->get(
-            'pelayanan_list',
-            []
-        );
+        $pelayananList = Pelayanan::query()
+            ->milikInstansi($this->currentInstansiId())
+            ->latest()
+            ->get();
 
-        return view(
-            'pages.unit-layanan.pelayanan.index',
-            compact('pelayananList')
-        );
+        return view('pages.unit-layanan.pelayanan.index', compact('pelayananList'));
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | CREATE
-    |--------------------------------------------------------------------------
-    */
-
-    public function create()
+    public function create(): View
     {
-        return view(
-            'pages.unit-layanan.pelayanan.create'
-        );
+        return view('pages.unit-layanan.pelayanan.create');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORE
-    |--------------------------------------------------------------------------
-    */
-
-    public function store(Request $request)
+    public function store(StorePelayananRequest $request): RedirectResponse
     {
-        $pelayananList = $request->session()->get(
-            'pelayanan_list',
-            []
-        );
-
-        $id = count($pelayananList) + 1;
-
-        $data = $request->except('_token');
-
-        $data['id'] = $id;
-
-        $pelayananList[] = $data;
-
-        $request->session()->put(
-            'pelayanan_list',
-            $pelayananList
-        );
+        Pelayanan::create([
+            ...$request->validated(),
+            'id_instansi' => $this->currentInstansiId(),
+        ]);
 
         return redirect()
             ->route('unit_layanan.pelayanan.index')
-            ->with(
-                'success',
-                'Data pelayanan berhasil ditambahkan.'
-            );
+            ->with('success', 'Data pelayanan berhasil ditambahkan.');
     }
 
+    public function edit(Pelayanan $pelayanan): View
+    {
+        $this->authorizeOwnership($pelayanan);
 
-    /*
-    |--------------------------------------------------------------------------
-    | EDIT
-    |--------------------------------------------------------------------------
-    */
+        $data = $pelayanan;
 
-    public function edit(
-        Request $request,
-        int $pelayanan
-    ) {
-        $pelayananList = $request->session()->get(
-            'pelayanan_list',
-            []
-        );
-
-        $data = collect($pelayananList)
-            ->firstWhere(
-                'id',
-                $pelayanan
-            );
-
-        if (!$data) {
-
-            return redirect()
-                ->route('unit_layanan.pelayanan.index')
-                ->with(
-                    'error',
-                    'Data pelayanan tidak ditemukan.'
-                );
-        }
-
-        $data = (object) $data;
-
-        return view(
-            'pages.unit-layanan.pelayanan.edit',
-            compact('data')
-        );
+        return view('pages.unit-layanan.pelayanan.edit', compact('data'));
     }
 
+    public function update(UpdatePelayananRequest $request, Pelayanan $pelayanan): RedirectResponse
+    {
+        $this->authorizeOwnership($pelayanan);
 
-    /*
-    |--------------------------------------------------------------------------
-    | UPDATE
-    |--------------------------------------------------------------------------
-    */
-
-    public function update(
-        Request $request,
-        int $pelayanan
-    ) {
-        $pelayananList = $request->session()->get(
-            'pelayanan_list',
-            []
-        );
-
-        foreach ($pelayananList as $index => $item) {
-
-            if ((int) $item['id'] === $pelayanan) {
-
-                $data = $request->except(
-                    '_token',
-                    '_method'
-                );
-
-                $data['id'] = $item['id'];
-
-                $pelayananList[$index] = $data;
-
-                break;
-            }
-        }
-
-        $request->session()->put(
-            'pelayanan_list',
-            $pelayananList
-        );
+        $pelayanan->update($request->validated());
 
         return redirect()
             ->route('unit_layanan.pelayanan.index')
-            ->with(
-                'success',
-                'Data pelayanan berhasil diperbarui.'
-            );
+            ->with('success', 'Data pelayanan berhasil diperbarui.');
     }
 
+    public function destroy(Pelayanan $pelayanan): RedirectResponse
+    {
+        $this->authorizeOwnership($pelayanan);
 
-    /*
-    |--------------------------------------------------------------------------
-    | DESTROY
-    |--------------------------------------------------------------------------
-    */
-
-    public function destroy(
-        Request $request,
-        int $pelayanan
-    ) {
-        $pelayananList = $request->session()->get(
-            'pelayanan_list',
-            []
-        );
-
-        $pelayananList = collect($pelayananList)
-            ->reject(function ($item) use ($pelayanan) {
-
-                return (int) $item['id'] === $pelayanan;
-
-            })
-            ->values()
-            ->all();
-
-        $request->session()->put(
-            'pelayanan_list',
-            $pelayananList
-        );
+        $pelayanan->delete();
 
         return redirect()
             ->route('unit_layanan.pelayanan.index')
-            ->with(
-                'success',
-                'Data pelayanan berhasil dihapus.'
-            );
+            ->with('success', 'Data pelayanan berhasil dihapus.');
+    }
+
+    /**
+     * Pastikan record yang diakses benar-benar milik instansi yang login,
+     * supaya satu unit layanan tidak bisa mengubah/menghapus data unit lain.
+     */
+    private function authorizeOwnership(Pelayanan $pelayanan): void
+    {
+        abort_unless(
+            $pelayanan->id_instansi === $this->currentInstansiId(),
+            403,
+            'Anda tidak memiliki akses ke data pelayanan ini.'
+        );
     }
 }

@@ -24,7 +24,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Pengajuan Maklumat</th>
-                    <th>Nama Penjebat</th>
+                    <th>Ttd / Nama Pejabat</th>
                     <th>Tanggal Input Maklumat</th>
                 </tr>
             </thead>
@@ -34,7 +34,12 @@
                 <tr>
                     <td class="text-center">{{ $index + 1 }}.</td>
                     <td class="maklumat-content">{{ $maklumat->isi_maklumat ?? '-' }}</td>
-                    <td>{{ $maklumat->nama_penjabat ?? '-' }}</td>
+                    <td>
+                        {{ $maklumat->nama_penjabat ?? '-' }}
+                        @if ($loop->first)
+                        <span class="badge bg-success ms-1" style="font-size:10px;">Aktif</span>
+                        @endif
+                    </td>
                     <td>
                         {{ !empty($maklumat->tanggal_input) ? \Carbon\Carbon::parse($maklumat->tanggal_input)->translatedFormat('d F Y') : '-' }}
                     </td>

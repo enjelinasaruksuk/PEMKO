@@ -39,7 +39,7 @@
                 <tr>
                     <th style="width:50px;">No</th>
                     <th>Peraturan Daerah</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,14 +48,14 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ is_object($item) ? $item->tentang : $item }}</td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn-action btn-edit"
-                                data-bs-toggle="modal" data-bs-target="#editPerdaModal{{ is_object($item) ? $item->id : $i }}">
-                                <i class="bi bi-pencil"></i> Edit
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button type="button" class="icon-action-btn edit"
+                                data-bs-toggle="modal" data-bs-target="#editPerdaModal{{ is_object($item) ? $item->id : $i }}" title="Edit">
+                                <i class="bi bi-pencil"></i>
                             </button>
-                            <button type="button" class="btn-action btn-delete"
-                                data-bs-toggle="modal" data-bs-target="#hapusPerdaModal{{ is_object($item) ? $item->id : $i }}">
-                                <i class="bi bi-trash"></i> Hapus
+                            <button type="button" class="icon-action-btn delete"
+                                data-bs-toggle="modal" data-bs-target="#hapusPerdaModal{{ is_object($item) ? $item->id : $i }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
                             </button>
                         </div>
                     </td>
@@ -98,7 +98,7 @@
                 <tr>
                     <th style="width:50px;">No</th>
                     <th>Peraturan Wali Kota</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -107,16 +107,16 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ is_object($item) ? $item->tentang : $item }}</td>
                     <td>
-                                                    <div class="d-flex gap-2">
-                                <button type="button" class="btn-action btn-edit"
-                                    data-bs-toggle="modal" data-bs-target="#editPerwaliModal{{ is_object($item) ? $item->id : $i }}">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
-                                <button type="button" class="btn-action btn-delete"
-                                    data-bs-toggle="modal" data-bs-target="#hapusPerwaliModal{{ is_object($item) ? $item->id : $i }}">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </button>
-                            </div>
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button type="button" class="icon-action-btn edit"
+                                data-bs-toggle="modal" data-bs-target="#editPerwaliModal{{ is_object($item) ? $item->id : $i }}" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="icon-action-btn delete"
+                                data-bs-toggle="modal" data-bs-target="#hapusPerwaliModal{{ is_object($item) ? $item->id : $i }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <x-unit-layanan.profile.modal-edit-perwali :perwali="$item" :index="$i" />
