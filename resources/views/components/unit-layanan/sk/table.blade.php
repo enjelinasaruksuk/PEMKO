@@ -30,7 +30,7 @@
                     <th>No SK</th>
                     <th>Tanggal SK</th>
                     <th>Status</th>
-                    <th class="text-center">Pengesahan SK <span>(Kepala PD)</span></th>
+                    <th class="text-center">Proses Pengajuan</th>
                     <th class="text-center">Konfirmasi</th>
                     <th class="text-center">Aksi</th>
                 </tr>
@@ -61,57 +61,89 @@
                             <span class="status-inactive"><i class="bi bi-x-circle"></i> Tidak Aktif</span>
                             @endif
 
+                            @if ($sk->isEditableByOwner())
                             <button type="button" class="sk-icon-btn edit" title="Ubah Status"
                                 data-bs-toggle="modal" data-bs-target="#statusModal"
                                 data-status-id="{{ $sk->id }}" data-status="{{ $sk->status }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
+                            @endif
                         </div>
                     </td>
 
                     <td class="text-center">
-                        @if (($sk->status ?? '') === 'Aktif')
                         @if (($sk->pengesahan ?? '') === 'Sudah disetujui')
                         <span class="approval approved"><i class="bi bi-check-circle"></i> Sudah disetujui</span>
                         @else
-                        <span class="approval pending"><i class="bi bi-clock"></i> Belum disetujui</span>
-                        @endif
-                        @else
-                        <span class="approval disabled">-</span>
+                            @php
+                                $reviewLabels = [
+                                    'draft' => 'Belum dikirim',
+                                    'menunggu_admin' => 'Menunggu Admin',
+                                    'perlu_perbaikan' => 'Perlu diperbaiki',
+                                    'menunggu_instansi' => 'Menunggu Instansi',
+                                ];
+                            @endphp
+                            <span class="approval pending">
+                                <i class="bi bi-{{ $sk->review_status === 'perlu_perbaikan' ? 'exclamation-circle' : 'clock' }}"></i>
+                                {{ $reviewLabels[$sk->review_status] ?? 'Belum dikirim' }}
+                            </span>
+                            @if ($sk->review_status === 'perlu_perbaikan' && $sk->review_comment)
+                            <div class="small text-danger mt-1">{{ $sk->review_comment }}</div>
+                            @endif
                         @endif
                     </td>
 
                     <td class="text-center">
-                        @if (($sk->status ?? '') === 'Aktif')
+                        @if (($sk->status ?? '') !== 'Aktif')
+                        <span class="approval disabled">-</span>
+                        @elseif (($sk->pengesahan ?? '') === 'Sudah disetujui'
+                            && ($sk->konfirmasi ?? 'Menunggu') === 'Sudah disetujui')
                         <div class="sk-confirmation">
-                            @if (($sk->pengesahan ?? '') === 'Sudah disetujui')
-                            <button type="button" class="sk-icon-btn view" title="Lihat Konfirmasi" data-detail-id="{{ $sk->id }}">
-                                <i class="bi bi-book"></i>
-                            </button>
-                            <button type="button" class="sk-icon-btn success" title="Sudah dikonfirmasi">
+                            <a href="{{ route('pdf.sk', $sk->id) }}" target="_blank"
+                               class="sk-icon-btn view" title="Lihat SK">
+                                <i class="bi bi-search"></i>
+                            </a>
+                            <span class="sk-icon-btn success" title="Konfirmasi sudah disetujui">
                                 <i class="bi bi-check-circle"></i>
-                            </button>
-                            @else
-                            <button type="button" class="sk-icon-btn edit" title="Konfirmasi" data-confirmation-id="{{ $sk->id }}">
+                            </span>
+                        </div>
+                        @elseif ($sk->review_status === 'menunggu_admin')
+                        <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span>
+                        @elseif ($sk->review_status === 'menunggu_instansi')
+                        <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Instansi</span>
+                        @else
+                        <div class="sk-confirmation">
+                            <button type="button" class="sk-icon-btn edit" title="Edit catatan konfirmasi"
+                                    data-bs-toggle="modal" data-bs-target="#konfirmasiModal{{ $sk->id }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            <button type="button" class="sk-icon-btn clock" title="Menunggu konfirmasi">
+                            <span class="sk-icon-btn clock" title="Belum dikirim untuk diperiksa Admin">
                                 <i class="bi bi-clock"></i>
-                            </button>
-                            @endif
+                            </span>
                         </div>
-                        @else
-                        <span class="approval disabled">-</span>
                         @endif
                     </td>
 
                     <td class="text-center">
                         <div class="sk-actions">
-                            <button type="button" class="sk-icon-btn pdf" title="PDF" data-pdf-id="{{ $sk->id }}">
+                            @if (($sk->status ?? '') === 'Aktif')
+                            <a href="{{ route('unit_layanan.sk.layanan', $sk->id) }}"
+                               class="sk-icon-btn view" title="Kelola layanan pada SK">
+                                <i class="bi bi-clipboard"></i>
+                            </a>
+                            @if (($sk->review_status ?? '') === 'disetujui' && ($sk->konfirmasi ?? '') === 'Sudah disetujui')
+                            <a href="{{ route('pdf.sk', $sk->id) }}"
+                                target="_blank"
+                                class="sk-icon-btn pdf"
+                                title="Cetak PDF">
                                 <i class="bi bi-file-earmark-pdf"></i>
-                            </button>
-
-                            @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
+                            </a>
+                            @elseif (($sk->pengesahan ?? '') === 'Sudah disetujui')
+                            <span class="sk-icon-btn" style="color:#a7b1be; cursor:not-allowed;" title="Konfirmasi belum disetujui">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </span>
+                            @endif
+                            @if ($sk->isEditableByOwner())
                             <button type="button" class="sk-icon-btn edit" title="Edit"
                                 data-bs-toggle="modal" data-bs-target="#skModal"
                                 data-sk-id="{{ $sk->id }}"
@@ -121,18 +153,21 @@
                                 data-no-sk-sebelumnya="{{ $sk->no_sk_sebelumnya }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            @endif
-
-                            <button type="button" class="sk-icon-btn view" title="Detail" data-detail-id="{{ $sk->id }}">
-                                <i class="bi bi-file-text"></i>
-                            </button>
-
-                            @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
                             <button type="button" class="sk-icon-btn delete" title="Hapus"
                                 data-bs-toggle="modal" data-bs-target="#deleteSKModal"
                                 data-delete-id="{{ $sk->id }}">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            @if (($sk->status ?? '') === 'Aktif' && $sk->pelayanan_count > 0)
+                            <form method="POST" action="{{ route('unit_layanan.sk.submit', $sk) }}"
+                                  onsubmit="return confirm('Kirim SK ke Admin untuk diperiksa?')">
+                                @csrf
+                                <button type="submit" class="sk-icon-btn success" title="Kirim ke Admin">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </form>
+                            @endif
+                            @endif
                             @endif
                         </div>
                     </td>

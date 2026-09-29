@@ -106,6 +106,7 @@ class ProfileApiController extends Controller
             'faksimile'   => ['nullable', 'string', 'max:50'],
             'motto'       => ['nullable', 'string'],
             'visi'        => ['nullable', 'string'],
+            'nama_jabatan' => ['nullable', 'string', 'max:255'],
         ]);
 
         $profile = ProfilUnitLayanan::updateOrCreate(

@@ -35,6 +35,12 @@ class Pelayanan extends Model
         return $this->belongsTo(Instansi::class, 'id_instansi', 'id_instansi');
     }
 
+    public function sks()
+    {
+        return $this->belongsToMany(Sk::class, 'pelayanan_sk', 'pelayanan_id', 'sk_id')
+            ->withTimestamps();
+    }
+
     /**
      * Scope a query to only the given instansi.
      */

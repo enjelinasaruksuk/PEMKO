@@ -6,7 +6,7 @@
 
     <div class="sk-page-header">
         <h1 class="sk-page-title">SK</h1>
-        <p class="sk-page-subtitle">Daftar Surat Keputusan dari seluruh dinas.</p>
+        <p class="sk-page-subtitle">Periksa draf SK sebelum diteruskan kepada Instansi.</p>
     </div>
 
     <div class="sk-main-card">
@@ -14,7 +14,7 @@
         <div class="sk-section-header">
             <div>
                 <h2 class="sk-section-title">Data SK</h2>
-                <p class="sk-section-description">Kelola dan konfirmasi pengajuan SK dari setiap dinas.</p>
+                <p class="sk-section-description">Pengajuan yang menunggu pemeriksaan Admin.</p>
             </div>
         </div>
 
@@ -42,70 +42,43 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Dinas</th>
+                            <th>Pemilik SK</th>
                             <th>No SK</th>
                             <th>Tanggal SK</th>
-                            <th>Status</th>
-                            <th class="text-center">Pengajuan SK <span>(Kepala PD)</span></th>
-                            <th class="text-center">Konfirmasi</th>
+                            <th class="text-center">Jumlah Layanan</th>
+                            <th class="text-center">Status Pemeriksaan</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
 
                     <tbody id="skTableBody">
-                        @forelse ($skList ?? [] as $i => $sk)
+                        @forelse ($skList as $i => $sk)
                             <tr>
                                 <td class="text-center">{{ $i + 1 }}</td>
-                                <td>{{ $sk->nama_dinas }}</td>
+                                <td>
+                                    <div class="fw-semibold">{{ $sk->instansi?->nama_instansi ?? '-' }}</div>
+                                    <small class="text-muted">
+                                        {{ $sk->instansi?->level_instansi === 2 ? 'Unit Layanan' : 'Instansi' }}
+                                    </small>
+                                </td>
                                 <td>
                                     <div class="sk-number">{{ $sk->no_sk }}</div>
                                 </td>
-                                <td>{{ $sk->tanggal_sk }}</td>
-
-                                {{-- STATUS: read-only, tanpa tombol edit --}}
-                                <td>
-                                    @if ($sk->status === 'Aktif')
-                                        <span class="status-active"><i class="bi bi-check-circle"></i> Aktif</span>
-                                    @else
-                                        <span class="status-inactive"><i class="bi bi-x-circle"></i> Tidak Aktif</span>
-                                    @endif
-                                </td>
-
+                                <td>{{ $sk->tanggal_sk?->format('d/m/Y') }}</td>
+                                <td class="text-center">{{ $sk->pelayanan_count }}</td>
+                                <td class="text-center"><span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span></td>
                                 <td class="text-center">
-                                    @if ($sk->sudah_diajukan)
-                                        <span class="approval approved"><i class="bi bi-check-circle"></i> Sudah diajukan</span>
-                                    @else
-                                        <span class="approval pending"><i class="bi bi-clock"></i> Belum diajukan</span>
-                                    @endif
-                                </td>
-
-                                <td class="text-center">
-                                    <div class="sk-confirmation">
-                                        @if ($sk->konfirmasi_status === 'disetujui')
-                                            <button type="button" class="sk-icon-btn success" data-bs-toggle="modal"
-                                                    data-bs-target="#modalKonfirmasiSk{{ $sk->id }}" title="Sudah disetujui">
-                                                <i class="bi bi-check-circle"></i>
-                                            </button>
-                                        @else
-                                            <button type="button" class="sk-icon-btn clock" data-bs-toggle="modal"
-                                                    data-bs-target="#modalKonfirmasiSk{{ $sk->id }}" title="Belum disetujui">
-                                                <i class="bi bi-clock"></i>
-                                            </button>
-                                        @endif
-                                    </div>
-                                </td>
-
-                                <td class="text-center">
-                                    <x-admin.sk.aksi_sk :sk="$sk" />
+                                    <a href="{{ route('admin.sk.show', $sk) }}" class="sk-icon-btn view" title="Periksa draf SK">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
-                            <x-admin.sk.modal_konfirmasi_sk :sk="$sk" />
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">
+                                <td colspan="7" class="text-center">
                                     <div class="sk-empty">
                                         <i class="bi bi-inbox"></i>
-                                        <div>Belum ada data SK.</div>
+                                        <div>Belum ada SK yang menunggu pemeriksaan.</div>
                                     </div>
                                 </td>
                             </tr>

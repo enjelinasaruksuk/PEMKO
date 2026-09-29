@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
         <h1 class="page-title mb-1">Informasi Layanan</h1>
-        <p class="page-description mb-0">Informasi layanan yang tercatat pada Sekretariat Daerah</p>
+        <p class="page-description mb-0">Informasi layanan yang dikelola instansi ini.</p>
     </div>
 
     <a href="{{ route('instansi.pelayanan.create') }}" class="btn-primary-custom text-decoration-none">
@@ -39,27 +39,33 @@
                 <tr>
                     <th style="width:50px;">No</th>
                     <th>Nama Layanan</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($pelayananList ?? [] as $index => $pelayanan)
+                @forelse ($pelayananList as $index => $pelayanan)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $pelayanan['nama_layanan'] ?? '-' }}</td>
+                    <td>{{ $pelayanan->nama_layanan ?? '-' }}</td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <a href="{{ route('instansi.pelayanan.edit', $pelayanan['id']) }}"
-                                class="btn-action btn-edit text-decoration-none">
-                                <i class="bi bi-pencil"></i> Edit
+                        <div class="d-flex gap-1 justify-content-center">
+                            <a href="{{ route('instansi.pelayanan.show', $pelayanan->id) }}"
+                                class="icon-action-btn view" title="Lihat detail">
+                                <i class="bi bi-search"></i>
+                            </a>
+                            @if (! $pelayanan->has_locked_sk)
+                            <a href="{{ route('instansi.pelayanan.edit', $pelayanan->id) }}"
+                                class="icon-action-btn edit" title="Edit">
+                                <i class="bi bi-pencil"></i>
                             </a>
 
-                            <button type="button" class="btn-action btn-delete"
+                            <button type="button" class="icon-action-btn delete"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                data-id="{{ $pelayanan['id'] }}"
-                                data-name="{{ $pelayanan['nama_layanan'] ?? 'data pelayanan ini' }}">
-                                <i class="bi bi-trash"></i> Hapus
+                                data-id="{{ $pelayanan->id }}"
+                                data-name="{{ $pelayanan->nama_layanan }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
                             </button>
+                            @endif
                         </div>
                     </td>
                 </tr>

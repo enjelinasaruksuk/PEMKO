@@ -1,9 +1,9 @@
 @php
-    // Unit layanan (instansi level 2) di bawah SETDA — idealnya loop dari DB.
-    $subUnits = [
-        'bagian-organisasi' => 'Bagian Organisasi',
-        'bagian-hukum'      => 'Bagian Hukum',
-    ];
+    $subUnits = auth()->user()->instansi?->anak()
+        ->where('level_instansi', 2)
+        ->where('status', 'aktif')
+        ->orderBy('nama_instansi')
+        ->get() ?? collect();
 @endphp
 
 <aside class="unit-sidebar">
@@ -30,24 +30,24 @@
 
         <a href="#skMenu" class="nav-link nav-parent d-flex align-items-center gap-2"
            data-bs-toggle="collapse" role="button"
-           aria-expanded="{{ request()->routeIs('instansi.sk.*') || request()->routeIs('instansi.pelayanan_sk.*') ? 'true' : 'false' }}"
+           aria-expanded="{{ request()->routeIs('instansi.sk.*') || request()->routeIs('instansi.own_sk.*') || request()->routeIs('instansi.pelayanan_sk.*') ? 'true' : 'false' }}"
            aria-controls="skMenu">
             <i class="bi bi-bar-chart"></i>
             <span class="sidebar-text">Pelayanan SK</span>
             <i class="bi bi-plus-lg ms-auto sidebar-text nav-parent-icon"></i>
         </a>
 
-        <div class="collapse submenu {{ request()->routeIs('instansi.sk.*') || request()->routeIs('instansi.pelayanan_sk.*') ? 'show' : '' }}" id="skMenu">
+        <div class="collapse submenu {{ request()->routeIs('instansi.sk.*') || request()->routeIs('instansi.own_sk.*') || request()->routeIs('instansi.pelayanan_sk.*') ? 'show' : '' }}" id="skMenu">
 
-            <a href="{{ route('instansi.sk.index') }}"
-               class="submenu-link {{ request()->routeIs('instansi.sk.*') ? 'active' : '' }}">
-                <span class="sidebar-text">Sekretariat Daerah</span>
+            <a href="{{ route('instansi.own_sk.index') }}"
+               class="submenu-link {{ request()->routeIs('instansi.own_sk.*') ? 'active' : '' }}">
+                <span class="sidebar-text">SK Instansi</span>
             </a>
 
-            @foreach ($subUnits as $slug => $nama)
-                <a href="{{ route('instansi.pelayanan_sk.show', $slug) }}"
-                   class="submenu-link {{ request()->routeIs('instansi.pelayanan_sk.show') && request()->route('unit') === $slug ? 'active' : '' }}">
-                    <span class="sidebar-text">{{ $nama }}</span>
+            @foreach ($subUnits as $subUnit)
+                <a href="{{ route('instansi.pelayanan_sk.show', $subUnit) }}"
+                   class="submenu-link {{ request()->routeIs('instansi.pelayanan_sk.show') && request()->route('unit')?->id_instansi === $subUnit->id_instansi ? 'active' : '' }}">
+                    <span class="sidebar-text">{{ $subUnit->nama_instansi }}</span>
                 </a>
             @endforeach
 

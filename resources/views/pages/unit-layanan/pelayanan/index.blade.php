@@ -42,35 +42,39 @@
                 <tr>
                     <th style="width:50px;">No</th>
                     <th>Nama Layanan</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($pelayananList as $index => $pelayanan)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $pelayanan['nama_layanan'] ?? '-' }}</td>
+                    <td>{{ $pelayanan->nama_layanan ?? '-' }}</td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <a href="{{ route('unit_layanan.pelayanan.edit', $pelayanan['id']) }}"
-                                class="btn-action btn-edit text-decoration-none">
-                                <i class="bi bi-pencil"></i> Edit
+                        <div class="d-flex gap-1 justify-content-center">
+                            <a href="{{ route('unit_layanan.pelayanan.show', $pelayanan->id) }}"
+                                class="icon-action-btn view" title="Lihat detail">
+                                <i class="bi bi-search"></i>
                             </a>
-
-                            <button type="button" class="btn-action btn-delete"
+                            @if (! $pelayanan->has_locked_sk)
+                            <a href="{{ route('unit_layanan.pelayanan.edit', $pelayanan->id) }}"
+                                class="icon-action-btn edit" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button" class="icon-action-btn delete"
                                 data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                data-id="{{ $pelayanan['id'] }}"
-                                data-name="{{ $pelayanan['nama_layanan'] ?? 'data pelayanan ini' }}">
-                                <i class="bi bi-trash"></i> Hapus
+                                data-id="{{ $pelayanan->id }}"
+                                data-name="{{ $pelayanan->nama_layanan }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
                             </button>
+                            @endif
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
                     <td colspan="3" class="text-center text-muted py-5">
-                        <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                        Belum ada data pelayanan.
+                        <i class="bi bi-inbox fs-3 d-block mb-2"></i> Belum ada data pelayanan.
                     </td>
                 </tr>
                 @endforelse

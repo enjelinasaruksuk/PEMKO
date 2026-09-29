@@ -716,6 +716,13 @@ body {
     overflow-wrap: break-word;
 }
 
+.profile-value.maklumat-text {
+    display: block;
+    width: 100%;
+    text-align: justify !important;
+    text-justify: inter-word;
+}
+
 .empty-profile {
     min-height: 300px;
     display: flex;

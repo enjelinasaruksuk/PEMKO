@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-start mb-4">
     <div>
         <h1 class="page-title mb-1">Peraturan</h1>
-        <p class="page-description mb-0">Data Peraturan Daerah dan Peraturan Wali Kota - {{ $namaUnit ?? 'Sekretariat Daerah' }}</p>
+        <p class="page-description mb-0">Data Peraturan Daerah dan Peraturan Wali Kota.</p>
     </div>
 
     <a href="{{ route('instansi.profile') }}" class="btn btn-light">
@@ -15,9 +15,9 @@
     </a>
 </div>
 
-<div class="d-flex justify-content-between align-items-start mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h1 class="page-title mb-1">Peraturan Daerah</h1>
+        <h2 class="page-title mb-1">Peraturan Daerah</h2>
         <p class="page-description mb-0">Daftar Peraturan Daerah.</p>
     </div>
     <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modalTambahPerda">
@@ -31,8 +31,8 @@
             <thead>
                 <tr>
                     <th style="width:50px;">No</th>
-                    <th>Perda</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th>Peraturan Daerah</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,9 +41,13 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $perda->tentang }}</td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerda{{ $perda->id }}"><i class="bi bi-pencil"></i> Edit</button>
-                            <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerda{{ $perda->id }}"><i class="bi bi-trash"></i> Hapus</button>
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button type="button" class="icon-action-btn edit" data-bs-toggle="modal" data-bs-target="#modalEditPerda{{ $perda->id }}" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="icon-action-btn delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerda{{ $perda->id }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -62,10 +66,10 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-between align-items-start mb-3">
+<div class="d-flex justify-content-between align-items-center mb-3">
     <div>
-        <h1 class="page-title mb-1">Peraturan Wali Kota</h1>
-        <p class="page-description mb-0">Daftar Peraturan Wali Kota - {{ $namaUnit ?? 'Sekretariat Daerah' }}</p>
+        <h2 class="page-title mb-1">Peraturan Wali Kota</h2>
+        <p class="page-description mb-0">Daftar Peraturan Wali Kota.</p>
     </div>
     <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modalTambahPerwali">
         <i class="bi bi-plus-circle me-1"></i> Tambah Perwali
@@ -78,8 +82,8 @@
             <thead>
                 <tr>
                     <th style="width:50px;">No</th>
-                    <th>Perwali</th>
-                    <th style="width:150px;">Aksi</th>
+                    <th>Peraturan Wali Kota</th>
+                    <th style="width:100px;" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,9 +92,13 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $perwali->tentang }}</td>
                     <td>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn-action btn-edit" data-bs-toggle="modal" data-bs-target="#modalEditPerwali{{ $perwali->id }}"><i class="bi bi-pencil"></i> Edit</button>
-                            <button type="button" class="btn-action btn-delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerwali{{ $perwali->id }}"><i class="bi bi-trash"></i> Hapus</button>
+                        <div class="d-flex gap-1 justify-content-center">
+                            <button type="button" class="icon-action-btn edit" data-bs-toggle="modal" data-bs-target="#modalEditPerwali{{ $perwali->id }}" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="icon-action-btn delete" data-bs-toggle="modal" data-bs-target="#modalHapusPerwali{{ $perwali->id }}" title="Hapus">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>

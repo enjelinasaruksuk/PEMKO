@@ -13,7 +13,7 @@
 <div class="d-flex justify-content-end gap-2 mb-4">
     <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modalTambahDataProfile">
         <i class="bi bi-plus-circle me-1"></i>
-        Tambah Data
+        {{ $profile ? 'Ubah Data' : 'Tambah Data' }}
     </button>
 
     <a href="{{ route('instansi.perda_perwali.index') }}" class="btn-primary-custom text-decoration-none">
@@ -29,7 +29,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="profile-item">
-                    <div class="profile-label">Nama Unit Layanan</div>
+                    <div class="profile-label">Nama Instansi</div>
                     <div class="profile-value">{{ $profile->nama_unit ?? '-' }}</div>
                 </div>
                 <div class="profile-item">
@@ -44,6 +44,12 @@
                     <div class="profile-label">Laman (Website)</div>
                     <div class="profile-value">{{ $profile->website ?? '-' }}</div>
                 </div>
+                @if ($maklumatList->isNotEmpty())
+                <div class="profile-item">
+                    <div class="profile-label">Maklumat</div>
+                    <div class="profile-value maklumat-text">{{ $maklumatList->first()->isi_maklumat }}</div>
+                </div>
+                @endif
             </div>
 
             <div class="col-md-4">
@@ -56,15 +62,40 @@
                     <div class="profile-value">{{ $profile->nip ?? '-' }}</div>
                 </div>
                 <div class="profile-item">
+                    <div class="profile-label">Pangkat</div>
+                    <div class="profile-value">{{ $profile->pangkat ?? '-' }}</div>
+                </div>
+                <div class="profile-item">
                     <div class="profile-label">Email</div>
                     <div class="profile-value">{{ $profile->email ?? '-' }}</div>
                 </div>
+                <div class="profile-item">
+                    <div class="profile-label">Misi</div>
+                    <div class="profile-value">{{ $profile->misi ?? '-' }}</div>
+                </div>
+                @if ($perwaliList->isNotEmpty())
+                <div class="profile-item">
+                    <div class="profile-label">Perwali</div>
+                    <div class="profile-list">
+                        @foreach ($perwaliList as $i => $perwali)
+                        <div class="profile-list-item">
+                            <span class="profile-list-number">{{ $i + 1 }}.</span>
+                            <span class="profile-list-text">{{ $perwali->tentang }}</span>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
 
             <div class="col-md-4">
                 <div class="profile-item">
                     <div class="profile-label">Telepon</div>
                     <div class="profile-value">{{ $profile->telepon ?? '-' }}</div>
+                </div>
+                <div class="profile-item">
+                    <div class="profile-label">Faksimile</div>
+                    <div class="profile-value">{{ $profile->faksimile ?? '-' }}</div>
                 </div>
                 <div class="profile-item">
                     <div class="profile-label">Motto</div>
@@ -74,6 +105,19 @@
                     <div class="profile-label">Visi</div>
                     <div class="profile-value">{{ $profile->visi ?? '-' }}</div>
                 </div>
+                @if ($perdaList->isNotEmpty())
+                <div class="profile-item">
+                    <div class="profile-label">Perda</div>
+                    <div class="profile-list">
+                        @foreach ($perdaList as $i => $perda)
+                        <div class="profile-list-item">
+                            <span class="profile-list-number">{{ $i + 1 }}.</span>
+                            <span class="profile-list-text">{{ $perda->tentang }}</span>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
 

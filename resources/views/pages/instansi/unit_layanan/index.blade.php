@@ -12,8 +12,7 @@
     <div class="dt-card" style="margin:0;">
         <div class="dt-table-toolbar">
             <div class="d-flex gap-2">
-                <select class="dt-select" style="width:150px;"><option>Unit Layanan</option></select>
-                <select class="dt-select" style="width:150px;"><option>Akun Aktif</option></select>
+                <span class="dt-select" style="width:auto;">{{ $unitLayananList->count() }} unit terdaftar</span>
             </div>
             <div class="dt-search">
                 <i class="bi bi-search"></i>
@@ -27,7 +26,7 @@
                     <tr>
                         <th style="width:50px">No</th>
                         <th>Unit Layanan</th>
-                        <th>Username</th>
+                        <th>Email Akun</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -35,9 +34,11 @@
                     @forelse ($unitLayananList ?? [] as $i => $unit)
                         <tr>
                             <td>{{ $i + 1 }}</td>
-                            <td class="text-primary">{{ $unit->nama }}</td>
-                            <td>{{ $unit->username }}</td>
-                            <td class="text-success">{{ $unit->status }}</td>
+                            <td class="text-primary">{{ $unit->nama_instansi }}</td>
+                            <td>{{ $unit->pengguna->first()?->email ?? $unit->email_instansi ?? '-' }}</td>
+                            <td class="{{ strtolower($unit->status) === 'aktif' ? 'text-success' : 'text-danger' }}">
+                                {{ ucfirst($unit->status) }}
+                            </td>
                         </tr>
                     @empty
                         <tr><td colspan="4" class="dt-empty">Belum ada data unit layanan.</td></tr>

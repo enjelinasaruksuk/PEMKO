@@ -12,10 +12,10 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
-                    <p class="modal-description mb-3">Approval status data SK</p>
+                    <p class="modal-description mb-3">Instansi mengesahkan SK. Tanda tangan pada SK menggunakan pejabat yang tercatat di profil {{ $unit->nama_instansi }}.</p>
                     <select name="status_approval" class="form-select">
-                        <option value="disetujui" {{ $sk->pengesahan === 'Sudah disetujui' ? 'selected' : '' }}>Setujui</option>
-                        <option value="ditolak">Tolak</option>
+                        <option value="disetujui" {{ $sk->pengesahan === 'Sudah disetujui' ? 'selected' : '' }}>Setujui SK</option>
+                        <option value="ditolak">Batalkan pengesahan / kembalikan untuk diperbaiki</option>
                     </select>
                 </div>
                 <div class="modal-footer">

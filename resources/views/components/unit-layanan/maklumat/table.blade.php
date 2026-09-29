@@ -10,10 +10,13 @@
             <input type="text" id="maklumatSearch" placeholder="Search:" autocomplete="off">
         </div>
 
-        <button type="button" class="maklumat-print-button" id="cetakMaklumatBtn">
+        @if ($maklumatList->isNotEmpty())
+        <a href="{{ route('pdf.maklumat', $maklumatList->first()) }}" target="_blank"
+           class="maklumat-print-button text-decoration-none">
             <i class="bi bi-printer"></i>
             <span>Cetak Maklumat</span>
-        </button>
+        </a>
+        @endif
 
     </div>
 
@@ -23,9 +26,10 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Pengajuan Maklumat</th>
+                    <th>Maklumat</th>
                     <th>Ttd / Nama Pejabat</th>
                     <th>Tanggal Input Maklumat</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
 
@@ -43,10 +47,16 @@
                     <td>
                         {{ !empty($maklumat->tanggal_input) ? \Carbon\Carbon::parse($maklumat->tanggal_input)->translatedFormat('d F Y') : '-' }}
                     </td>
+                    <td class="text-center">
+                        <a href="{{ route('pdf.maklumat', $maklumat) }}" target="_blank"
+                           class="sk-icon-btn pdf" title="Cetak PDF Maklumat">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </a>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="text-center">
+                    <td colspan="5" class="text-center">
                         <div class="maklumat-empty">
                             <i class="bi bi-inbox"></i>
                             <div>Belum ada data Maklumat.</div>

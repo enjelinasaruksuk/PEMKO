@@ -12,6 +12,7 @@ class ProfilUnitLayanan extends Model
         'id_instansi',
         'nama_unit',
         'nama_kepala',
+        'nama_jabatan',
         'jabatan',
         'website',
         'alamat',

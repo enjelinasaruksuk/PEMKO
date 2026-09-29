@@ -23,12 +23,16 @@
 
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label-custom">Nama Unit Layanan</label>
+                                <label class="form-label-custom">Nama Instansi</label>
                                 <input type="text" name="nama_unit" class="form-control" value="{{ old('nama_unit', $profile->nama_unit ?? '') }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label-custom">Nama Kepala Dinas/UUP</label>
                                 <input type="text" name="nama_kepala" class="form-control" value="{{ old('nama_kepala', $profile->nama_kepala ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom">Nama Jabatan (mis. Sekretaris Daerah)</label>
+                                <input type="text" name="nama_jabatan" class="form-control" value="{{ old('nama_jabatan', $profile->nama_jabatan ?? '') }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label-custom">Jabatan</label>

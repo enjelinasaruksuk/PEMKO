@@ -12,6 +12,7 @@ class Maklumat extends Model
         'id_instansi',
         'isi_maklumat',
         'nama_penjabat',
+        'nip_penjabat',
         'tanggal_input',
         'status',
     ];

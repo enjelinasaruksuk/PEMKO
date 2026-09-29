@@ -19,6 +19,14 @@
 
         <p class="auth-form-title">Isi Nama Pengguna dan Kata Sandi Anda dengan benar!</p>
 
+        @if ($errors->any())
+            <div class="alert alert-danger" role="alert">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
         <form action="{{ Route::has('login.submit') ? route('login.submit') : '#' }}" method="POST">
             @csrf
 
@@ -26,7 +34,8 @@
                 <label class="auth-label"><i class="bi bi-person-fill"></i> Username:</label>
                 <div class="auth-input-group">
                     <i class="bi bi-person"></i>
-                    <input type="text" name="username" class="auth-input" placeholder="Masukan Email Pengguna" required>
+                    <input type="text" name="username" class="auth-input" placeholder="Masukkan username atau email"
+                           value="{{ old('username') }}" autocomplete="off" required>
                 </div>
             </div>
 

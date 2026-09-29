@@ -12,12 +12,12 @@
                     <p class="modal-description mb-3">Tambahkan Peraturan Wali Kota.</p>
                     <div>
                         <label class="form-label-custom">Peraturan Wali Kota</label>
-                        <textarea name="tentang" class="form-control" rows="5" placeholder="Masukkan Peraturan Wali Kota" style="resize: vertical; min-height: 120px;"></textarea>
+                        <textarea name="tentang" class="form-control modal-field" rows="5" placeholder="Peraturan Wali Kota Kota Batam Nomor 4 Tahun 2025 tentang Perubahan Atas Peraturan Wali Kota Batam Nomor 47 Tahun 2023" style="resize: vertical; min-height: 120px;" required></textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn-primary-custom">Simpan</button>
                 </div>
             </form>

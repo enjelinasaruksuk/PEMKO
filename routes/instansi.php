@@ -1,8 +1,15 @@
 <?php
 
+use App\Http\Controllers\Instansi\MaklumatController as InstansiMaklumatController;
+use App\Http\Controllers\Instansi\OwnSkController;
+use App\Http\Controllers\Instansi\PelayananController as InstansiPelayananController;
+use App\Http\Controllers\Instansi\PeraturanController;
+use App\Http\Controllers\Instansi\ProfileController as InstansiProfileController;
+use App\Http\Controllers\Instansi\SkController as InstansiSkController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('instansi')
+Route::middleware(['auth', 'role:instansi'])
+    ->prefix('instansi')
     ->name('instansi.')
     ->group(function () {
 
@@ -11,160 +18,74 @@ Route::prefix('instansi')
         | Profile
         |--------------------------------------------------------------------------
         */
-        Route::get('/profile', function () {
-            $profile = null;
-            return view('pages.instansi.profile.index', compact('profile'));
-        })->name('profile');
+        Route::get('/profile', [InstansiProfileController::class, 'index'])->name('profile');
 
-        Route::put('/profile', function () {
-            return redirect()->route('instansi.profile');
-        })->name('profile.update');
+        Route::put('/profile', [InstansiProfileController::class, 'update'])
+            ->name('profile.update');
 
         /*
         |--------------------------------------------------------------------------
-        | Perda & Perwali
+        | Perda & Perwali (masih dummy)
         |--------------------------------------------------------------------------
         */
-        Route::get('/perda-perwali', function () {
-            $perdaList   = collect();
-            $perwaliList = collect();
-            $namaUnit    = 'Sekretariat Daerah';
-
-            return view('pages.instansi.perda_perwali.index', compact('perdaList', 'perwaliList', 'namaUnit'));
-        })->name('perda_perwali.index');
+        Route::get('/perda-perwali', [InstansiProfileController::class, 'regulations'])
+            ->name('perda_perwali.index');
+        Route::post('/perda', [PeraturanController::class, 'storePerda'])->name('perda.store');
+        Route::put('/perda/{perda}', [PeraturanController::class, 'updatePerda'])->name('perda.update');
+        Route::delete('/perda/{perda}', [PeraturanController::class, 'destroyPerda'])->name('perda.destroy');
+        Route::post('/perwali', [PeraturanController::class, 'storePerwali'])->name('perwali.store');
+        Route::put('/perwali/{perwali}', [PeraturanController::class, 'updatePerwali'])->name('perwali.update');
+        Route::delete('/perwali/{perwali}', [PeraturanController::class, 'destroyPerwali'])->name('perwali.destroy');
 
         /*
         |--------------------------------------------------------------------------
-        | Nama Unit Layanan (monitoring instansi level 2 di bawah SETDA)
+        | Nama Unit Layanan (masih dummy)
         |--------------------------------------------------------------------------
         */
-        Route::get('/unit-layanan', function () {
-            $unitLayananList = collect([
-                (object) ['id' => 1, 'nama' => 'Bagian Organisasi', 'username' => 'organisasi', 'status' => 'Aktif'],
-                (object) ['id' => 2, 'nama' => 'Bagian Hukum',      'username' => 'hukum',      'status' => 'Aktif'],
-                (object) ['id' => 3, 'nama' => 'Bagian Lembaga',    'username' => 'lembaga',    'status' => 'Aktif'],
-                (object) ['id' => 4, 'nama' => 'Bagian Umum',       'username' => 'umum',       'status' => 'Aktif'],
-            ]);
-
-            return view('pages.instansi.unit_layanan.index', compact('unitLayananList'));
-        })->name('unit_layanan.index');
+        Route::get('/unit-layanan', [InstansiProfileController::class, 'unitLayanan'])
+            ->name('unit_layanan.index');
 
         /*
         |--------------------------------------------------------------------------
-        | Nama Pelayanan (milik SETDA sendiri)
+        | Nama Pelayanan (database)
         |--------------------------------------------------------------------------
         */
-        Route::get('/pelayanan', function () {
-            $pelayananList = collect();
-            return view('pages.instansi.pelayanan.index', compact('pelayananList'));
-        })->name('pelayanan.index');
+        Route::get('/pelayanan', [InstansiPelayananController::class, 'index'])->name('pelayanan.index');
+        Route::get('/pelayanan/create', [InstansiPelayananController::class, 'create'])->name('pelayanan.create');
+        Route::post('/pelayanan', [InstansiPelayananController::class, 'store'])->name('pelayanan.store');
+        Route::get('/pelayanan/{pelayanan}', [InstansiPelayananController::class, 'show'])->name('pelayanan.show');
+        Route::get('/pelayanan/{pelayanan}/edit', [InstansiPelayananController::class, 'edit'])->name('pelayanan.edit');
+        Route::put('/pelayanan/{pelayanan}', [InstansiPelayananController::class, 'update'])->name('pelayanan.update');
+        Route::delete('/pelayanan/{pelayanan}', [InstansiPelayananController::class, 'destroy'])->name('pelayanan.destroy');
 
-        Route::get('/pelayanan/create', function () {
-            return view('pages.instansi.pelayanan.create');
-        })->name('pelayanan.create');
-
-        Route::post('/pelayanan', function () {
-            return redirect()->route('instansi.pelayanan.index');
-        })->name('pelayanan.store');
-
-        Route::get('/pelayanan/{id}/edit', function ($id) {
-            $data = (object) ['id' => $id]; // dummy, nanti diganti Model asli
-            return view('pages.instansi.pelayanan.edit', compact('data'));
-        })->name('pelayanan.edit');
-
-        Route::put('/pelayanan/{id}', function ($id) {
-            return redirect()->route('instansi.pelayanan.index');
-        })->name('pelayanan.update');
-
-        Route::delete('/pelayanan/{id}', function ($id) {
-            return redirect()->route('instansi.pelayanan.index');
-        })->name('pelayanan.destroy');
+        Route::get('/pengesahan-sk', [InstansiSkController::class, 'index'])->name('sk.index');
+        Route::get('/pengesahan-sk/milik-instansi', [OwnSkController::class, 'index'])->name('own_sk.index');
+        Route::post('/pengesahan-sk/milik-instansi', [OwnSkController::class, 'store'])->name('own_sk.store');
+        Route::put('/pengesahan-sk/milik-instansi/{sk}', [OwnSkController::class, 'update'])->name('own_sk.update');
+        Route::delete('/pengesahan-sk/milik-instansi/{sk}', [OwnSkController::class, 'destroy'])->name('own_sk.destroy');
+        Route::post('/pengesahan-sk/milik-instansi/{sk}/kirim', [OwnSkController::class, 'submit'])->name('own_sk.submit');
+        Route::get('/pengesahan-sk/milik-instansi/{sk}/layanan', [OwnSkController::class, 'layanan'])->name('own_sk.layanan');
+        Route::post('/pengesahan-sk/milik-instansi/{sk}/layanan/{pelayanan}', [OwnSkController::class, 'attachLayanan'])->name('own_sk.layanan.attach');
+        Route::delete('/pengesahan-sk/milik-instansi/{sk}/layanan/{pelayanan}', [OwnSkController::class, 'detachLayanan'])->name('own_sk.layanan.detach');
+        Route::delete('/pengesahan-sk/milik-instansi/{sk}/layanan/{pelayanan}/hapus', [OwnSkController::class, 'destroyLayanan'])->name('own_sk.layanan.destroy');
+        Route::put('/pengesahan-sk/milik-instansi/{sk}/approve', [InstansiSkController::class, 'approveOwned'])->name('own_sk.approve');
 
         /*
         |--------------------------------------------------------------------------
-        | Pelayanan SK — milik SETDA sendiri (CRUD penuh)
+        | Pelayanan SK — monitoring unit di bawah SETDA (database + approval)
         |--------------------------------------------------------------------------
         */
-        Route::get('/pengesahan-sk', function () {
-            $skList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama_dinas' => 'Sekretariat Daerah',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '2025-12-04',
-                    'status' => 'Aktif',
-                    'jenis_sk' => 'SK Baru',
-                    'no_sk_sebelumnya' => null,
-                    'pengesahan' => 'Sudah disetujui',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama_dinas' => 'Sekretariat Daerah',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '2025-12-04',
-                    'status' => 'Aktif',
-                    'jenis_sk' => 'SK Baru',
-                    'no_sk_sebelumnya' => null,
-                    'pengesahan' => 'Belum disetujui',
-                ],
-            ]);
+        Route::get('/pengesahan-sk/unit/{unit}', [InstansiSkController::class, 'show'])
+            ->name('pelayanan_sk.show');
 
-            return view('pages.instansi.sk.index', compact('skList'));
-        })->name('sk.index');
-
-        Route::post('/pengesahan-sk', fn() => redirect()->route('instansi.sk.index'))->name('sk.store');
-        Route::put('/pengesahan-sk/{id}', fn($id) => redirect()->route('instansi.sk.index'))->name('sk.update');
-        Route::delete('/pengesahan-sk/{id}', fn($id) => redirect()->route('instansi.sk.index'))->name('sk.destroy');
-        Route::put('/pengesahan-sk/{id}/status', fn($id) => redirect()->route('instansi.sk.index'))->name('sk.status');
+        Route::put('/pengesahan-sk/unit/{unit}/{sk}/approve', [InstansiSkController::class, 'approve'])
+            ->name('sk.approve');
 
         /*
         |--------------------------------------------------------------------------
-        | Pelayanan SK — monitoring unit di bawah SETDA (read only + approval)
+        | Maklumat (database + approval)
         |--------------------------------------------------------------------------
         */
-        Route::get('/pengesahan-sk/unit/{unit}', function ($unit) {
-            $namaUnit = ucwords(str_replace('-', ' ', $unit));
-
-            $skList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama_dinas' => 'Bagian Organisasi',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '2025-12-04',
-                    'status' => 'Aktif',
-                    'pengesahan' => 'Sudah disetujui',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama_dinas' => 'Bagian Hukum',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '2025-12-04',
-                    'status' => 'Aktif',
-                    'pengesahan' => 'Belum disetujui',
-                ],
-            ]);
-
-            return view('pages.instansi.sk.show', compact('skList', 'namaUnit', 'unit'));
-        })->name('pelayanan_sk.show');
-
-        Route::put('/pengesahan-sk/unit/{unit}/{id}/approve', function ($unit, $id) {
-            return redirect()->route('instansi.pelayanan_sk.show', $unit);
-        })->name('sk.approve');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Maklumat (milik SETDA — bisa mengajukan "Ganti Pejabat")
-        |--------------------------------------------------------------------------
-        */
-        Route::get('/maklumat', function () {
-            $maklumatList = collect([
-                (object) ['id' => 1, 'isi' => 'Kami siap memberikan pelayanan sesuai standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.', 'nama_penjebat' => 'Otok Kuswandaru', 'tanggal_input' => '2025-08-11', 'status' => 'disetujui'],
-                (object) ['id' => 2, 'isi' => 'Kami siap memberikan pelayanan sesuai standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.', 'nama_penjebat' => 'Otok Kuswandaru', 'tanggal_input' => '2025-08-11', 'status' => 'pending'],
-                (object) ['id' => 3, 'isi' => 'Kami siap memberikan pelayanan sesuai standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.', 'nama_penjebat' => 'Otok Kuswandaru', 'tanggal_input' => '2025-08-11', 'status' => 'disetujui'],
-            ]);
-
-            return view('pages.instansi.maklumat.index', compact('maklumatList'));
-        })->name('maklumat.index');
-
-        Route::post('/maklumat', fn() => redirect()->route('instansi.maklumat.index'))->name('maklumat.store');
+        Route::get('/maklumat', [InstansiMaklumatController::class, 'index'])->name('maklumat.index');
+        Route::post('/maklumat', [InstansiMaklumatController::class, 'store'])->name('maklumat.store');
     });

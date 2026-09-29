@@ -19,7 +19,7 @@
             </h1>
 
             <p class="sk-page-subtitle">
-                Informasi data SK yang terdapat dalam masing-masing bagian organisasi.
+                Kelola SK {{ $namaUnit }} dan kirim draf ke Admin untuk diperiksa.
             </p>
 
         </div>
@@ -43,9 +43,7 @@
                     <i class="bi bi-building"></i>
                 </span>
 
-                <span>
-                    Bagian Organisasi
-                </span>
+                <span>{{ $namaUnit }}</span>
 
             </div>
 
@@ -77,7 +75,7 @@
                 </h2>
 
                 <p class="sk-section-description">
-                    Daftar Surat Keputusan Bagian Organisasi.
+                    Daftar Surat Keputusan {{ $namaUnit }}.
                 </p>
 
             </div>
@@ -117,6 +115,7 @@
 
 <x-unit-layanan.sk.modal-form :sk-list="$skList" />
 <x-unit-layanan.sk.modal-delete />
+<x-unit-layanan.sk.modal-konfirmasi :sk-list="$skList" />
 
 
 

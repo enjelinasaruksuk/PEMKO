@@ -31,6 +31,10 @@
                                 <input type="text" name="nama_kepala" class="form-control" value="{{ old('nama_kepala', $profile->nama_kepala ?? '') }}">
                             </div>
                             <div class="mb-3">
+                                <label class="form-label-custom">Nama Jabatan (mis. Kepala Bagian Organisasi)</label>
+                                <input type="text" name="nama_jabatan" class="form-control" value="{{ old('nama_jabatan', $profile->nama_jabatan ?? '') }}">
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label-custom">Jabatan</label>
                                 <select name="jabatan" class="form-select">
                                     <option value="">Pilih Jabatan</option>

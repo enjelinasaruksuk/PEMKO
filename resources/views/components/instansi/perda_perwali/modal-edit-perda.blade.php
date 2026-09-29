@@ -15,12 +15,12 @@
                     <p class="modal-description mb-3">Ubah Peraturan Daerah di bawah ini.</p>
                     <div>
                         <label class="form-label-custom">Peraturan Daerah</label>
-                        <textarea name="tentang" class="form-control" rows="5" style="resize: vertical; min-height: 120px;">{{ $perda->tentang ?? '' }}</textarea>
+                        <textarea name="tentang" class="form-control modal-field" rows="5" style="resize: vertical; min-height: 120px;" required>{{ $perda->tentang ?? '' }}</textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn-primary-custom">Simpan Perubahan</button>
                 </div>
             </form>

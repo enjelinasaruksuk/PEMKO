@@ -41,7 +41,16 @@ class InstansiPengajuanController extends Controller
 
         if ($request->keputusan === 'ditolak') {
             $pengguna->update(['status' => 'ditolak']);
+
             return redirect()->route('admin.instansi_pengajuan.index')->with('success', 'Pengajuan ditolak.');
+        }
+
+        $instansi = $pengguna->instansi;
+
+        if (! $instansi) {
+            return redirect()
+                ->route('admin.instansi_pengajuan.index')
+                ->withErrors(['pengajuan' => 'Instansi untuk pengajuan ini tidak ditemukan.']);
         }
 
         $baseUsername = Str::slug($pengguna->instansi->nama_instansi, '');
@@ -49,7 +58,7 @@ class InstansiPengajuanController extends Controller
         $counter = 1;
 
         while (Pengguna::where('username', $username)->exists()) {
-            $username = $baseUsername . $counter;
+            $username = $baseUsername.$counter;
             $counter++;
         }
 
@@ -60,6 +69,7 @@ class InstansiPengajuanController extends Controller
             'password' => bcrypt($passwordPlain),
             'status' => 'aktif',
         ]);
+        $instansi->update(['status' => 'aktif']);
 
         if ($pengguna->email) {
             Mail::to($pengguna->email)->send(new AkunDisetujuiMail($pengguna, $passwordPlain));

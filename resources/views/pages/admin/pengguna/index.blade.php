@@ -9,6 +9,10 @@
         <p class="dt-page-subtitle">Daftar akun pengguna yang terdaftar pada masing-masing instansi.</p>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success" role="status">{{ session('success') }}</div>
+    @endif
+
     <div class="dt-main-card">
 
         <div class="dt-section-header">

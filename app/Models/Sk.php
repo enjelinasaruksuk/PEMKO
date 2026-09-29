@@ -17,19 +17,54 @@ class Sk extends Model
         'no_sk_sebelumnya',
         'status',
         'pengesahan',
+        'konfirmasi',
         'catatan_konfirmasi',
+        'review_status',
+        'review_comment',
+        'submitted_at',
+        'admin_reviewed_at',
+        'ttd_nama',
+        'ttd_nip',
+        'ttd_pangkat',
+        'ttd_jabatan',
     ];
 
     protected function casts(): array
     {
         return [
             'tanggal_sk' => 'date',
+            'submitted_at' => 'datetime',
+            'admin_reviewed_at' => 'datetime',
         ];
+    }
+
+    public const REVIEW_DRAFT = 'draft';
+
+    public const REVIEW_PENDING_ADMIN = 'menunggu_admin';
+
+    public const REVIEW_NEEDS_CHANGES = 'perlu_perbaikan';
+
+    public const REVIEW_PENDING_INSTANSI = 'menunggu_instansi';
+
+    public const REVIEW_APPROVED = 'disetujui';
+
+    public function isEditableByOwner(): bool
+    {
+        return in_array($this->review_status, [
+            self::REVIEW_DRAFT,
+            self::REVIEW_NEEDS_CHANGES,
+        ], true);
     }
 
     public function instansi()
     {
         return $this->belongsTo(Instansi::class, 'id_instansi', 'id_instansi');
+    }
+
+    public function pelayanan()
+    {
+        return $this->belongsToMany(Pelayanan::class, 'pelayanan_sk', 'sk_id', 'pelayanan_id')
+            ->withTimestamps();
     }
 
     /**

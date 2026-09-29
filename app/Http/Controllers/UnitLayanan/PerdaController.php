@@ -19,7 +19,7 @@ class PerdaController extends Controller
 
         Perda::create([
             'id_instansi' => $this->currentInstansiId(),
-            'tentang'     => $validated['tentang'],
+            'tentang' => $validated['tentang'],
         ]);
 
         return redirect()
@@ -29,6 +29,8 @@ class PerdaController extends Controller
 
     public function update(Request $request, Perda $perda)
     {
+        $this->authorizeOwnership($perda);
+
         $validated = $request->validate([
             'tentang' => ['required', 'string'],
         ]);
@@ -42,10 +44,21 @@ class PerdaController extends Controller
 
     public function destroy(Perda $perda)
     {
+        $this->authorizeOwnership($perda);
+
         $perda->delete();
 
         return redirect()
             ->route('unit_layanan.profile.regulations')
             ->with('success_modal', 'Peraturan Daerah berhasil dihapus.');
+    }
+
+    private function authorizeOwnership(Perda $perda): void
+    {
+        abort_unless(
+            $perda->id_instansi === $this->currentInstansiId(),
+            403,
+            'Anda tidak memiliki akses ke peraturan ini.'
+        );
     }
 }

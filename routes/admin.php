@@ -1,10 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\InstansiPengajuanController;
+use App\Http\Controllers\Admin\PenggunaController;
+use App\Http\Controllers\Admin\SkController as AdminSkController;
+use App\Http\Controllers\PdfController;
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
     ->name('admin.')
+    ->middleware(['auth', 'role:admin'])
     ->group(function () {
 
         /*
@@ -50,52 +54,17 @@ Route::prefix('admin')
             return redirect()->route('admin.pelayanan.index');
         })->name('pelayanan.destroy');
 
-
         /*
         |--------------------------------------------------------------------------
         | Manajemen SK
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/sk', function () {
-
-            $skList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama_dinas' => 'Sekretariat Daerah',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '04 Desember 2025',
-                    'status' => 'Aktif',
-                    'sudah_diajukan' => true,
-                    'konfirmasi_status' => 'disetujui',
-                    'catatan' => '',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama_dinas' => 'Sekretariat Daerah',
-                    'no_sk' => '000.8.3.2/958/436.3.2/2025',
-                    'tanggal_sk' => '04 Desember 2025',
-                    'status' => 'Aktif',
-                    'sudah_diajukan' => true,
-                    'konfirmasi_status' => 'belum',
-                    'catatan' => '',
-                ],
-            ]);
-
-            return view(
-                'pages.admin.sk.index',
-                compact('skList')
-            );
-        })->name('sk.index');
-
-        Route::put('/sk/{id}/konfirmasi', function ($id) {
-            return redirect()->route('admin.sk.index');
-        })->name('sk.confirm');
-
-        Route::delete('/sk/{id}', function ($id) {
-            return redirect()->route('admin.sk.index');
-        })->name('sk.destroy');
-
+        Route::get('/sk', [AdminSkController::class, 'index'])->name('sk.index');
+        Route::get('/sk/{sk}', [AdminSkController::class, 'show'])->name('sk.show');
+        Route::get('/sk/{sk}/preview', [PdfController::class, 'previewSk'])->name('sk.preview');
+        Route::put('/sk/{sk}/teruskan', [AdminSkController::class, 'forward'])->name('sk.forward');
+        Route::put('/sk/{sk}/kembalikan', [AdminSkController::class, 'returnToOwner'])->name('sk.return');
 
         /*
         |--------------------------------------------------------------------------
@@ -103,36 +72,10 @@ Route::prefix('admin')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/pengguna', function () {
-
-            $penggunaList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama' => 'Admin Badan Kesatuan Bangsa dan Politik',
-                    'email' => 'kesbangpol@batam.go.id',
-                    'instansi_nama' => 'Pemerintah Kota Batam',
-                    'instansi_singkatan' => 'BADAN KESATUAN BANGSA DAN POLITIK',
-                    'peran' => 'Instansi Level 1',
-                    'status' => 'Aktif',
-                    'masuk_terakhir' => '6 Agustus',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama' => 'Admin Badan Pendapatan Daerah',
-                    'email' => 'bapenda@batam.go.id',
-                    'instansi_nama' => 'Pemerintah Kota Batam',
-                    'instansi_singkatan' => 'BADAN PENDAPATAN DAERAH',
-                    'peran' => 'Instansi Level 1',
-                    'status' => 'Aktif',
-                    'masuk_terakhir' => '17 Agustus',
-                ],
-            ]);
-
-            return view(
-                'pages.admin.pengguna.index',
-                compact('penggunaList')
-            );
-        })->name('pengguna.index');
+        Route::get('/pengguna', [PenggunaController::class, 'index'])
+            ->name('pengguna.index');
+        Route::post('/pengguna/{pengguna}/reset-password', [PenggunaController::class, 'resetPassword'])
+            ->name('pengguna.reset_password');
 
         Route::delete('/pengguna/{id}', function ($id) {
             return redirect()->route('admin.pengguna.index');
@@ -141,7 +84,6 @@ Route::prefix('admin')
         Route::put('/pengguna/{id}/toggle-status', function ($id) {
             return redirect()->route('admin.pengguna.index');
         })->name('pengguna.toggle_status');
-
 
         /*
         |--------------------------------------------------------------------------
@@ -227,32 +169,30 @@ Route::prefix('admin')
 | Pengajuan Akun Instansi
 |--------------------------------------------------------------------------
 */
-Route::get('/instansi-pengajuan', [InstansiPengajuanController::class, 'index'])->name('instansi_pengajuan.index');
-Route::put('/instansi-pengajuan/{id}', [InstansiPengajuanController::class, 'update'])->name('instansi_pengajuan.update');
+        Route::get('/instansi-pengajuan', [InstansiPengajuanController::class, 'index'])->name('instansi_pengajuan.index');
+        Route::put('/instansi-pengajuan/{id}', [InstansiPengajuanController::class, 'update'])->name('instansi_pengajuan.update');
 
-/*
-|--------------------------------------------------------------------------
-| Maklumat
-|--------------------------------------------------------------------------
-*/
-Route::get('/maklumat', function () {
+        /*
+        |--------------------------------------------------------------------------
+        | Maklumat
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/maklumat', function () {
 
-    $maklumatList = collect([
-        (object) [
-            'id' => 1,
-            'isi' => 'Kami siap memberikan pelayanan sesuai dengan standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.',
-            'nama_penjebat' => 'Otok Kuswandaru',
-            'tanggal_input' => '11 Agustus 2025',
-            'status' => 'pending',
-        ],
-    ]);
+            $maklumatList = collect([
+                (object) [
+                    'id' => 1,
+                    'isi' => 'Kami siap memberikan pelayanan sesuai dengan standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.',
+                    'nama_penjebat' => 'Otok Kuswandaru',
+                    'tanggal_input' => '11 Agustus 2025',
+                    'status' => 'pending',
+                ],
+            ]);
 
-    return view('pages.admin.maklumat.index', compact('maklumatList'));
-})->name('maklumat.index');
+            return view('pages.admin.maklumat.index', compact('maklumatList'));
+        })->name('maklumat.index');
 
-Route::put('/maklumat/{id}', function ($id) {
-    return redirect()->route('admin.maklumat.index');
-})->name('maklumat.update');
+        Route::put('/maklumat/{id}', function ($id) {
+            return redirect()->route('admin.maklumat.index');
+        })->name('maklumat.update');
     });
-
-    

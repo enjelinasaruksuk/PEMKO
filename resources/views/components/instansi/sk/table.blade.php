@@ -92,9 +92,20 @@
 
                     <td class="text-center">
                         <div class="sk-actions">
-                            <button type="button" class="sk-icon-btn pdf" title="PDF" data-pdf-id="{{ $sk->id }}">
+                            @if (($sk->pengesahan ?? '') === 'Sudah disetujui')
+                            <a href="{{ route('pdf.sk', $sk->id) }}"
+                                target="_blank"
+                                class="sk-icon-btn pdf"
+                                title="Cetak PDF">
                                 <i class="bi bi-file-earmark-pdf"></i>
-                            </button>
+                            </a>
+                            @else
+                            <span class="sk-icon-btn"
+                                style="color:#a7b1be; cursor:not-allowed;"
+                                title="SK belum disetujui">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                            </span>
+                            @endif
 
                             @if (($sk->pengesahan ?? '') !== 'Sudah disetujui')
                             <button type="button" class="sk-icon-btn edit" title="Edit"

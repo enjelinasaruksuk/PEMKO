@@ -8,12 +8,20 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Pengguna extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use HasApiTokens, Notifiable;
 
     protected $table = 'pengguna';
+
     protected $primaryKey = 'id_pengguna';
+
     protected $fillable = ['id_role', 'id_instansi', 'nama_pengguna', 'email', 'username', 'password', 'status', 'masuk_terakhir'];
+
     protected $hidden = ['password'];
+
+    protected function casts(): array
+    {
+        return ['masuk_terakhir' => 'datetime'];
+    }
 
     public function role()
     {

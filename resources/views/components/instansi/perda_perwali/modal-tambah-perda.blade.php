@@ -12,12 +12,12 @@
                     <p class="modal-description mb-3">Tambahkan Peraturan Daerah.</p>
                     <div>
                         <label class="form-label-custom">Peraturan Daerah</label>
-                        <textarea name="tentang" class="form-control" rows="5" placeholder="Masukkan Peraturan Daerah" style="resize: vertical; min-height: 120px;"></textarea>
+                        <textarea name="tentang" class="form-control modal-field" rows="5" placeholder="Peraturan Daerah (Perda) Kota Batam Nomor 1 Tahun 2026 tentang Penyelenggaraan Administrasi Kependudukan" style="resize: vertical; min-height: 120px;" required></textarea>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn-primary-custom">Simpan</button>
                 </div>
             </form>

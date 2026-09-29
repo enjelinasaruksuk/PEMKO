@@ -38,7 +38,7 @@
     <div class="row g-4">
 
         {{-- =========================================================
-             KOLOM 1 → Laman (Website), lalu Maklumat di bawahnya
+             KOLOM 1 → Identitas unit dan laman
         ========================================================== --}}
         <div class="col-md-4">
             <div class="profile-item">
@@ -59,16 +59,11 @@
             </div>
 
             @if ($maklumatList->isNotEmpty())
-            @php $maklumatAktif = $maklumatList->first(); @endphp
-            <div class="profile-item">
-                <div class="profile-label">Maklumat</div>
-                <div class="profile-value">{{ $maklumatAktif->isi_maklumat }}</div>
-                @if (!empty($maklumatAktif->nama_penjabat))
-                <div class="profile-value fw-semibold mt-2">
-                    Ttd,<br>{{ $maklumatAktif->nama_penjabat }}
+                @php $maklumatAktif = $maklumatList->first(); @endphp
+                <div class="profile-item">
+                    <div class="profile-label">Maklumat</div>
+                    <div class="profile-value maklumat-text">{{ $maklumatAktif->isi_maklumat }}</div>
                 </div>
-                @endif
-            </div>
             @endif
         </div>
 
@@ -149,7 +144,6 @@
         </div>
 
     </div>
-
 
     <div class="d-flex justify-content-end mt-3">
         <button type="button" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#createProfileModal">

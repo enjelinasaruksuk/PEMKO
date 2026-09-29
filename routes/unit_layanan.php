@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UnitLayanan\MaklumatController;
 use App\Http\Controllers\UnitLayanan\PelayananController;
 use App\Http\Controllers\UnitLayanan\PerdaController;
 use App\Http\Controllers\UnitLayanan\PerwaliController;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')
+Route::middleware(['auth', 'role:unit_layanan'])
     ->prefix('unit-layanan')
     ->name('unit_layanan.')
     ->group(function () {
@@ -80,6 +81,9 @@ Route::middleware('auth')
         Route::get('/pelayanan/create', [PelayananController::class, 'create'])
             ->name('pelayanan.create');
 
+        Route::get('/pelayanan/{pelayanan}', [PelayananController::class, 'show'])
+            ->name('pelayanan.show');
+
         Route::post('/pelayanan', [PelayananController::class, 'store'])
             ->name('pelayanan.store');
 
@@ -119,6 +123,24 @@ Route::middleware('auth')
         Route::put('/pengesahan-sk/{sk}/status', [SkController::class, 'updateStatus'])
             ->name('sk.status');
 
+        Route::post('/pengesahan-sk/{sk}/kirim', [SkController::class, 'submit'])
+            ->name('sk.submit');
+
+        Route::get('/pengesahan-sk/{sk}/layanan', [SkController::class, 'layanan'])
+            ->name('sk.layanan');
+
+        Route::post('/pengesahan-sk/{sk}/layanan/{pelayanan}', [SkController::class, 'attachLayanan'])
+            ->name('sk.layanan.attach');
+
+        Route::delete('/pengesahan-sk/{sk}/layanan/{pelayanan}', [SkController::class, 'detachLayanan'])
+            ->name('sk.layanan.detach');
+
+        Route::delete('/pengesahan-sk/{sk}/layanan/{pelayanan}/hapus', [SkController::class, 'destroyLayanan'])
+            ->name('sk.layanan.destroy');
+
+        Route::put('/pengesahan-sk/{sk}/konfirmasi', [SkController::class, 'updateKonfirmasi'])
+            ->name('sk.konfirmasi');
+
         /*
         |--------------------------------------------------------------------------
         | Maklumat
@@ -126,8 +148,5 @@ Route::middleware('auth')
         | TODO: masih memakai view statis; belum ada Controller/Model karena
         | belum ada kebutuhan CRUD nyata untuk fitur ini.
         */
-
-        Route::get('/maklumat', function () {
-            return view('pages.unit-layanan.maklumat.index');
-        })->name('maklumat.index');
+        Route::get('/maklumat', [MaklumatController::class, 'index'])->name('maklumat.index');
     });
