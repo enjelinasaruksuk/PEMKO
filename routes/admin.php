@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\InstansiPengajuanController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\SkController as AdminSkController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Admin\PelayananController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
@@ -17,42 +18,10 @@ Route::prefix('admin')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/pelayanan', function () {
-            $komponenList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama_komponen' => 'Persyaratan',
-                    'kategori' => 'Penyampaian',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama_komponen' => 'Biaya',
-                    'kategori' => 'Penyampaian',
-                ],
-                (object) [
-                    'id' => 3,
-                    'nama_komponen' => 'Evaluasi Kinerja Pelaksana',
-                    'kategori' => 'Pengelolaan',
-                ],
-            ]);
-
-            return view(
-                'pages.admin.pelayanan.index',
-                compact('komponenList')
-            );
-        })->name('pelayanan.index');
-
-        Route::post('/pelayanan', function () {
-            return redirect()->route('admin.pelayanan.index');
-        })->name('pelayanan.store');
-
-        Route::put('/pelayanan/{id}', function ($id) {
-            return redirect()->route('admin.pelayanan.index');
-        })->name('pelayanan.update');
-
-        Route::delete('/pelayanan/{id}', function ($id) {
-            return redirect()->route('admin.pelayanan.index');
-        })->name('pelayanan.destroy');
+        Route::get('/pelayanan', [PelayananController::class, 'index'])->name('pelayanan.index');
+        Route::post('/pelayanan', [PelayananController::class, 'store'])->name('pelayanan.store');
+        Route::put('/pelayanan/{id}', [PelayananController::class, 'update'])->name('pelayanan.update');
+        Route::delete('/pelayanan/{id}', [PelayananController::class, 'destroy'])->name('pelayanan.destroy');
 
         /*
         |--------------------------------------------------------------------------

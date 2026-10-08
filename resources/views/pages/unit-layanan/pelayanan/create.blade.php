@@ -41,7 +41,7 @@
     @csrf
 
 
-      <x-unit-layanan.pelayanan.form />
+      <x-unit-layanan.pelayanan.form :komponen-list="$komponenList" />
 
 
     <div class="d-flex justify-content-end gap-2 mb-4">

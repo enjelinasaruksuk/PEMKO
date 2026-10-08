@@ -45,29 +45,29 @@ class PenggunaController extends Controller
     }
 
     public function resetPassword(Pengguna $pengguna): RedirectResponse
-    {
-        abort_unless(
-            in_array($pengguna->role?->nama_role, ['instansi', 'unit_layanan'], true),
-            404
-        );
+{
+    abort_unless(
+        in_array($pengguna->role?->nama_role, ['instansi', 'unit_layanan'], true),
+        404
+    );
 
-        abort_if(
-            blank($pengguna->email),
-            422,
-            'Akun ini belum memiliki email untuk menerima password baru.'
-        );
+    abort_if(
+        blank($pengguna->email),
+        422,
+        'Akun ini belum memiliki email untuk menerima password baru.'
+    );
 
-        $password = Str::random(12);
+    $password = $pengguna->username . '2026';
 
-        DB::transaction(function () use ($pengguna, $password): void {
-            $pengguna->update(['password' => Hash::make($password)]);
+    DB::transaction(function () use ($pengguna, $password): void {
+        $pengguna->update(['password' => Hash::make($password)]);
 
-            Mail::to($pengguna->email)
-                ->send(new PasswordDiaturUlangMail($pengguna, $password));
-        });
+        Mail::to($pengguna->email)
+            ->send(new PasswordDiaturUlangMail($pengguna, $password));
+    });
 
-        return redirect()
-            ->route('admin.pengguna.index')
-            ->with('success', 'Password baru telah dikirim ke email pengguna.');
-    }
+    return redirect()
+        ->route('admin.pengguna.index')
+        ->with('success', 'Password baru telah dikirim ke email pengguna.');
+}
 }

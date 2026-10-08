@@ -2,24 +2,6 @@
 @section('title', 'Pemeriksaan SK')
 
 @section('content')
-@php
-    $fields = [
-        'persyaratan' => 'Persyaratan',
-        'sistem_mekanisme_prosedur' => 'Sistem, Mekanisme dan Prosedur',
-        'jangka_waktu' => 'Jangka Waktu Pelayanan',
-        'biaya' => 'Biaya',
-        'produk_pelayanan' => 'Produk Pelayanan',
-        'penanganan_pengaduan' => 'Penanganan, Pengaduan, Saran dan Masukan',
-        'dasar_hukum' => 'Dasar Hukum',
-        'sarana_prasarana' => 'Sarana dan Prasarana dan/atau Fasilitas',
-        'kompetensi_pelaksana' => 'Kompetensi Pelaksana',
-        'pengawasan_internal' => 'Pengawasan Internal',
-        'jumlah_pelaksana' => 'Jumlah Pelaksana',
-        'jaminan_pelayanan' => 'Jaminan Pelayanan',
-        'jaminan_keamanan' => 'Jaminan Keamanan dan Keselamatan Pelayanan',
-        'evaluasi_kinerja' => 'Evaluasi Kinerja Pelaksana',
-    ];
-@endphp
 <div class="sk-page">
     <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
         <div>
@@ -53,15 +35,23 @@
                 </tbody>
             </table>
 
+            @php
+                $semuaKomponen = \App\Models\KomponenPelayanan::orderBy('kategori')->orderBy('id_komponen')->get();
+            @endphp
+
             @forelse ($sk->pelayanan as $layanan)
+                @php
+                    $layanan->loadMissing('details');
+                    $komponenMap = $layanan->komponenMap();
+                @endphp
                 <h3 class="h5 text-primary mt-4">{{ $layanan->nama_layanan }}</h3>
                 <table class="table table-bordered align-top">
                     <thead class="table-light"><tr><th style="width:35%">Komponen</th><th>Uraian</th></tr></thead>
                     <tbody>
-                        @foreach ($fields as $field => $label)
+                        @foreach ($semuaKomponen as $komponen)
                             <tr>
-                                <th>{{ $label }}</th>
-                                @php($value = trim(strip_tags($layanan->$field ?? '')))
+                                <th>{{ $komponen->nama_komponen }}</th>
+                                @php($value = trim(strip_tags($komponenMap[$komponen->id_komponen] ?? '')))
                                 <td>
                                     @if ($value !== '')
                                         {!! nl2br(e($value)) !!}

@@ -32,49 +32,49 @@ class InstansiPengajuanController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'keputusan' => 'required|in:disetujui,ditolak',
-        ]);
+{
+    $request->validate([
+        'keputusan' => 'required|in:disetujui,ditolak',
+    ]);
 
-        $pengguna = Pengguna::findOrFail($id);
+    $pengguna = Pengguna::findOrFail($id);
 
-        if ($request->keputusan === 'ditolak') {
-            $pengguna->update(['status' => 'ditolak']);
+    if ($request->keputusan === 'ditolak') {
+        $pengguna->update(['status' => 'ditolak']);
 
-            return redirect()->route('admin.instansi_pengajuan.index')->with('success', 'Pengajuan ditolak.');
-        }
-
-        $instansi = $pengguna->instansi;
-
-        if (! $instansi) {
-            return redirect()
-                ->route('admin.instansi_pengajuan.index')
-                ->withErrors(['pengajuan' => 'Instansi untuk pengajuan ini tidak ditemukan.']);
-        }
-
-        $baseUsername = Str::slug($pengguna->instansi->nama_instansi, '');
-        $username = $baseUsername;
-        $counter = 1;
-
-        while (Pengguna::where('username', $username)->exists()) {
-            $username = $baseUsername.$counter;
-            $counter++;
-        }
-
-        $passwordPlain = Str::random(8);
-
-        $pengguna->update([
-            'username' => $username,
-            'password' => bcrypt($passwordPlain),
-            'status' => 'aktif',
-        ]);
-        $instansi->update(['status' => 'aktif']);
-
-        if ($pengguna->email) {
-            Mail::to($pengguna->email)->send(new AkunDisetujuiMail($pengguna, $passwordPlain));
-        }
-
-        return redirect()->route('admin.instansi_pengajuan.index')->with('success', 'Akun disetujui, kredensial telah dikirim ke email.');
+        return redirect()->route('admin.instansi_pengajuan.index')->with('success', 'Pengajuan ditolak.');
     }
+
+    $instansi = $pengguna->instansi;
+
+    if (! $instansi) {
+        return redirect()
+            ->route('admin.instansi_pengajuan.index')
+            ->withErrors(['pengajuan' => 'Instansi untuk pengajuan ini tidak ditemukan.']);
+    }
+
+    $baseUsername = Str::slug($pengguna->instansi->nama_instansi, '');
+    $username = $baseUsername;
+    $counter = 1;
+
+    while (Pengguna::where('username', $username)->exists()) {
+        $username = $baseUsername.$counter;
+        $counter++;
+    }
+
+    $passwordPlain = $username . '2026';
+
+    $pengguna->update([
+        'username' => $username,
+        'password' => bcrypt($passwordPlain),
+        'status' => 'aktif',
+    ]);
+    $instansi->update(['status' => 'aktif']);
+
+    if ($pengguna->email) {
+        Mail::to($pengguna->email)->send(new AkunDisetujuiMail($pengguna, $passwordPlain));
+    }
+
+    return redirect()->route('admin.instansi_pengajuan.index')->with('success', 'Akun disetujui, kredensial telah dikirim ke email.');
+}
 }

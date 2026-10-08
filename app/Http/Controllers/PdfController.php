@@ -62,7 +62,7 @@ class PdfController extends Controller
             'kop' => $kop,
             'logo' => $logo,
             'ttd' => $ttd,
-            'layananList' => $sk->pelayanan()->orderBy('nama_layanan')->get(),
+            'layananList' => $sk->pelayanan()->with('details')->orderBy('nama_layanan')->get(),
             'perdaList' => $perdaList,
             'perwaliList' => $perwaliList,
         ])->setPaper('a4')->stream(($preview ? 'Draf-SK-' : 'SK-').$sk->id.'.pdf');

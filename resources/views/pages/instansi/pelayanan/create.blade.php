@@ -18,7 +18,7 @@
 <form action="{{ route('instansi.pelayanan.store') }}" method="POST">
     @csrf
 
-    <x-unit-layanan.pelayanan.form />
+   <x-unit-layanan.pelayanan.form :komponen-list="$komponenList" />
 
     <div class="d-flex justify-content-end gap-2 mb-4">
         <a href="{{ route('instansi.pelayanan.index') }}" class="btn btn-light rounded-pill px-4">

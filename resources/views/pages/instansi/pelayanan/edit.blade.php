@@ -19,7 +19,7 @@
     @csrf
     @method('PUT')
 
-    <x-unit-layanan.pelayanan.form :data="$data" />
+    <x-unit-layanan.pelayanan.form :data="$data" :komponen-list="$komponenList" :komponen-map="$komponenMap" />
 
     <div class="d-flex justify-content-end gap-2 mb-4">
         <a href="{{ route('instansi.pelayanan.index') }}" class="btn btn-light rounded-pill px-4">

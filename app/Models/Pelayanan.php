@@ -12,22 +12,6 @@ class Pelayanan extends Model
     protected $fillable = [
         'id_instansi',
         'nama_layanan',
-        // Penyampaian Layanan
-        'persyaratan',
-        'sistem_mekanisme_prosedur',
-        'jangka_waktu',
-        'biaya',
-        'produk_pelayanan',
-        'penanganan_pengaduan',
-        // Pengelolaan Pelayanan
-        'dasar_hukum',
-        'sarana_prasarana',
-        'kompetensi_pelaksana',
-        'pengawasan_internal',
-        'jumlah_pelaksana',
-        'jaminan_pelayanan',
-        'jaminan_keamanan',
-        'evaluasi_kinerja',
     ];
 
     public function instansi()
@@ -41,9 +25,20 @@ class Pelayanan extends Model
             ->withTimestamps();
     }
 
+    public function details()
+    {
+        return $this->hasMany(DetailPelayanan::class, 'id_pelayanan');
+    }
+
     /**
-     * Scope a query to only the given instansi.
+     * Ambil isi komponen sebagai array [id_komponen => isi_komponen],
+     * memudahkan pre-fill form edit.
      */
+    public function komponenMap(): array
+    {
+        return $this->details->pluck('isi_komponen', 'id_komponen')->toArray();
+    }
+
     public function scopeMilikInstansi(Builder $query, int $idInstansi): Builder
     {
         return $query->where('id_instansi', $idInstansi);

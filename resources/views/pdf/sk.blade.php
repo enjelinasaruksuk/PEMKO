@@ -3,24 +3,11 @@
     $unitUpper = mb_strtoupper($namaUnit);
     $clean = fn ($html) => strip_tags($html ?? '', '<p><br><ul><ol><li><strong><b><em><i><u>');
 
-    $penyampaian = [
-        'persyaratan' => 'Persyaratan',
-        'sistem_mekanisme_prosedur' => 'Sistem, Mekanisme dan Prosedur',
-        'jangka_waktu' => 'Jangka Waktu Pelayanan',
-        'biaya' => 'Biaya',
-        'produk_pelayanan' => 'Produk Pelayanan',
-        'penanganan_pengaduan' => 'Penanganan, Pengaduan, Saran dan Masukan',
-    ];
-    $pengelolaan = [
-        'dasar_hukum' => 'Dasar Hukum',
-        'sarana_prasarana' => 'Sarana dan Prasarana dan/atau Fasilitas',
-        'kompetensi_pelaksana' => 'Kompetensi Pelaksana',
-        'pengawasan_internal' => 'Pengawasan Internal',
-        'jumlah_pelaksana' => 'Jumlah Pelaksana',
-        'jaminan_pelayanan' => 'Jaminan Pelayanan',
-        'jaminan_keamanan' => 'Jaminan Keamanan dan Keselamatan Pelayanan',
-        'evaluasi_kinerja' => 'Evaluasi Kinerja Pelaksana',
-    ];
+    $komponenPenyampaian = \App\Models\KomponenPelayanan::where('kategori', 'Penyampaian')
+    ->orderBy('id_komponen')->get();
+    $komponenPengelolaan = \App\Models\KomponenPelayanan::where('kategori', 'Pengelolaan')
+    ->orderBy('id_komponen')->get();
+
     $mengingat = [
         'Undang-Undang Republik Indonesia Nomor 25 Tahun 2009 tentang Pelayanan Publik',
         'Peraturan Pemerintah Nomor 96 Tahun 2012 tentang Pelaksanaan Undang-Undang Republik Indonesia Nomor 25 Tahun 2009 tentang Pelayanan Publik',
@@ -145,6 +132,7 @@
     <div class="c">STANDAR PELAYANAN (SP)<br>{{ mb_strtoupper($l->nama_layanan) }}</div>
     <br>
 
+        @php($komponenMap = $l->komponenMap())
     <table class="tbl">
         <thead>
             <tr><th width="30">NO</th><th width="150">KOMPONEN</th><th>URAIAN</th></tr>
@@ -152,20 +140,20 @@
         <tbody>
 
         <tr><td colspan="3" class="grp">PENYAMPAIAN LAYANAN</td></tr>
-        @foreach ($penyampaian as $field => $label)
+        @foreach ($komponenPenyampaian as $komponen)
         <tr>
             <td align="center">{{ $loop->iteration }}</td>
-            <td>{{ $label }}</td>
-            <td class="uraian">{!! $clean($l->$field) !!}</td>
+            <td>{{ $komponen->nama_komponen }}</td>
+            <td class="uraian">{!! $clean($komponenMap[$komponen->id_komponen] ?? '') !!}</td>
         </tr>
         @endforeach
 
         <tr><td colspan="3" class="grp">PENGELOLAAN PELAYANAN</td></tr>
-        @foreach ($pengelolaan as $field => $label)
+        @foreach ($komponenPengelolaan as $komponen)
         <tr>
             <td align="center">{{ $loop->iteration }}</td>
-            <td>{{ $label }}</td>
-            <td class="uraian">{!! $clean($l->$field) !!}</td>
+            <td>{{ $komponen->nama_komponen }}</td>
+            <td class="uraian">{!! $clean($komponenMap[$komponen->id_komponen] ?? '') !!}</td>
         </tr>
         @endforeach
         </tbody>

@@ -1,6 +1,6 @@
 @props(['komponen'])
 
-<div class="modal fade" id="modalEditKomponen{{ $komponen->id }}" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalEditKomponen{{ $komponen->id_komponen }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body p-4">
@@ -9,22 +9,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ Route::has('admin.pelayanan.update') ? route('admin.pelayanan.update', $komponen->id) : '#' }}" method="POST">
+                <form action="{{ Route::has('admin.pelayanan.update') ? route('admin.pelayanan.update', $komponen->id_komponen) : '#' }}" method="POST">
                     @csrf
                     @method('PUT')
-
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold">Kategori</label>
-                        <select name="kategori" class="form-select" required>
-                            <option value="Penyampaian" {{ $komponen->kategori == 'Penyampaian' ? 'selected' : '' }}>Penyampaian Pelayanan </option>
-                            <option value="Pengelolaan" {{ $komponen->kategori == 'Pengelolaan' ? 'selected' : '' }}>Pengelolaan Pelayanan</option>
-                        </select>
-                    </div>
 
                     <div class="mb-3">
                         <label class="form-label small fw-semibold">Nama Komponen</label>
                         <input type="text" name="nama_komponen" class="form-control"
                                value="{{ $komponen->nama_komponen }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Kategori</label>
+                        <select name="kategori" class="form-select" required>
+                            <option value="Penyampaian" {{ $komponen->kategori === 'Penyampaian' ? 'selected' : '' }}>Penyampaian</option>
+                            <option value="Pengelolaan" {{ $komponen->kategori === 'Pengelolaan' ? 'selected' : '' }}>Pengelolaan</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Simpan Perubahan</button>
