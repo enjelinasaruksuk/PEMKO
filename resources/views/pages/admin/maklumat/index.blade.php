@@ -6,7 +6,7 @@
 
     <div class="dt-page-header">
         <h1 class="dt-page-title">Maklumat</h1>
-        <p class="dt-page-subtitle">Daftar maklumat pelayanan yang diajukan oleh unit layanan.</p>
+        <p class="dt-page-subtitle">Daftar maklumat pelayanan yang diajukan oleh instansi.</p>
     </div>
 
     <div class="dt-main-card">
@@ -16,23 +16,13 @@
                 <h2 class="dt-section-title">Data Maklumat</h2>
                 <p class="dt-section-description">Konfirmasi persetujuan maklumat pelayanan.</p>
             </div>
-            <button type="button" class="dt-add-button">
-                <i class="bi bi-printer"></i>
-                <span>Cetak Maklumat</span>
-            </button>
         </div>
 
         <div class="dt-card">
 
             <div class="dt-table-toolbar">
                 <div class="dt-show">
-                    <span>Show</span>
-                    <select class="dt-select">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                    </select>
-                    <span>entries</span>
+                    <span>{{ ($maklumatList ?? collect())->count() }} maklumat</span>
                 </div>
 
                 <div class="dt-search">
@@ -46,23 +36,31 @@
                     <thead>
                         <tr>
                             <th style="width:50px">No</th>
-                            <th>Pengajuan Maklumat</th>
-                            <th style="width:170px">Nama Penjebat</th>
-                            <th style="width:170px">Tanggal Input Maklumat</th>
-                          <th style="width:160px; text-align:center;">Approved</th>
+                            <th>Instansi</th>
+                            <th>Maklumat</th>
+                            <th class="dt-nowrap">Nama Penjabat</th>
+                            <th class="dt-nowrap">Tanggal Input</th>
+                            <th class="dt-nowrap">Status</th>
+                            <th class="text-center" style="width:90px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="maklumatTableBody">
                         @forelse ($maklumatList ?? [] as $i => $maklumat)
                             <tr>
                                 <td>{{ $i + 1 }}</td>
-                                <td>{{ $maklumat->isi }}</td>
-                                <td>{{ $maklumat->nama_penjebat }}</td>
-                                <td>{{ $maklumat->tanggal_input }}</td>
+                                <td class="fw-semibold">{{ $maklumat->instansi?->nama_instansi ?? '-' }}</td>
+                                <td class="dt-cell-wrap">{{ $maklumat->isi_maklumat }}</td>
+                                <td class="dt-nowrap">
+                                    <div>{{ $maklumat->nama_penjabat ?? '-' }}</div>
+                                    <div class="text-muted small">NIP {{ $maklumat->nip_penjabat ?? '-' }}</div>
+                                </td>
+                                <td class="dt-nowrap">{{ $maklumat->tanggal_input?->translatedFormat('d F Y') ?? '-' }}</td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         @if ($maklumat->status === 'disetujui')
-                                            <span class="dt-badge green">Sudah disetujui</span>
+                                            <span class="dt-badge green">Disetujui</span>
+                                        @elseif ($maklumat->status === 'ditolak')
+                                            <span class="dt-badge gray">Ditolak</span>
                                         @else
                                             <span class="dt-badge blue">Pending</span>
                                             <button type="button" class="dt-icon-btn edit" data-bs-toggle="modal"
@@ -72,11 +70,25 @@
                                         @endif
                                     </div>
                                 </td>
+                                <td>
+                                    <div class="dt-actions justify-content-center">
+                                        @if ($maklumat->status === 'disetujui')
+                                            <a href="{{ route('pdf.maklumat', $maklumat) }}" target="_blank"
+                                               class="dt-icon-btn pdf" title="Cetak Maklumat PDF">
+                                                <i class="bi bi-file-earmark-pdf"></i>
+                                            </a>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </div>
+                                </td>
                             </tr>
-                            <x-admin.maklumat.modal_konfirmasi_maklumat :maklumat="$maklumat" />
+                            @if ($maklumat->status === 'pending')
+                                <x-admin.maklumat.modal_konfirmasi_maklumat :maklumat="$maklumat" />
+                            @endif
                         @empty
                             <tr>
-                                <td colspan="5">
+                                <td colspan="7">
                                     <div class="dt-empty">
                                         <i class="bi bi-inbox"></i>
                                         <div>Belum ada data maklumat.</div>
@@ -86,14 +98,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-
-            <div class="dt-pagination">
-                <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
-                <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
-                <button type="button" class="active">1</button>
-                <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
-                <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
             </div>
 
         </div>
@@ -115,8 +119,7 @@
             searchInput.addEventListener('input', function () {
                 const keyword = this.value.toLowerCase().trim();
                 tableBody.querySelectorAll('tr').forEach(function (row) {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
+                    row.style.display = (!keyword || row.textContent.toLowerCase().includes(keyword)) ? '' : 'none';
                 });
             });
         }

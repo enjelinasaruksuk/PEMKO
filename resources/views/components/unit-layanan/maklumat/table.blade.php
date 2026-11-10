@@ -1,80 +1,85 @@
 @props(['maklumatList'])
 
-<div class="maklumat-card">
+<div class="dt-card" style="margin:0;">
 
-    {{-- TOOLBAR --}}
-    <div class="maklumat-table-toolbar">
-
-        <div class="maklumat-search">
+    <div class="dt-table-toolbar">
+        <div class="dt-search">
             <i class="bi bi-search"></i>
-            <input type="text" id="maklumatSearch" placeholder="Search:" autocomplete="off">
+            <input type="text" id="maklumatSearch" placeholder="Cari maklumat..." autocomplete="off">
         </div>
 
         @if ($maklumatList->isNotEmpty())
-        <a href="{{ route('pdf.maklumat', $maklumatList->first()) }}" target="_blank"
-           class="maklumat-print-button text-decoration-none">
-            <i class="bi bi-printer"></i>
-            <span>Cetak Maklumat</span>
-        </a>
+            <a href="{{ route('pdf.maklumat', $maklumatList->first()) }}" target="_blank"
+               class="btn-primary-custom text-decoration-none">
+                <i class="bi bi-printer me-1"></i> Cetak Maklumat
+            </a>
         @endif
-
     </div>
 
-    {{-- TABLE --}}
-    <div class="maklumat-table-wrapper">
-        <table class="maklumat-table" id="maklumatTable">
+    <div class="dt-table-wrapper">
+        <table class="dt-table" id="maklumatTable">
             <thead>
                 <tr>
-                    <th>No.</th>
+                    <th style="width:50px">No</th>
                     <th>Maklumat</th>
-                    <th>Ttd / Nama Pejabat</th>
-                    <th>Tanggal Input Maklumat</th>
-                    <th class="text-center">Aksi</th>
+                    <th class="dt-nowrap">Nama Pejabat</th>
+                    <th class="dt-nowrap">Tanggal Input</th>
+                    <th class="text-center" style="width:90px">Aksi</th>
                 </tr>
             </thead>
-
             <tbody>
-                @forelse ($maklumatList as $index => $maklumat)
-                <tr>
-                    <td class="text-center">{{ $index + 1 }}.</td>
-                    <td class="maklumat-content">{{ $maklumat->isi_maklumat ?? '-' }}</td>
-                    <td>
-                        {{ $maklumat->nama_penjabat ?? '-' }}
-                        @if ($loop->first)
-                        <span class="badge bg-success ms-1" style="font-size:10px;">Aktif</span>
-                        @endif
-                    </td>
-                    <td>
-                        {{ !empty($maklumat->tanggal_input) ? \Carbon\Carbon::parse($maklumat->tanggal_input)->translatedFormat('d F Y') : '-' }}
-                    </td>
-                    <td class="text-center">
-                        <a href="{{ route('pdf.maklumat', $maklumat) }}" target="_blank"
-                           class="sk-icon-btn pdf" title="Cetak PDF Maklumat">
-                            <i class="bi bi-file-earmark-pdf"></i>
-                        </a>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center">
-                        <div class="maklumat-empty">
+                @foreach ($maklumatList as $i => $maklumat)
+                    <tr class="maklumat-row">
+                        <td>{{ $i + 1 }}</td>
+                        <td class="dt-cell-wrap">{{ $maklumat->isi_maklumat ?? '-' }}</td>
+                        <td class="dt-nowrap">
+                            {{ $maklumat->nama_penjabat ?? '-' }}
+                            @if ($loop->first)
+                                <span class="dt-badge green ms-1">Aktif</span>
+                            @endif
+                        </td>
+                        <td class="dt-nowrap">{{ $maklumat->tanggal_input?->translatedFormat('d F Y') ?? '-' }}</td>
+                        <td>
+                            <div class="dt-actions justify-content-center">
+                                <a href="{{ route('pdf.maklumat', $maklumat) }}" target="_blank"
+                                   class="dt-icon-btn pdf" title="Cetak Maklumat PDF">
+                                    <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+
+                <tr id="maklumatEmptyRow" class="{{ $maklumatList->isEmpty() ? '' : 'd-none' }}">
+                    <td colspan="5">
+                        <div class="dt-empty">
                             <i class="bi bi-inbox"></i>
-                            <div>Belum ada data Maklumat.</div>
+                            <div>Belum ada data maklumat.</div>
                         </div>
                     </td>
                 </tr>
-                @endforelse
             </tbody>
         </table>
     </div>
-
-    {{-- PAGINATION --}}
-    <div class="maklumat-pagination">
-        <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
-        <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
-        <button type="button" class="active">1</button>
-        <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
-        <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
-    </div>
-
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('maklumatSearch');
+    const emptyRow = document.getElementById('maklumatEmptyRow');
+    const rows = Array.from(document.querySelectorAll('#maklumatTable .maklumat-row'));
+
+    searchInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase().trim();
+        let shown = 0;
+        rows.forEach(function (row) {
+            const match = !keyword || row.textContent.toLowerCase().includes(keyword);
+            row.style.display = match ? '' : 'none';
+            if (match) shown++;
+        });
+        emptyRow.classList.toggle('d-none', shown > 0);
+    });
+});
+</script>
+@endpush

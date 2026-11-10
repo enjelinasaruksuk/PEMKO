@@ -69,7 +69,11 @@ class InstansiPengajuanController extends Controller
         'password' => bcrypt($passwordPlain),
         'status' => 'aktif',
     ]);
-    $instansi->update(['status' => 'aktif']);
+        $instansi->update(array_filter([
+        'status' => 'aktif',
+        // Isi email instansi dari pemohon hanya jika masih kosong.
+        'email_instansi' => blank($instansi->email_instansi) ? $pengguna->email : null,
+    ]));
 
     if ($pengguna->email) {
         Mail::to($pengguna->email)->send(new AkunDisetujuiMail($pengguna, $passwordPlain));

@@ -1,3 +1,5 @@
+@props(['instansiLevel1' => []])
+
 <div class="modal fade" id="modalTambahInstansi" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -7,54 +9,54 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form action="{{ Route::has('admin.instansi.store') ? route('admin.instansi.store') : '#' }}" method="POST">
+                <form action="{{ route('admin.instansi.store') }}" method="POST" id="formTambahInstansi">
                     @csrf
 
                     <div class="mb-3">
                         <label class="form-label small fw-semibold">Level Akun</label>
-                        <select name="level_akun" id="levelAkun" class="form-select">
+                        <select name="level_instansi" class="form-select js-level-select" required>
                             <option value="1">Instansi Level 1</option>
                             <option value="2">Instansi Level 2</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Peran</label>
-                        <input type="peran" name="peran" class="form-control" placeholder="Masukan Nama Instansi">
-                    </div>
-
-                    <div class="mb-3">
                         <label class="form-label small fw-semibold">Instansi</label>
-                        <select name="instansi_induk" class="form-select" disabled>
-                            <option>Pemerintahan Kota Batam</option>
+                        <select class="form-select" disabled>
+                            <option>Pemerintah Kota Batam</option>
                         </select>
                     </div>
 
-                    {{-- Field ini SELALU muncul kalau Level Akun = 1 atau 2 --}}
-                    <div class="mb-3" id="wrapperLevel1">
+                    {{-- Hanya muncul untuk Level 2 --}}
+                    <div class="mb-3 d-none js-induk-wrapper">
                         <label class="form-label small fw-semibold">Instansi Level 1</label>
-                        <select name="instansi_level_1" class="form-select">
-                            <option value="" selected disabled>Pilih Instansi Level 1</option>
-                            @foreach ($instansiLevel1 ?? [] as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                        <select name="id_instansi_induk" class="form-select js-induk-select" disabled>
+                            <option value="">Pilih Instansi Level 1</option>
+                            @foreach ($instansiLevel1 as $item)
+                                <option value="{{ $item->id_instansi }}">{{ $item->nama_instansi }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    {{-- Field ini CUMA muncul kalau Level Akun = 2 --}}
-                    <div class="mb-3 d-none" id="wrapperLevel2">
-                        <label class="form-label small fw-semibold">Instansi Level 2</label>
-                        <select name="instansi_level_2" class="form-select">
-                            <option value="" selected disabled>Pilih Instansi Level 2</option>
-                            @foreach ($instansiLevel2 ?? [] as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
+                    {{-- Label & placeholder berubah sesuai level --}}
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold js-nama-label">Nama Instansi Level 1</label>
+                        <input type="text" name="nama_instansi" class="form-control js-nama-input"
+                               placeholder="Contoh: Sekretariat Daerah" maxlength="255" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Email Instansi</label>
-                        <input type="email" name="email" class="form-control" placeholder="Masukkan Email Instansi">
+                        <label class="form-label small fw-semibold">Email Instansi <span class="text-muted fw-normal">(opsional)</span></label>
+                        <input type="email" name="email_instansi" class="form-control" placeholder="Masukkan Email Instansi">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Status</label>
+                        <select name="status" class="form-select" required>
+                            <option value="aktif" selected>Aktif</option>
+                            <option value="nonaktif">Nonaktif</option>
+                        </select>
+                        <div class="form-text">Hanya instansi aktif yang muncul di form pengajuan akun.</div>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">Simpan</button>
@@ -63,3 +65,40 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('modalTambahInstansi');
+    if (!modal) return;
+
+    const form = modal.querySelector('form');
+    const levelSelect = modal.querySelector('.js-level-select');
+    const indukWrapper = modal.querySelector('.js-induk-wrapper');
+    const indukSelect = modal.querySelector('.js-induk-select');
+    const namaLabel = modal.querySelector('.js-nama-label');
+    const namaInput = modal.querySelector('.js-nama-input');
+
+    function syncLevel() {
+        const isLevel2 = levelSelect.value === '2';
+
+        indukWrapper.classList.toggle('d-none', !isLevel2);
+        indukSelect.disabled = !isLevel2;
+        indukSelect.required = isLevel2;
+        if (!isLevel2) indukSelect.value = '';
+
+        namaLabel.textContent = isLevel2 ? 'Nama Instansi Level 2' : 'Nama Instansi Level 1';
+        namaInput.placeholder = isLevel2 ? 'Contoh: Bagian Hukum' : 'Contoh: Sekretariat Daerah';
+    }
+
+    levelSelect.addEventListener('change', syncLevel);
+
+    modal.addEventListener('hidden.bs.modal', function () {
+        form.reset();
+        syncLevel();
+    });
+
+    syncLevel();
+});
+</script>
+@endpush

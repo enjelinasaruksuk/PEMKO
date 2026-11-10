@@ -25,4 +25,5 @@ class Maklumat extends Model
     {
         return $this->belongsTo(Instansi::class, 'id_instansi', 'id_instansi');
     }
+    public const ISI_STANDAR = 'Kami siap memberikan pelayanan sesuai dengan standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.';
 }

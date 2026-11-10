@@ -10,7 +10,6 @@ use App\Models\Sk;
 use App\Models\TandaTangan;
 use App\Traits\ResolvesInstansiId;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Storage;
 
 class PdfController extends Controller
 {
@@ -135,13 +134,12 @@ class PdfController extends Controller
         $nip = preg_replace('/\D/', '', $nip);
         $signature = $nip ? TandaTangan::find($nip) : null;
 
-        abort_if(! $signature, 422, 'Spesimen tanda tangan untuk NIP pejabat tidak ditemukan.');
-        abort_unless(
-            Storage::disk('local')->exists($signature->path),
+        abort_if(
+            ! $signature || blank($signature->gambar),
             422,
-            'File spesimen tanda tangan untuk NIP pejabat tidak ditemukan.'
+            'Spesimen tanda tangan untuk NIP pejabat tidak ditemukan.'
         );
 
-        return 'data:image/png;base64,'.base64_encode(Storage::disk('local')->get($signature->path));
+        return 'data:image/png;base64,'.$signature->gambar;
     }
 }

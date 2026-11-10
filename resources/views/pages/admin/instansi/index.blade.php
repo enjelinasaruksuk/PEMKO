@@ -6,7 +6,7 @@
 
     <div class="dt-page-header">
         <h1 class="dt-page-title">Master Instansi</h1>
-        <p class="dt-page-subtitle">Daftar instansi yang terdaftar dalam sistem.</p>
+        <p class="dt-page-subtitle">Daftar instansi yang tersedia pada form pengajuan akun.</p>
     </div>
 
     <div class="dt-main-card">
@@ -14,7 +14,7 @@
         <div class="dt-section-header">
             <div>
                 <h2 class="dt-section-title">Data Instansi</h2>
-                <p class="dt-section-description">Kelola data instansi level 1 dan level 2.</p>
+                <p class="dt-section-description">Kelola instansi Level 1 dan unit layanan Level 2 beserta induknya.</p>
             </div>
             <button type="button" class="dt-add-button" data-bs-toggle="modal" data-bs-target="#modalTambahInstansi">
                 <i class="bi bi-plus-circle"></i>
@@ -26,13 +26,7 @@
 
             <div class="dt-table-toolbar">
                 <div class="dt-show">
-                    <span>Show</span>
-                    <select class="dt-select">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                    </select>
-                    <span>entries</span>
+                    <span>{{ $instansiList->count() }} instansi</span>
                 </div>
 
                 <div class="dt-search">
@@ -47,55 +41,63 @@
                         <tr>
                             <th style="width:50px">No</th>
                             <th>Nama Instansi</th>
-                            <th>Level Instansi</th>
+                            <th class="dt-nowrap">Level</th>
+                            <th>Induk</th>
                             <th>Email Instansi</th>
-                            <th class="text-center">Aksi</th>
+                            <th class="dt-nowrap">Akun</th>
+                            <th class="dt-nowrap">Status</th>
+                            <th class="text-center" style="width:100px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="instansiTableBody">
-                        @forelse ($instansiList ?? [] as $i => $instansi)
+                        @foreach ($instansiList as $instansi)
                             <tr>
-                                <td>{{ $i + 1 }}</td>
-                                <td class="fw-semibold">{{ $instansi->nama }}</td>
-                                <td> @if ($instansi->level_akun == 1)  Instansi Level 1
-                                    @elseif ($instansi->level_akun == 2) Instansi Level 2
+                                <td>{{ $loop->iteration }}</td>
+                                <td class="fw-semibold">{{ $instansi->nama_instansi }}</td>
+                                <td class="dt-nowrap">
+                                    <span class="dt-badge {{ $instansi->level_instansi == 1 ? 'blue' : 'gray' }}">
+                                        Level {{ $instansi->level_instansi }}
+                                    </span>
+                                </td>
+                                <td>{{ $instansi->induk?->nama_instansi ?? '-' }}</td>
+                                <td>
+                                    @if ($instansi->email_instansi)
+                                        {{ $instansi->email_instansi }}
                                     @else
+                                        <span class="text-muted">Belum diisi</span>
                                     @endif
                                 </td>
-                                <td>{{ $instansi->email ?? '-' }}</td>
+                                <td class="dt-nowrap">{{ $instansi->pengguna_count }}</td>
+                                <td>
+                                    <span class="dt-badge {{ $instansi->status === 'aktif' ? 'green' : 'gray' }}">
+                                        {{ ucfirst($instansi->status) }}
+                                    </span>
+                                </td>
                                 <td>
                                     <x-admin.instansi.aksi_instansi :instansi="$instansi" />
                                 </td>
                             </tr>
-                            <x-admin.instansi.modal_edit_instansi :instansi="$instansi" />
+                            <x-admin.instansi.modal_edit_instansi :instansi="$instansi" :instansi-level1="$instansiLevel1" />
                             <x-admin.instansi.modal_hapus_instansi :instansi="$instansi" />
-                        @empty
-                            <tr>
-                                <td colspan="3">
-                                    <div class="dt-empty">
-                                        <i class="bi bi-inbox"></i>
-                                        <div>Belum ada data instansi.</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
+                        @endforeach
+
+                        <tr id="instansiEmptyRow" class="{{ $instansiList->isEmpty() ? '' : 'd-none' }}">
+                            <td colspan="8">
+                                <div class="dt-empty">
+                                    <i class="bi bi-inbox"></i>
+                                    <div>Belum ada data instansi.</div>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <div class="dt-pagination">
-                <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
-                <button type="button" title="Sebelumnya"><i class="bi bi-chevron-left"></i></button>
-                <button type="button" class="active">1</button>
-                <button type="button" title="Berikutnya"><i class="bi bi-chevron-right"></i></button>
-                <button type="button" title="Halaman terakhir"><i class="bi bi-chevron-double-right"></i></button>
             </div>
 
         </div>
     </div>
 </div>
 
-<x-admin.instansi.modal_tambah_instansi :instansi-level1="$instansiLevel1 ?? []" :instansi-level2="$instansiLevel2 ?? []" />
+<x-admin.instansi.modal_tambah_instansi :instansi-level1="$instansiLevel1" />
 @endsection
 
 @push('styles')
@@ -105,23 +107,44 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('levelAkun').addEventListener('change', function () {
-            const wrapperLevel2 = document.getElementById('wrapperLevel2');
-            wrapperLevel2.classList.toggle('d-none', this.value !== '2');
+        // Pencarian
+        const searchInput = document.getElementById('instansiSearch');
+        const rows = Array.from(document.querySelectorAll('#instansiTableBody tr')).filter(r => r.id !== 'instansiEmptyRow');
+        const emptyRow = document.getElementById('instansiEmptyRow');
+
+        searchInput.addEventListener('input', function () {
+            const keyword = this.value.toLowerCase().trim();
+            let shown = 0;
+            rows.forEach(function (row) {
+                const match = !keyword || row.textContent.toLowerCase().includes(keyword);
+                row.style.display = match ? '' : 'none';
+                if (match) shown++;
+            });
+            emptyRow.classList.toggle('d-none', shown > 0);
         });
 
-        const searchInput = document.getElementById('instansiSearch');
-        const tableBody = document.getElementById('instansiTableBody');
+        // Dropdown induk hanya tampil untuk Level 2 (berlaku untuk modal tambah & edit)
+        function toggleInduk(select) {
+        const form = select.closest('form');
+        const wrapper = form.querySelector('.js-induk-wrapper');
+        const induk = form.querySelector('.js-induk-select');
+        const label = form.querySelector('.js-nama-label');
+        const input = form.querySelector('.js-nama-input');
+        const isLevel2 = select.value === '2';
 
-        if (searchInput && tableBody) {
-            searchInput.addEventListener('input', function () {
-                const keyword = this.value.toLowerCase().trim();
-                tableBody.querySelectorAll('tr').forEach(function (row) {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
-                });
-            });
-        }
+        wrapper.classList.toggle('d-none', !isLevel2);
+        induk.required = isLevel2;
+        if (!isLevel2) induk.value = '';
+
+        // Label dan placeholder nama menyesuaikan level (hanya ada di modal tambah)
+        if (label) label.textContent = isLevel2 ? 'Nama Unit Layanan' : 'Nama Instansi';
+        if (input) input.placeholder = isLevel2 ? 'Contoh: Bagian Hukum' : 'Contoh: Dinas Pendidikan';
+    }
+
+        document.querySelectorAll('.js-level-select').forEach(function (select) {
+            toggleInduk(select);
+            select.addEventListener('change', () => toggleInduk(select));
+        });
     });
 </script>
 @endpush

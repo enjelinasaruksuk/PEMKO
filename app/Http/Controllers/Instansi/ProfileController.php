@@ -11,6 +11,7 @@ use App\Traits\ResolvesInstansiId;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Instansi;
 
 class ProfileController extends Controller
 {
@@ -64,16 +65,19 @@ class ProfileController extends Controller
     }
 
     public function unitLayanan(): View
-    {
-        $unitLayananList = auth()->user()->instansi->anak()
-            ->where('level_instansi', 2)
-            ->where('status', 'aktif')
-            ->with(['pengguna' => fn ($query) => $query->latest('id_pengguna')])
-            ->orderBy('nama_instansi')
-            ->get();
+{
+    abort_unless((int) auth()->user()->instansi?->level_instansi === 1, 403);
 
-        return view('pages.instansi.unit_layanan.index', compact('unitLayananList'));
-    }
+    $unitLayananList = Instansi::query()
+        ->where('id_instansi_induk', $this->currentInstansiId())
+        ->where('level_instansi', 2)
+        ->whereIn('status', ['aktif', 'nonaktif'])
+        ->with(['pengguna' => fn ($query) => $query->latest('id_pengguna')])
+        ->orderBy('nama_instansi')
+        ->get();
+
+    return view('pages.instansi.unit_layanan.index', compact('unitLayananList'));
+}
 
     public function regulations(): View
     {

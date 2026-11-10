@@ -44,6 +44,11 @@
             <span class="sidebar-text">Maklumat</span>
         </a>
 
+        <a href="{{ route('admin.tanda_tangan.index') }}" class="nav-link d-flex align-items-center gap-2 {{ request()->routeIs('admin.tanda_tangan.*') ? 'active' : '' }}">
+            <i class="bi bi-pen"></i>
+            <span class="sidebar-text">Tanda Tangan</span>
+        </a>
+
     </div>
 
         <div class="logout-area">

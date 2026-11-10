@@ -52,16 +52,7 @@ class SkController extends Controller
         abort_unless($sk->id_instansi === $unit->id_instansi, 404);
 
         if ($request->status_approval === 'ditolak') {
-            $sk->update([
-                'pengesahan' => 'Belum disetujui',
-                'konfirmasi' => 'Menunggu',
-                'review_status' => Sk::REVIEW_NEEDS_CHANGES,
-                'review_comment' => 'SK dikembalikan oleh Instansi untuk diperbaiki. Silakan periksa kembali data dan layanan.',
-                'ttd_nama' => null,
-                'ttd_nip' => null,
-                'ttd_pangkat' => null,
-                'ttd_jabatan' => null,
-            ]);
+            $this->returnForRevision($sk);
 
             return back()->with('success', 'Pengesahan dibatalkan dan SK dikembalikan untuk diperbaiki.');
         }
@@ -74,7 +65,9 @@ class SkController extends Controller
         abort_unless($sk->status === 'Aktif', 422, 'Aktifkan SK sebelum memberikan pengesahan.');
         abort_unless($sk->pelayanan()->exists(), 422, 'Pilih minimal satu layanan sebelum SK disahkan.');
 
-        $this->approveWithOwnerSignature($sk, $unit);
+        // Yang menandatangani adalah instansi level 1 yang sedang login (penyetuju),
+        // bukan unit pemilik SK.
+        $this->approveWithSignature($sk, auth()->user()->instansi);
 
         return back()->with('success', 'SK disetujui.');
     }
@@ -87,16 +80,7 @@ class SkController extends Controller
         abort_unless($sk->id_instansi === $instansi->id_instansi, 404);
 
         if ($request->status_approval === 'ditolak') {
-            $sk->update([
-                'pengesahan' => 'Belum disetujui',
-                'konfirmasi' => 'Menunggu',
-                'review_status' => Sk::REVIEW_NEEDS_CHANGES,
-                'review_comment' => 'SK dikembalikan oleh Instansi untuk diperbaiki. Silakan periksa kembali data dan layanan.',
-                'ttd_nama' => null,
-                'ttd_nip' => null,
-                'ttd_pangkat' => null,
-                'ttd_jabatan' => null,
-            ]);
+            $this->returnForRevision($sk);
 
             return back()->with('success', 'SK dikembalikan untuk diperbaiki.');
         }
@@ -105,29 +89,53 @@ class SkController extends Controller
         abort_unless($sk->status === 'Aktif', 422, 'SK harus aktif sebelum disahkan.');
         abort_unless($sk->pelayanan()->exists(), 422, 'Pilih minimal satu layanan sebelum SK disahkan.');
 
-        $this->approveWithOwnerSignature($sk, $instansi);
+        $this->approveWithSignature($sk, $instansi);
 
         return back()->with('success', 'SK disetujui.');
     }
 
-    private function approveWithOwnerSignature(Sk $sk, Instansi $owner): void
+    /**
+     * Kembalikan SK ke pemilik untuk diperbaiki dan kosongkan snapshot tanda tangan.
+     */
+    private function returnForRevision(Sk $sk): void
     {
-        $profil = ProfilUnitLayanan::where('id_instansi', $owner->id_instansi)->first();
+        $sk->update([
+            'pengesahan' => 'Belum disetujui',
+            'konfirmasi' => 'Menunggu',
+            'review_status' => Sk::REVIEW_NEEDS_CHANGES,
+            'review_comment' => 'SK dikembalikan oleh Instansi untuk diperbaiki. Silakan periksa kembali data dan layanan.',
+            'ttd_nama' => null,
+            'ttd_nip' => null,
+            'ttd_pangkat' => null,
+            'ttd_jabatan' => null,
+        ]);
+    }
+
+    /**
+     * Setujui SK dengan tanda tangan pejabat instansi penyetuju.
+     * NIP diambil dari profil penyetuju, lalu dicocokkan dengan tabel tanda_tangan.
+     */
+    private function approveWithSignature(Sk $sk, Instansi $penyetuju): void
+    {
+        $profil = ProfilUnitLayanan::where('id_instansi', $penyetuju->id_instansi)->first();
 
         if (! $profil || ! $profil->nama_kepala || ! $profil->nip) {
             throw ValidationException::withMessages([
-                'profil' => 'Lengkapi profil pemilik SK (nama kepala dan NIP) sebelum SK disahkan.',
+                'profil' => 'Lengkapi profil instansi Anda (nama kepala dan NIP) sebelum menyetujui SK.',
             ]);
         }
 
+        
         $nip = preg_replace('/\D/', '', $profil->nip);
         $tandaTangan = $nip ? TandaTangan::find($nip) : null;
 
-        if (! $tandaTangan || ! Storage::disk('local')->exists($tandaTangan->path)) {
+        if (! $tandaTangan || empty($tandaTangan->gambar)) {
             throw ValidationException::withMessages([
                 'ttd' => 'Spesimen tanda tangan untuk NIP pejabat belum tersedia di database.',
             ]);
         }
+
+
 
         $sk->update([
             'pengesahan' => 'Sudah disetujui',

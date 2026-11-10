@@ -10,5 +10,5 @@ class TandaTangan extends Model
     protected $primaryKey = 'nip';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['nip', 'path'];
+    protected $fillable = ['nip', 'path', 'gambar'];
 }

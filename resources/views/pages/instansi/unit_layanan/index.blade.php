@@ -6,77 +6,13 @@
     <div class="dt-page-header">
         <p class="page-description mb-1">Nama Unit Layanan</p>
         <h1 class="dt-page-title" style="font-size:22px;">Nama Unit Pelayanan</h1>
-        <p class="dt-page-subtitle">Berikut Data Nama Unit Pelayanan yang terdaftar.</p>
+        <p class="dt-page-subtitle">Berikut data unit pelayanan (instansi level 2) di bawah instansi Anda.</p>
     </div>
 
-    <div class="dt-card" style="margin:0;">
-        <div class="dt-table-toolbar">
-            <div class="d-flex gap-2">
-                <span class="dt-select" style="width:auto;">{{ $unitLayananList->count() }} unit terdaftar</span>
-            </div>
-            <div class="dt-search">
-                <i class="bi bi-search"></i>
-                <input type="text" id="unitLayananSearch" placeholder="Cari...">
-            </div>
-        </div>
-
-        <div class="dt-table-wrapper">
-            <table class="dt-table">
-                <thead>
-                    <tr>
-                        <th style="width:50px">No</th>
-                        <th>Unit Layanan</th>
-                        <th>Email Akun</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="unitLayananTableBody">
-                    @forelse ($unitLayananList ?? [] as $i => $unit)
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td class="text-primary">{{ $unit->nama_instansi }}</td>
-                            <td>{{ $unit->pengguna->first()?->email ?? $unit->email_instansi ?? '-' }}</td>
-                            <td class="{{ strtolower($unit->status) === 'aktif' ? 'text-success' : 'text-danger' }}">
-                                {{ ucfirst($unit->status) }}
-                            </td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="4" class="dt-empty">Belum ada data unit layanan.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="dt-pagination">
-            <button type="button"><i class="bi bi-chevron-double-left"></i></button>
-            <button type="button"><i class="bi bi-chevron-left"></i></button>
-            <button type="button" class="active">1</button>
-            <button type="button"><i class="bi bi-chevron-right"></i></button>
-            <button type="button"><i class="bi bi-chevron-double-right"></i></button>
-        </div>
-    </div>
+    <x-instansi.unit_layanan.table :unit-layanan-list="$unitLayananList" />
 </div>
 @endsection
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/data-table.css') }}">
-@endpush
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('unitLayananSearch');
-        const tableBody = document.getElementById('unitLayananTableBody');
-
-        if (searchInput && tableBody) {
-            searchInput.addEventListener('input', function () {
-                const keyword = this.value.toLowerCase().trim();
-                tableBody.querySelectorAll('tr').forEach(function (row) {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
-                });
-            });
-        }
-    });
-</script>
 @endpush

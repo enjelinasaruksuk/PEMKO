@@ -24,4 +24,19 @@ class Instansi extends Model
     {
         return $this->hasMany(Pengguna::class, 'id_instansi', 'id_instansi');
     }
+
+    public function sk()
+    {
+        return $this->hasMany(Sk::class, 'id_instansi', 'id_instansi');
+    }
+
+    public function pelayanan()
+    {
+        return $this->hasMany(Pelayanan::class, 'id_instansi', 'id_instansi');
+    }
+
+    public function maklumat()
+    {
+        return $this->hasMany(Maklumat::class, 'id_instansi', 'id_instansi');
+    }
 }

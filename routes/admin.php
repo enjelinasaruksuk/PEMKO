@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\SkController as AdminSkController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\Admin\PelayananController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\MaklumatController as AdminMaklumatController;
+use App\Http\Controllers\Admin\TandaTanganController;
+use App\Http\Controllers\Admin\InstansiController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -54,90 +57,21 @@ Route::prefix('admin')
             return redirect()->route('admin.pengguna.index');
         })->name('pengguna.toggle_status');
 
-        /*
+                /*
         |--------------------------------------------------------------------------
         | Manajemen Instansi
         |--------------------------------------------------------------------------
         */
-
-        Route::get('/instansi', function () {
-
-            $instansiList = collect([
-                (object) [
-                    'id' => 1,
-                    'nama' => 'Bagian Organisasi',
-                    'email' => 'organisasi@batam.go.id',
-                    'level_akun' => 2,
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama' => 'Bagian Hukum',
-                    'email' => 'hukum@batam.go.id',
-                    'level_akun' => 2,
-                ],
-                (object) [
-                    'id' => 3,
-                    'nama' => 'Bagian Lembaga',
-                    'email' => 'lembaga@batam.go.id',
-                    'level_akun' => 2,
-                ],
-                (object) [
-                    'id' => 4,
-                    'nama' => 'Bagian Umum',
-                    'email' => 'umum@batam.go.id',
-                    'level_akun' => 2,
-                ],
-            ]);
-
-            $instansiLevel1 = collect([
-                (object) [
-                    'id' => 1,
-                    'nama' => 'Sekretariat Daerah',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama' => 'Dinas Pendidikan',
-                ],
-            ]);
-
-            $instansiLevel2 = collect([
-                (object) [
-                    'id' => 1,
-                    'nama' => 'Bagian Organisasi',
-                ],
-                (object) [
-                    'id' => 2,
-                    'nama' => 'Bagian Hukum',
-                ],
-            ]);
-
-            return view(
-                'pages.admin.instansi.index',
-                compact(
-                    'instansiList',
-                    'instansiLevel1',
-                    'instansiLevel2'
-                )
-            );
-        })->name('instansi.index');
-
-        Route::post('/instansi', function () {
-            return redirect()->route('admin.instansi.index');
-        })->name('instansi.store');
-
-        Route::put('/instansi/{id}', function ($id) {
-            return redirect()->route('admin.instansi.index');
-        })->name('instansi.update');
-
-        Route::delete('/instansi/{id}', function ($id) {
-            return redirect()->route('admin.instansi.index');
-        })->name('instansi.destroy');
+        Route::get('/instansi', [InstansiController::class, 'index'])->name('instansi.index');
+        Route::post('/instansi', [InstansiController::class, 'store'])->name('instansi.store');
+        Route::put('/instansi/{instansi}', [InstansiController::class, 'update'])->name('instansi.update');
+        Route::delete('/instansi/{instansi}', [InstansiController::class, 'destroy'])->name('instansi.destroy');
 
         /*
-|--------------------------------------------------------------------------
-| Pengajuan Akun Instansi
-|--------------------------------------------------------------------------
-*/
+        |--------------------------------------------------------------------------
+        | Pengajuan Akun Instansi
+        |--------------------------------------------------------------------------
+        */
         Route::get('/instansi-pengajuan', [InstansiPengajuanController::class, 'index'])->name('instansi_pengajuan.index');
         Route::put('/instansi-pengajuan/{id}', [InstansiPengajuanController::class, 'update'])->name('instansi_pengajuan.update');
 
@@ -146,22 +80,17 @@ Route::prefix('admin')
         | Maklumat
         |--------------------------------------------------------------------------
         */
-        Route::get('/maklumat', function () {
+        Route::get('/maklumat', [AdminMaklumatController::class, 'index'])->name('maklumat.index');
+        Route::put('/maklumat/{maklumat}', [AdminMaklumatController::class, 'update'])->name('maklumat.update');
 
-            $maklumatList = collect([
-                (object) [
-                    'id' => 1,
-                    'isi' => 'Kami siap memberikan pelayanan sesuai dengan standar pelayanan, melakukan perbaikan secara terus menerus, dan apabila kami tidak memberikan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan, kami siap menerima sanksi dan/atau memberikan kompensasi sesuai dengan peraturan perundang-undangan yang berlaku.',
-                    'nama_penjebat' => 'Otok Kuswandaru',
-                    'tanggal_input' => '11 Agustus 2025',
-                    'status' => 'pending',
-                ],
-            ]);
-
-            return view('pages.admin.maklumat.index', compact('maklumatList'));
-        })->name('maklumat.index');
-
-        Route::put('/maklumat/{id}', function ($id) {
-            return redirect()->route('admin.maklumat.index');
-        })->name('maklumat.update');
+                /*
+        |--------------------------------------------------------------------------
+        | Spesimen Tanda Tangan
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/tanda-tangan', [TandaTanganController::class, 'index'])->name('tanda_tangan.index');
+        Route::post('/tanda-tangan', [TandaTanganController::class, 'store'])->name('tanda_tangan.store');
+        Route::get('/tanda-tangan/{tandaTangan}/gambar', [TandaTanganController::class, 'show'])->name('tanda_tangan.show');
+        Route::delete('/tanda-tangan/{tandaTangan}', [TandaTanganController::class, 'destroy'])->name('tanda_tangan.destroy');
     });
+
