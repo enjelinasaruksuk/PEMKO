@@ -50,16 +50,16 @@ class PdfController extends Controller
 
         $ttd = $preview ? null : $this->signatureImage($sk->ttd_nip ?? '');
 
-        $logoPath = public_path('images/logo-batam.png');
-        $logo = file_exists($logoPath)
-            ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath))
+        $lambangPath = public_path('images/lambang-batam.png');
+        $logoSk = file_exists($lambangPath)
+            ? 'data:image/png;base64,'.base64_encode(file_get_contents($lambangPath))
             : null;
 
         return Pdf::loadView('pdf.sk', [
             'sk' => $sk,
             'namaUnit' => $unit->nama_instansi,
             'kop' => $kop,
-            'logo' => $logo,
+            'logoSk' => $logoSk,
             'ttd' => $ttd,
             'layananList' => $sk->pelayanan()->with('details')->orderBy('nama_layanan')->get(),
             'perdaList' => $perdaList,
