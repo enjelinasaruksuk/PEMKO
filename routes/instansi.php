@@ -8,7 +8,7 @@ use App\Http\Controllers\Instansi\ProfileController as InstansiProfileController
 use App\Http\Controllers\Instansi\SkController as InstansiSkController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'role:instansi'])
+Route::middleware(['auth', 'role:instansi', 'no-cache'])
     ->prefix('instansi')
     ->name('instansi.')
     ->group(function () {

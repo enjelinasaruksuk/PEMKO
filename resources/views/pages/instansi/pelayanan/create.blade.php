@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
         <h1 class="page-title mb-1">Informasi Layanan</h1>
-        <p class="page-description mb-0">Informasi layanan yang tercatat pada Sekretariat Daerah</p>
+        <p class="page-description mb-0">Informasi layanan yang tercatat pada {{ auth()->user()->instansi?->nama_instansi ?? 'Instansi' }}</p>
     </div>
 
     <a href="{{ route('instansi.pelayanan.index') }}" class="btn btn-light btn-sm rounded-pill px-3">

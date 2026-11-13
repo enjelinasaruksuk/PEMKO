@@ -9,7 +9,7 @@
                     <h5 class="modal-title" id="createProfileModalLabel">
                         {{ $profile ? 'Ubah Data Profil' : 'Tambah Data Profil' }}
                     </h5>
-                    <p class="modal-description mb-0">Isilah form berikut untuk mengisi data profil unit layanan.</p>
+                    <p class="modal-description mb-0">Isilah form berikut untuk mengisi data profil {{ auth()->user()->instansi?->nama_instansi ?? 'unit layanan' }}.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -24,7 +24,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label-custom">Nama Unit Layanan</label>
-                                <input type="text" name="nama_unit" class="form-control" value="{{ old('nama_unit', $profile->nama_unit ?? '') }}">
+                                <input type="text" name="nama_unit" class="form-control"value="{{ old('nama_unit', $profile->nama_unit ?? auth()->user()->instansi?->nama_instansi ?? '') }}">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label-custom">Nama Kepala Dinas/UUP</label>

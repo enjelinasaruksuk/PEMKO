@@ -13,7 +13,7 @@
         </h1>
 
         <p class="page-description mb-0">
-            Informasi layanan yang tercatat pada Bagian Organisasi
+            Informasi layanan yang tercatat pada {{ auth()->user()->instansi?->nama_instansi ?? 'Unit Layanan' }}
         </p>
 
     </div>

@@ -4,6 +4,6 @@
     </button>
 
     <span class="unit-badge">
-        {{ auth()->user()->instansi->kode ?? 'SETDA' }}
+        {{ auth()->user()->instansi?->nama_instansi ?? 'Instansi' }}
     </span>
 </div>

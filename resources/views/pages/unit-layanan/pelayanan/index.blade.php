@@ -7,7 +7,7 @@
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
         <h1 class="page-title mb-1">Informasi Layanan</h1>
-        <p class="page-description mb-0">Informasi layanan yang tercatat pada Bagian Organisasi</p>
+        <p class="page-description mb-0">Informasi layanan yang tercatat pada {{ auth()->user()->instansi?->nama_instansi ?? 'Unit Layanan' }}</p>
     </div>
 
     <a href="{{ route('unit_layanan.pelayanan.create') }}" class="btn-primary-custom text-decoration-none">

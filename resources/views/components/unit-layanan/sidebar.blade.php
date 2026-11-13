@@ -34,8 +34,8 @@
 
         <div class="collapse submenu {{ request()->routeIs('unit_layanan.sk.*') ? 'show' : '' }}" id="skMenu">
             <a href="{{ route('unit_layanan.sk.index') }}"
-               class="submenu-link {{ request()->routeIs('unit_layanan.sk.index') ? 'active' : '' }}">
-                <span class="sidebar-text">Bagian Organisasi</span>
+            class="submenu-link {{ request()->routeIs('unit_layanan.sk.index') ? 'active' : '' }}">
+                <span class="sidebar-text">{{ auth()->user()->instansi?->nama_instansi ?? 'Unit Layanan' }}</span>
             </a>
         </div>
 

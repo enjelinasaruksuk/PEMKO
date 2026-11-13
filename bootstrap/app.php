@@ -14,9 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'role' => EnsureRole::class,
-        ]);
+    $middleware->alias([
+        'role' => EnsureRole::class,
+        'no-cache' => \App\Http\Middleware\PreventBackHistory::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

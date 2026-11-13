@@ -40,5 +40,5 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
-Route::middleware('auth')->get('/pdf/sk/{sk}', [PdfController::class, 'sk'])->name('pdf.sk');
-Route::middleware('auth')->get('/pdf/maklumat/{maklumat}', [PdfController::class, 'maklumat'])->name('pdf.maklumat');
+Route::middleware(['auth', 'no-cache'])->get('/pdf/sk/{sk}', [PdfController::class, 'sk'])->name('pdf.sk');
+Route::middleware(['auth', 'no-cache'])->get('/pdf/maklumat/{maklumat}', [PdfController::class, 'maklumat'])->name('pdf.maklumat');

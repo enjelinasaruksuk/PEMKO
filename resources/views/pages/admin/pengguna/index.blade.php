@@ -9,10 +9,6 @@
         <p class="dt-page-subtitle">Daftar akun pengguna yang terdaftar pada masing-masing instansi.</p>
     </div>
 
-    @if (session('success'))
-        <div class="alert alert-success" role="status">{{ session('success') }}</div>
-    @endif
-
     <div class="dt-main-card">
 
         <div class="dt-section-header">
@@ -72,13 +68,26 @@
                                     <div class="text-muted small">{{ $item->instansi_singkatan }}</div>
                                 </td>
                                 <td><span class="dt-badge blue">{{ $item->peran }}</span></td>
-                                <td><span class="dt-badge green">{{ $item->status }}</span></td>
+                                <td>
+                                    <span class="dt-badge {{ $item->status === 'Aktif' ? 'green' : ($item->status === 'Pending' ? 'blue' : 'gray') }}">
+                                        {{ $item->status }}
+                                    </span>
+                                </td>
                                 <td>{{ $item->masuk_terakhir }}</td>
                                 <td>
                                     <x-admin.pengguna.aksi_pengguna :pengguna="$item" />
                                 </td>
                             </tr>
-                            <x-admin.pengguna.modal_hapus_pengguna :pengguna="$item" />
+                            <x-admin.pengguna.modal_detail_pengguna :pengguna="$item" />
+
+                                @if ($item->can_manage)
+                                    <x-admin.pengguna.modal_edit_pengguna :pengguna="$item"
+                                        :instansi-level1="$instansiLevel1" :instansi-level2="$instansiLevel2" />
+                                @endif
+
+                                @unless ($item->is_self)
+                                    <x-admin.pengguna.modal_hapus_pengguna :pengguna="$item" />
+                                @endunless
                         @empty
                             <tr>
                                 <td colspan="7">

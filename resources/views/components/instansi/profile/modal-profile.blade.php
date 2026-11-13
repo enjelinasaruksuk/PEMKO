@@ -9,7 +9,7 @@
                     <h5 class="modal-title" id="modalTambahDataProfileLabel">
                         {{ $profile ? 'Ubah Data Profil' : 'Tambah Data Profil' }}
                     </h5>
-                    <p class="modal-description mb-0">Isilah form berikut untuk mengisi data profil Sekretariat Daerah.</p>
+                    <p class="modal-description mb-0">Isilah form berikut untuk mengisi data profil {{ auth()->user()->instansi?->nama_instansi ?? 'instansi' }}.</p>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>

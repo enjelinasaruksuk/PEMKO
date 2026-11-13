@@ -3,10 +3,14 @@
 
 @section('content')
 
+@php
+    $namaInstansi = auth()->user()->instansi?->nama_instansi ?? 'Instansi';
+@endphp
+
 <div class="d-flex justify-content-between align-items-start mb-4">
     <div>
-        <h1 class="page-title mb-1">Profil Sekretariat Daerah</h1>
-        <p class="page-description mb-0">Informasi profil Sekretariat Daerah.</p>
+        <h1 class="page-title mb-1">Profil {{ $namaInstansi }}</h1>
+        <p class="page-description mb-0">Informasi profil {{ $namaInstansi }}.</p>
     </div>
 </div>
 
@@ -24,7 +28,7 @@
 
 @if ($profile)
     <div class="card-custom p-4">
-        <h5 class="section-title text-start mb-4">Data Profil Sekretariat Daerah</h5>
+        <h5 class="section-title text-start mb-4">Data Profil {{ $namaInstansi }}</h5>
 
         <div class="row g-4">
             <div class="col-md-4">
@@ -132,7 +136,7 @@
     <div class="card-custom empty-profile">
         <div class="empty-icon"><i class="bi bi-person-vcard"></i></div>
         <h5>Belum Ada Data Profil</h5>
-        <p>Silakan tambahkan data profil Sekretariat Daerah terlebih dahulu.</p>
+        <p>Silakan tambahkan data profil {{ $namaInstansi }} terlebih dahulu.</p>
     </div>
 @endif
 

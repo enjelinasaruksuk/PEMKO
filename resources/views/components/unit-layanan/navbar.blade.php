@@ -9,9 +9,9 @@
         <i class="bi bi-list"></i>
     </button>
 
-    {{-- Nama Unit --}}
+    {{-- Nama Unit (mengikuti akun yang login) --}}
     <span class="unit-badge">
-        Organisasi
+        {{ auth()->user()->instansi?->nama_instansi ?? 'Unit Layanan' }}
     </span>
 
 </div>

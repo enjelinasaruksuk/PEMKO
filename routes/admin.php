@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\InstansiController;
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'role:admin'])
+    ->middleware(['auth', 'role:admin', 'no-cache'])
     ->group(function () {
 
         /*
@@ -49,13 +49,9 @@ Route::prefix('admin')
         Route::post('/pengguna/{pengguna}/reset-password', [PenggunaController::class, 'resetPassword'])
             ->name('pengguna.reset_password');
 
-        Route::delete('/pengguna/{id}', function ($id) {
-            return redirect()->route('admin.pengguna.index');
-        })->name('pengguna.destroy');
-
-        Route::put('/pengguna/{id}/toggle-status', function ($id) {
-            return redirect()->route('admin.pengguna.index');
-        })->name('pengguna.toggle_status');
+        Route::put('/pengguna/{pengguna}', [PenggunaController::class, 'update'])->name('pengguna.update');
+        Route::put('/pengguna/{pengguna}/toggle-status', [PenggunaController::class, 'toggleStatus'])->name('pengguna.toggle_status');
+        Route::delete('/pengguna/{pengguna}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
 
                 /*
         |--------------------------------------------------------------------------

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'role:unit_layanan'])
+Route::middleware(['auth', 'role:unit_layanan', 'no-cache'])
     ->prefix('unit-layanan')
     ->name('unit_layanan.')
     ->group(function () {

@@ -4,10 +4,14 @@
 
 @section('content')
 
+@php
+    $namaInstansi = auth()->user()->instansi?->nama_instansi ?? 'Unit Layanan';
+@endphp
+
 <div class="d-flex justify-content-between align-items-start mb-4">
     <div>
-        <h1 class="page-title mb-1">Profil Unit Layanan</h1>
-        <p class="page-description mb-0">Informasi profil unit layanan.</p>
+        <h1 class="page-title mb-1">Profil {{ $namaInstansi }}</h1>
+        <p class="page-description mb-0">Informasi profil {{ $namaInstansi }}.</p>
     </div>
 </div>
 
@@ -43,7 +47,7 @@
         <div class="col-md-4">
             <div class="profile-item">
                 <div class="profile-label">Nama Unit Layanan</div>
-                <div class="profile-value">{{ $profile->nama_unit ?? '-' }}</div>
+                <div class="profile-value">{{ $profile->nama_unit ?: $namaInstansi }}</div>
             </div>
             <div class="profile-item">
                 <div class="profile-label">Nama Kepala Dinas/UUP</div>
@@ -161,7 +165,7 @@
         <i class="bi bi-person-vcard"></i>
     </div>
     <h5>Belum Ada Data Profil</h5>
-    <p>Silakan tambahkan data profil unit layanan terlebih dahulu.</p>
+    <p>Silakan tambahkan data profil {{ $namaInstansi }} terlebih dahulu.</p>
 </div>
 
 @endif

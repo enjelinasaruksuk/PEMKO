@@ -40,7 +40,7 @@
                 @forelse ($skList as $index => $sk)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    <td>{{ $sk->nama_dinas ?? 'Bagian Organisasi' }}</td>
+                    <td>{{ $sk->nama_dinas ?? 'Unit Layanan' }}</td>
 
                     <td>
                         <div class="sk-number">{{ $sk->no_sk ?? '-' }}</div>
