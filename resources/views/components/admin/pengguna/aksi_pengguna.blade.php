@@ -12,6 +12,18 @@
             <i class="bi bi-pencil"></i>
         </button>
 
+        @if ($pengguna->nip_valid)
+        <a href="{{ route('admin.tanda_tangan.index', ['nip' => $pengguna->nip]) }}"
+            class="dt-icon-btn edit" title="Kelola tanda tangan">
+                <i class="bi bi-pen"></i>
+        </a>
+        @else
+            <span class="dt-icon-btn" style="color:#a7b1be; cursor:not-allowed;"
+                title="NIP pejabat belum diisi/valid di profil instansi">
+                <i class="bi bi-pen"></i>
+            </span>
+        @endif
+
         @if ($pengguna->email)
             <form action="{{ route('admin.pengguna.reset_password', $pengguna->id) }}" method="POST" class="d-inline">
                 @csrf

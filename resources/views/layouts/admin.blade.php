@@ -148,8 +148,21 @@
         }
 
         .sidebar-text {
-            transition: .2s;
-            white-space: nowrap;
+        transition: .2s;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.35;
+        min-width: 0;
+        }
+
+        .unit-sidebar { overflow-x: hidden; }
+        .unit-sidebar .nav-link > i { flex-shrink: 0; }
+        .unit-sidebar .nav-link { align-items: center; }
+
+        .unit-sidebar .submenu-link {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            line-height: 1.35;
         }
 
         .unit-sidebar.collapsed .sidebar-text {

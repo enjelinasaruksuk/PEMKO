@@ -133,17 +133,63 @@
                 });
             });
         }
+                // ===== Validasi NIP langsung (harus 18 digit angka) =====
+        const nipField = document.getElementById('ttdNip');
+        if (nipField) {
+            const nipForm = nipField.closest('form');
+            const nipSubmit = nipForm ? nipForm.querySelector('[type="submit"]') : null;
+
+            nipField.setAttribute('inputmode', 'numeric');
+            nipField.maxLength = 18;
+
+            const nipHint = document.createElement('div');
+            nipHint.className = 'small mt-1';
+            nipField.insertAdjacentElement('afterend', nipHint);
+
+            function cekNip() {
+                const bersih = nipField.value.replace(/\D/g, '');
+                if (nipField.value !== bersih) nipField.value = bersih;
+
+                const jumlah = bersih.length;
+
+                if (jumlah === 0) {
+                    nipHint.style.color = '#6c7a8f';
+                    nipHint.textContent = 'NIP harus 18 digit angka.';
+                } else if (jumlah < 18) {
+                    nipHint.style.color = '#dc3545';
+                    nipHint.textContent = 'Kurang ' + (18 - jumlah) + ' digit lagi (' + jumlah + '/18).';
+                } else {
+                    nipHint.style.color = '#198754';
+                    nipHint.textContent = 'NIP lengkap (18/18).';
+                }
+
+                if (nipSubmit) nipSubmit.disabled = jumlah !== 18;
+            }
+
+            nipField.addEventListener('input', cekNip);
+            // Modal mengisi/mengosongkan NIP saat dibuka, jadi cek ulang setelah tampil
+            document.getElementById('modalTambahTtd')?.addEventListener('shown.bs.modal', cekNip);
+            cekNip();
+        }
 
         // Tombol "Ganti file" mengisi NIP otomatis; tombol "Tambah" mengosongkannya.
+       const prefillNip = @json(preg_replace('/\D/', '', (string) request('nip')));
+
         const modalTambah = document.getElementById('modalTambahTtd');
         if (modalTambah) {
             modalTambah.addEventListener('show.bs.modal', function (event) {
                 const nipInput = document.getElementById('ttdNip');
-                const nip = event.relatedTarget?.getAttribute('data-nip') || '';
+                const nip = event.relatedTarget
+                    ? (event.relatedTarget.getAttribute('data-nip') || '')
+                    : prefillNip;
                 nipInput.value = nip;
                 nipInput.readOnly = nip !== '';
                 document.getElementById('ttdFile').value = '';
             });
+
+            if (prefillNip) {
+                new bootstrap.Modal(modalTambah).show();
+            }
         }
     });
 </script>

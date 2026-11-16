@@ -7,7 +7,8 @@
                 <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 2.5rem;"></i>
                 <h5 class="fw-bold mt-3">Hapus Akun Pengguna?</h5>
                 <p class="text-muted small">
-                    Akun <strong>{{ $pengguna->nama }}</strong> akan dihapus permanen dan tidak dapat dikembalikan.
+                    Akun <strong>{{ $pengguna->nama }}</strong> akan dihapus permanen beserta seluruh layanan dan SK
+                    yang dibuat akun ini. Tindakan ini tidak dapat dikembalikan.
                 </p>
 
                 <form action="{{ route('admin.pengguna.destroy', $pengguna->id) }}" method="POST">

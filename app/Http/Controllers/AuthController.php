@@ -22,45 +22,47 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
 
-        $login = trim($request->input('username'));
-        $pengguna = Pengguna::query()
-            ->where('username', $login)
-            ->orWhere('email', $login)
-            ->first();
+    $pesanGagal = 'Username/email atau kata sandi salah. Periksa kembali data pada email persetujuan akun Anda.';
 
-        if (! $pengguna) {
-            return back()->withInput($request->only('username'))
-                ->withErrors(['username' => 'Username atau email tidak terdaftar. Gunakan persis kredensial dari email persetujuan terbaru.']);
-        }
+    $login = trim($request->input('username'));
+    $pengguna = Pengguna::query()
+        ->where('username', $login)
+        ->orWhere('email', $login)
+        ->first();
 
-        if ($pengguna->status !== 'aktif') {
-            return back()->withInput($request->only('username'))
-                ->withErrors(['username' => 'Akun belum aktif. Hubungi administrator.']);
-        }
-
-        if ($pengguna->instansi && $pengguna->instansi->status !== 'aktif') {
-            return back()->withInput($request->only('username'))
-                ->withErrors(['username' => 'Instansi ini sedang tidak aktif. Hubungi administrator.']);
-        }
-
-        if (Auth::attempt(['username' => $pengguna->username, 'password' => $request->password])) {
-            $request->session()->regenerate();
-
-            $user = Auth::user();
-            $user->update(['masuk_terakhir' => now()]);
-
-            return redirect()->to($this->redirectPath($user));
-        }
-
+    if (! $pengguna) {
         return back()->withInput($request->only('username'))
-            ->withErrors(['username' => 'Kata sandi tidak sesuai dengan akun tersebut.']);
+            ->withErrors(['username' => $pesanGagal]);
     }
+
+    if ($pengguna->status !== 'aktif') {
+        return back()->withInput($request->only('username'))
+            ->withErrors(['username' => 'Akun belum aktif. Hubungi administrator.']);
+    }
+
+    if ($pengguna->instansi && $pengguna->instansi->status !== 'aktif') {
+        return back()->withInput($request->only('username'))
+            ->withErrors(['username' => 'Instansi ini sedang tidak aktif. Hubungi administrator.']);
+    }
+
+    if (Auth::attempt(['username' => $pengguna->username, 'password' => $request->password])) {
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+        $user->update(['masuk_terakhir' => now()]);
+
+        return redirect()->to($this->redirectPath($user));
+    }
+
+    return back()->withInput($request->only('username'))
+        ->withErrors(['username' => $pesanGagal]);
+}
 
     private function redirectPath(Pengguna $user): string
     {

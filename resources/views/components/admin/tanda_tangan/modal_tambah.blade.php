@@ -16,9 +16,8 @@
                     <div class="mb-3">
                         <label class="form-label small fw-semibold">NIP Pejabat</label>
                         <input type="text" id="ttdNip" name="nip" class="form-control"
-                               inputmode="numeric" maxlength="30" placeholder="18 digit NIP"
-                               value="{{ old('nip') }}" required>
-                        <div class="form-text">Spasi dan tanda baca otomatis dibuang.</div>
+                        inputmode="numeric" maxlength="18" placeholder="18 digit NIP"
+                        value="{{ old('nip') }}" required>
                     </div>
 
                     <div class="mb-3">

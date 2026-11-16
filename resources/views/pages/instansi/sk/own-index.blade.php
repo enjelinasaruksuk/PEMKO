@@ -85,14 +85,21 @@
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <form method="POST" action="{{ route('instansi.own_sk.destroy', $sk) }}"
-                                      onsubmit="return confirm('Hapus SK ini?')">
+                                      data-confirm
+                                      data-confirm-title="Hapus SK?"
+                                      data-confirm-text="Apakah Anda yakin ingin menghapus SK ini? Data yang sudah dihapus tidak dapat dikembalikan."
+                                      data-confirm-button="Ya, Hapus">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="icon-action-btn delete" title="Hapus SK"><i class="bi bi-trash"></i></button>
                                 </form>
                                 @if ($sk->status === 'Aktif' && $sk->pelayanan_count > 0)
                                     <form method="POST" action="{{ route('instansi.own_sk.submit', $sk) }}"
-                                          onsubmit="return confirm('Kirim SK ke Admin untuk diperiksa?')">
+                                          data-confirm
+                                          data-confirm-type="primary"
+                                          data-confirm-title="Kirim SK ke Admin?"
+                                          data-confirm-text="SK akan dikirim ke Admin untuk diperiksa dan tidak bisa diubah selama proses pemeriksaan."
+                                          data-confirm-button="Ya, Kirim">
                                         @csrf
                                         <button type="submit" class="icon-action-btn text-success" title="Kirim ke Admin">
                                             <i class="bi bi-send"></i>
@@ -110,7 +117,10 @@
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route('instansi.own_sk.approve', $sk) }}"
-                                      onsubmit="return confirm('Kembalikan SK ini untuk diperbaiki?')">
+                                      data-confirm
+                                      data-confirm-title="Kembalikan SK?"
+                                      data-confirm-text="SK akan dikembalikan kepada pemilik untuk diperbaiki."
+                                      data-confirm-button="Ya, Kembalikan">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="status_approval" value="ditolak">

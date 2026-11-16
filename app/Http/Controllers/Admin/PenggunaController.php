@@ -7,6 +7,9 @@ use App\Mail\PasswordDiaturUlangMail;
 use App\Models\Instansi;
 use App\Models\Pengguna;
 use App\Models\Role;
+use App\Models\ProfilUnitLayanan;
+use App\Models\Pelayanan;
+use App\Models\Sk;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,13 +22,19 @@ class PenggunaController extends Controller
 {
     public function index(): View
     {
-        $penggunaList = Pengguna::with(['role', 'instansi.induk'])
+        
+    // NIP dari profil instansi, dibersihkan jadi angka saja (sama seperti saat approval SK)
+    $nipByInstansi = ProfilUnitLayanan::whereNotNull('nip')->pluck('nip', 'id_instansi')
+        ->map(fn ($nip) => preg_replace('/\D/', '', $nip));
+        
+    $penggunaList = Pengguna::with(['role', 'instansi.induk'])
             ->latest('id_pengguna')
             ->get()
-            ->map(function (Pengguna $pengguna) {
+            ->map(function (Pengguna $pengguna) use ($nipByInstansi) {
                 $instansi = $pengguna->instansi;
                 $level = (int) ($instansi?->level_instansi ?? 0);
                 $namaRole = $pengguna->role?->nama_role;
+                $nip = $nipByInstansi[$pengguna->id_instansi] ?? null;
 
                 return (object) [
                     'id' => $pengguna->id_pengguna,
@@ -49,6 +58,8 @@ class PenggunaController extends Controller
                     'level_akun' => $level === 2 ? 2 : 1,
                     'id_instansi_level_1' => $level === 2 ? $instansi->id_instansi_induk : $instansi?->id_instansi,
                     'id_instansi_level_2' => $level === 2 ? $instansi->id_instansi : null,
+                    'nip' => $nip,
+                    'nip_valid' => $nip && strlen($nip) === 18,
                 ];
             });
 
@@ -174,7 +185,22 @@ class PenggunaController extends Controller
             'Akun admin tidak dapat dihapus.'
         );
 
-        $pengguna->delete();
+               DB::transaction(function () use ($pengguna): void {
+            $idInstansi = $pengguna->id_instansi;
+
+            // Jangan hapus data kalau masih ada akun lain di instansi yang sama
+            $adaAkunLain = $idInstansi && Pengguna::where('id_instansi', $idInstansi)
+                ->where('id_pengguna', '!=', $pengguna->id_pengguna)
+                ->exists();
+
+            if ($idInstansi && ! $adaAkunLain) {
+                // SK dulu, baru layanan. Detail layanan dan relasi pivot ikut terhapus (cascade DB).
+                Sk::where('id_instansi', $idInstansi)->delete();
+                Pelayanan::where('id_instansi', $idInstansi)->delete();
+            }
+
+            $pengguna->delete();
+        });
 
         return redirect()
             ->route('admin.pengguna.index')

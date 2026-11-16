@@ -160,7 +160,29 @@ body {
 
 .sidebar-text {
     transition: 0.2s;
-    white-space: nowrap;
+    white-space: normal;        /* boleh turun baris */
+    overflow-wrap: anywhere;    /* kata panjang tetap dipotong rapi */
+    line-height: 1.35;
+    min-width: 0;
+}
+
+.unit-sidebar {
+    overflow-x: hidden;         /* jaga-jaga supaya tidak ada yang meluber */
+}
+
+/* ikon jangan ikut mengecil saat teks panjang */
+.unit-sidebar .nav-link > i {
+    flex-shrink: 0;
+}
+
+.unit-sidebar .nav-link {
+    align-items: center;
+}
+
+.unit-sidebar .submenu-link {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
 }
 
 .unit-sidebar.collapsed .sidebar-text {
@@ -813,4 +835,47 @@ body {
 
 .icon-action-btn.delete {
     color: var(--danger);
+}
+/* =========================================================
+   NOTIFICATION MODAL
+========================================================== */
+.admin-modal-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 16px;
+}
+
+.admin-modal-icon-success {
+    background: #e9f8ef;
+    color: #198754;
+}
+
+.admin-modal-icon-danger {
+    background: rgba(231, 44, 53, .1);
+    color: var(--danger);
+}
+
+.admin-modal-title {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.admin-modal-text {
+    color: #6c7a8f;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+}
+
+.admin-modal-error-list {
+    text-align: left;
+    color: #6c7a8f;
+    font-size: 13.5px;
+    margin: 0 0 20px;
+    padding-left: 20px;
 }

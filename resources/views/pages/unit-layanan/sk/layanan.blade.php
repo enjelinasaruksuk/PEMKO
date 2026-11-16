@@ -18,6 +18,29 @@
 
     @php($canManage = $sk->status === 'Aktif' && $sk->isEditableByOwner())
 
+    @php($canManage = $sk->status === 'Aktif' && $sk->isEditableByOwner())
+
+    @php($canManage = $sk->status === 'Aktif' && $sk->isEditableByOwner())
+
+    @if ($canManage && $layananTerpilih->isNotEmpty())
+    <div class="alert alert-warning d-flex align-items-start gap-3 mb-4 border-0 shadow-sm"
+        role="alert"
+        style="border-left: 4px solid #f5a900 !important; background: #fff8e6; color: #7a5600;">
+        <i class="bi bi-exclamation-triangle-fill fs-5 flex-shrink-0" style="color:#f5a900;"></i>
+        <div>
+            <div class="fw-semibold mb-1">Jangan lupa kirim SK ke Admin</div>
+            <div>
+                Setelah menambahkan layanan dalam SK, harap kirim ke Admin di halaman sebelumnya
+                (tombol <i class="bi bi-send"></i> pada daftar SK).
+                <a href="{{ route(($skRoutePrefix ?? 'unit_layanan.sk').'.index') }}"
+                class="fw-semibold text-decoration-underline" style="color:#7a5600;">
+                    Kembali ke daftar SK
+                </a>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <section class="card-custom p-3 p-md-4 mb-4">
         <div class="mb-3">
             <div>
@@ -66,7 +89,10 @@
                                     </button>
                                 </form>
                                 <form method="POST" action="{{ route(($skRoutePrefix ?? 'unit_layanan.sk').'.layanan.destroy', [$sk, $layanan]) }}"
-                                      onsubmit="return confirm('Hapus layanan ini secara permanen?')">
+                                      data-confirm
+                                      data-confirm-title="Hapus Layanan?"
+                                      data-confirm-text="Layanan &quot;{{ $layanan->nama_layanan }}&quot; akan dihapus permanen dan tidak dapat dikembalikan."
+                                      data-confirm-button="Ya, Hapus">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="icon-action-btn delete" title="Hapus layanan"

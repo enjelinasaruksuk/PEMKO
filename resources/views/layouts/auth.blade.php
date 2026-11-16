@@ -23,18 +23,6 @@
 
     <div class="auth-wrapper">
         <div class="auth-card">
-
-            @if ($errors->any())
-            <div class="auth-alert auth-alert-danger">
-                <i class="bi bi-exclamation-circle-fill"></i>
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
             @yield('content')
         </div>
     </div>

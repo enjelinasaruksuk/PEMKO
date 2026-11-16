@@ -66,6 +66,9 @@
                                 <td>
                                     <div>{{ $item->instansi_nama }}</div>
                                     <div class="text-muted small">{{ $item->instansi_singkatan }}</div>
+                                    @if ($item->can_manage)
+                                        <div class="small mt-1">NIP: {{ $item->nip ?? '-' }}</div>
+                                    @endif
                                 </td>
                                 <td><span class="dt-badge blue">{{ $item->peran }}</span></td>
                                 <td>

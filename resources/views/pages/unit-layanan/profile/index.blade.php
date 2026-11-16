@@ -173,32 +173,4 @@
 
 <x-unit-layanan.profile.modal-profile :profile="$profile ?? null" />
 
-
-@if (session('success_modal'))
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center p-4">
-                <div class="delete-warning-icon" style="background: rgba(25,135,84,.1); color:#198754;">
-                    <i class="bi bi-check-circle"></i>
-                </div>
-                <h5 class="delete-modal-title">Berhasil!</h5>
-                <p class="delete-modal-text">{{ session('success_modal') }}</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn-primary-custom" data-bs-dismiss="modal">Oke, Mengerti</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        new bootstrap.Modal(document.getElementById('successModal')).show();
-    });
-</script>
-@endpush
-@endif
-
 @endsection

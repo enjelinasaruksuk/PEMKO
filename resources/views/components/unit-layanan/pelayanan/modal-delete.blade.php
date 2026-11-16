@@ -4,20 +4,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Hapus Data Pelayanan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <p class="modal-description mb-0">
+            <div class="modal-body text-center p-4">
+                <div class="delete-warning-icon">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <h5 class="delete-modal-title">Hapus Pelayanan?</h5>
+                <p class="delete-modal-text">
                     Apakah Anda yakin ingin menghapus data pelayanan
                     <strong id="deleteServiceName"></strong>?
+                    Data yang sudah dihapus tidak dapat dikembalikan.
                 </p>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
+            <div class="modal-footer justify-content-center gap-2">
+                <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal">Batal</button>
                 <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
