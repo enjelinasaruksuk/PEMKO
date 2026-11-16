@@ -23,7 +23,7 @@ class SkController extends Controller
     {
         $skList = Sk::query()
             ->milikInstansi($this->currentInstansiId())
-            ->with('instansi')
+            ->with(['instansi', 'messages'])
             ->withCount('pelayanan')
             ->latest('tanggal_sk')
             ->get();
@@ -171,10 +171,18 @@ class SkController extends Controller
         );
 
         $validated = $request->validate([
-            'catatan_konfirmasi' => ['nullable', 'string', 'max:5000'],
+            'catatan_konfirmasi' => ['required', 'string', 'max:5000'],
         ]);
 
-        $sk->update($validated);
+        DB::transaction(function () use ($sk, $validated, $request): void {
+            $sender = $request->user();
+            $sk->messages()->create([
+                'sender_role' => 'unit_layanan',
+                'sender_name' => $sender->nama_pengguna ?? $sender->name ?? $sender->username ?? 'Unit Pelayanan',
+                'message' => $validated['catatan_konfirmasi'],
+            ]);
+            $sk->update($validated);
+        });
 
         return redirect()
             ->route('unit_layanan.sk.index')

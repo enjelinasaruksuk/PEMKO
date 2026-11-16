@@ -14,7 +14,7 @@
         <div class="sk-section-header">
             <div>
                 <h2 class="sk-section-title">Data SK</h2>
-                <p class="sk-section-description">Pengajuan yang menunggu pemeriksaan Admin.</p>
+                <p class="sk-section-description">Pilih percakapan pada kolom Catatan Unit untuk membaca atau membalas pesan.</p>
             </div>
         </div>
 
@@ -47,6 +47,7 @@
                             <th>Tanggal SK</th>
                             <th class="text-center">Jumlah Layanan</th>
                             <th class="text-center">Status Pemeriksaan</th>
+                            <th class="text-center">Catatan Unit</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -66,7 +67,20 @@
                                 </td>
                                 <td>{{ $sk->tanggal_sk?->format('d/m/Y') }}</td>
                                 <td class="text-center">{{ $sk->pelayanan_count }}</td>
-                                <td class="text-center"><span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span></td>
+                                <td class="text-center">
+                                    @if ($sk->review_status === \App\Models\Sk::REVIEW_NEEDS_CHANGES)
+                                        <span class="approval pending"><i class="bi bi-clock"></i> Perlu diperbaiki</span>
+                                    @else
+                                        <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-link btn-sm text-info text-decoration-none"
+                                            data-bs-toggle="modal" data-bs-target="#skConversation{{ $sk->id }}">
+                                        <i class="bi bi-chat-left-text me-1"></i>
+                                        {{ $sk->messages->isNotEmpty() ? 'Percakapan (' . $sk->messages->count() . ')' : 'Buka percakapan' }}
+                                    </button>
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.sk.show', $sk) }}" class="sk-icon-btn view" title="Periksa draf SK">
                                         <i class="bi bi-eye"></i>
@@ -75,7 +89,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">
+                                <td colspan="8" class="text-center">
                                     <div class="sk-empty">
                                         <i class="bi bi-inbox"></i>
                                         <div>Belum ada SK yang menunggu pemeriksaan.</div>
@@ -86,6 +100,10 @@
                     </tbody>
                 </table>
             </div>
+
+            @foreach ($skList as $sk)
+                <x-admin.sk.modal-percakapan :sk="$sk" />
+            @endforeach
 
             <div class="sk-pagination">
                 <button type="button" title="Halaman pertama"><i class="bi bi-chevron-double-left"></i></button>
@@ -118,6 +136,14 @@
                     row.style.display = (!keyword || text.includes(keyword)) ? '' : 'none';
                 });
             });
+        }
+
+        const conversationId = new URLSearchParams(window.location.search).get('conversation');
+        if (conversationId) {
+            const conversationModal = document.getElementById('skConversation' + conversationId);
+            if (conversationModal) {
+                bootstrap.Modal.getOrCreateInstance(conversationModal).show();
+            }
         }
     });
 </script>

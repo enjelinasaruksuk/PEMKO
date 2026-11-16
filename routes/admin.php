@@ -37,6 +37,7 @@ Route::prefix('admin')
         Route::get('/sk/{sk}/preview', [PdfController::class, 'previewSk'])->name('sk.preview');
         Route::put('/sk/{sk}/teruskan', [AdminSkController::class, 'forward'])->name('sk.forward');
         Route::put('/sk/{sk}/kembalikan', [AdminSkController::class, 'returnToOwner'])->name('sk.return');
+        Route::put('/sk/{sk}/balas', [AdminSkController::class, 'replyToOwner'])->name('sk.reply');
 
         /*
         |--------------------------------------------------------------------------
@@ -89,4 +90,3 @@ Route::prefix('admin')
         Route::get('/tanda-tangan/{tandaTangan}/gambar', [TandaTanganController::class, 'show'])->name('tanda_tangan.show');
         Route::delete('/tanda-tangan/{tandaTangan}', [TandaTanganController::class, 'destroy'])->name('tanda_tangan.destroy');
     });
-

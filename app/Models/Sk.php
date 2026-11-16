@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sk extends Model
 {
@@ -65,6 +66,11 @@ class Sk extends Model
     {
         return $this->belongsToMany(Pelayanan::class, 'pelayanan_sk', 'sk_id', 'pelayanan_id')
             ->withTimestamps();
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(SkMessage::class)->orderBy('created_at')->orderBy('id');
     }
 
     /**

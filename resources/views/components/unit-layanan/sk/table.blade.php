@@ -108,14 +108,26 @@
                             </span>
                         </div>
                         @elseif ($sk->review_status === 'menunggu_admin')
-                        <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span>
+                        <div class="sk-confirmation">
+                            <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Admin</span>
+                            <button type="button" class="sk-icon-btn view" title="Lihat percakapan dengan Admin"
+                                    data-bs-toggle="modal" data-bs-target="#konfirmasiModal{{ $sk->id }}">
+                                <i class="bi bi-chat-left-text"></i>
+                            </button>
+                        </div>
                         @elseif ($sk->review_status === 'menunggu_instansi')
-                        <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Instansi</span>
+                        <div class="sk-confirmation">
+                            <span class="approval pending"><i class="bi bi-clock"></i> Menunggu Instansi</span>
+                            <button type="button" class="sk-icon-btn view" title="Lihat percakapan dengan Admin"
+                                    data-bs-toggle="modal" data-bs-target="#konfirmasiModal{{ $sk->id }}">
+                                <i class="bi bi-chat-left-text"></i>
+                            </button>
+                        </div>
                         @else
                         <div class="sk-confirmation">
-                            <button type="button" class="sk-icon-btn edit" title="Edit catatan konfirmasi"
+                            <button type="button" class="sk-icon-btn edit" title="Buka percakapan dengan Admin"
                                     data-bs-toggle="modal" data-bs-target="#konfirmasiModal{{ $sk->id }}">
-                                <i class="bi bi-pencil"></i>
+                                <i class="bi bi-chat-left-text"></i>
                             </button>
                             <span class="sk-icon-btn clock" title="Belum dikirim untuk diperiksa Admin">
                                 <i class="bi bi-clock"></i>

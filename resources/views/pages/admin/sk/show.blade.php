@@ -73,28 +73,32 @@
         <div class="sk-section-header">
             <div>
                 <h2 class="sk-section-title">Keputusan Pemeriksaan</h2>
-                <p class="sk-section-description">Jika ada kekurangan, tuliskan bagian yang perlu diperbaiki oleh pemilik SK.</p>
+                <p class="sk-section-description">Kirim pesan perbaikan melalui percakapan atau setujui dan teruskan SK ke Instansi.</p>
             </div>
         </div>
         <div class="d-flex flex-wrap justify-content-end gap-2 px-4 pb-4">
-            <form method="POST" action="{{ route('admin.sk.return', $sk) }}" class="d-flex flex-column flex-md-row gap-2 w-100">
-                @csrf
-                @method('PUT')
-                <textarea name="review_comment" class="form-control" rows="2" maxlength="5000" required
-                          placeholder="Komentar wajib diisi jika SK dikembalikan untuk perbaikan"></textarea>
-                <button type="submit" class="btn btn-outline-danger text-nowrap">
-                    <i class="bi bi-arrow-return-left me-1"></i> Kembalikan
+            @if ($sk->review_status === \App\Models\Sk::REVIEW_NEEDS_CHANGES)
+                <button type="button" class="btn btn-outline-primary"
+                        data-bs-toggle="modal" data-bs-target="#skConversation{{ $sk->id }}">
+                    <i class="bi bi-chat-left-text me-1"></i> Buka Percakapan
                 </button>
-            </form>
-            <form method="POST" action="{{ route('admin.sk.forward', $sk) }}">
-                @csrf
-                @method('PUT')
-                <button type="submit" class="btn-primary-custom">
-                    <i class="bi bi-send me-1"></i> Sesuai, teruskan ke Instansi
+                <span class="text-muted align-self-center">SK menunggu balasan Unit Pelayanan.</span>
+            @else
+                <button type="button" class="btn btn-outline-danger"
+                        data-bs-toggle="modal" data-bs-target="#skConversation{{ $sk->id }}">
+                    <i class="bi bi-arrow-return-left me-1"></i> Kirim Pesan Perbaikan
                 </button>
-            </form>
+                <form method="POST" action="{{ route('admin.sk.forward', $sk) }}">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn-primary-custom">
+                        <i class="bi bi-send me-1"></i> Sesuai, teruskan ke Instansi
+                    </button>
+                </form>
+            @endif
         </div>
     </section>
+    <x-admin.sk.modal-percakapan :sk="$sk" :return-to-detail="true" />
 </div>
 @endsection
 
