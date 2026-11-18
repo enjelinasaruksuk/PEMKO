@@ -172,7 +172,11 @@
                             </button>
                             @if (($sk->status ?? '') === 'Aktif' && $sk->pelayanan_count > 0)
                             <form method="POST" action="{{ route('unit_layanan.sk.submit', $sk) }}"
-                                  onsubmit="return confirm('Kirim SK ke Admin untuk diperiksa?')">
+                                  data-confirm
+                                  data-confirm-type="primary"
+                                  data-confirm-title="Kirim SK ke Admin?"
+                                  data-confirm-text="SK akan dikirim ke Admin untuk diperiksa dan tidak bisa diubah selama proses pemeriksaan."
+                                  data-confirm-button="Ya, Kirim">
                                 @csrf
                                 <button type="submit" class="sk-icon-btn success" title="Kirim ke Admin">
                                     <i class="bi bi-send"></i>

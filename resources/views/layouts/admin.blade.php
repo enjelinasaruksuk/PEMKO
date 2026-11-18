@@ -488,6 +488,8 @@
                 </div>
                 @endif
 
+                <x-confirm-modal />
+
                 @yield('content')
 
             </main>

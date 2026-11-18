@@ -25,10 +25,14 @@
         @endif
 
         @if ($pengguna->email)
-            <form action="{{ route('admin.pengguna.reset_password', $pengguna->id) }}" method="POST" class="d-inline">
+            <form action="{{ route('admin.pengguna.reset_password', $pengguna->id) }}" method="POST" class="d-inline"
+                  data-confirm
+                  data-confirm-type="primary"
+                  data-confirm-title="Atur Ulang Password?"
+                  data-confirm-text="Password baru akan dibuat dan dikirim ke email pengguna ini."
+                  data-confirm-button="Ya, Kirim">
                 @csrf
-                <button type="submit" class="dt-icon-btn info" title="Kirim password baru ke email"
-                        onclick="return confirm('Atur ulang password dan kirim ke email pengguna ini?')">
+                <button type="submit" class="dt-icon-btn info" title="Kirim password baru ke email">
                     <i class="bi bi-arrow-repeat"></i>
                 </button>
             </form>

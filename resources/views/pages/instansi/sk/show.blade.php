@@ -59,6 +59,11 @@
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-2">
+                                @if ($sk->review_status === 'menunggu_instansi')
+                                <a href="{{ route('pdf.sk.draft', $sk->id) }}" target="_blank" class="sk-icon-btn view" title="Lihat draft SK">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                @endif
                                 @if ($sk->status === 'Aktif' && $sk->pengesahan === 'Sudah disetujui' && $sk->konfirmasi === 'Sudah disetujui')
                                 <a href="{{ route('pdf.sk', $sk->id) }}" target="_blank" class="sk-icon-btn pdf" title="Cetak SK">
                                     <i class="bi bi-file-earmark-pdf"></i>

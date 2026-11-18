@@ -129,6 +129,11 @@
                                     </button>
                                 </form>
                             @endif
+                            @if ($sk->review_status === 'menunggu_instansi')
+                                <a href="{{ route('pdf.sk.draft', $sk) }}" target="_blank" class="icon-action-btn" title="Lihat draft SK">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            @endif
                             @if ($sk->review_status === 'disetujui')
                                 <a href="{{ route('pdf.sk', $sk) }}" target="_blank" class="icon-action-btn text-danger" title="Cetak SK">
                                     <i class="bi bi-file-earmark-pdf"></i>

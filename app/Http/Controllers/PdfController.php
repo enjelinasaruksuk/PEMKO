@@ -37,6 +37,19 @@ class PdfController extends Controller
         return $this->renderSk($sk, true);
     }
 
+    /**
+     * Draft SK untuk Instansi (penyetuju) agar bisa memeriksa sebelum menyetujui.
+     * Hanya saat SK sudah diteruskan Admin; tanpa tanda tangan (tanda tangan baru muncul setelah disetujui).
+     * Akses unit pemilik / instansi induk dicek di renderSk() lewat authorizeAkses().
+     */
+    public function draftSk(Sk $sk)
+    {
+        abort_unless(optional(auth()->user()->role)->nama_role === 'instansi', 403);
+        abort_unless($sk->review_status === Sk::REVIEW_PENDING_INSTANSI, 404, 'Draft SK hanya tersedia saat menunggu persetujuan Instansi.');
+
+        return $this->renderSk($sk, true);
+    }
+
     private function renderSk(Sk $sk, bool $preview = false)
     {
         $unit = $sk->instansi;
