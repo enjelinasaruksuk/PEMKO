@@ -123,10 +123,25 @@
 {{-- ============ LAMPIRAN PER LAYANAN ============ --}}
 @foreach ($layananList as $i => $l)
 <div style="page-break-before: always;">
-    <b>Lampiran {{ $i + 1 }}</b><br>
-    <table style="font-size:11pt;">
-        <tr><td>Nomor</td><td>: {{ $sk->no_sk }}</td></tr>
-        <tr><td>Tanggal</td><td>: {{ $sk->tanggal_sk->translatedFormat('d F Y') }}</td></tr>
+    <table width="100%" style="border-collapse:collapse; table-layout:fixed;">
+        <tr>
+            <td width="48%"></td>
+            <td width="52%" align="left" valign="top">
+                <div style="font-weight:bold; margin-bottom:4px;">LAMPIRAN : KEPUTUSAN {{ $jabatan }}</div>
+                <table style="font-size:11pt; border-collapse:collapse; line-height:1.25;">
+                    <tr>
+                        <td width="62">NOMOR</td>
+                        <td width="8">:</td>
+                        <td>{{ $sk->no_sk }}</td>
+                    </tr>
+                    <tr>
+                        <td>TENTANG</td>
+                        <td>:</td>
+                        <td>STANDAR PELAYANAN (SP)<br>{{ mb_strtoupper($l->nama_layanan) }}<br>KOTA BATAM TAHUN {{ $sk->tanggal_sk->format('Y') }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
     </table>
     <br>
     <div class="c">STANDAR PELAYANAN (SP)<br>{{ mb_strtoupper($l->nama_layanan) }}</div>

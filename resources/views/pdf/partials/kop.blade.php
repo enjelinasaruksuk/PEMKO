@@ -1,33 +1,32 @@
-@php $jabatanKop = mb_strtoupper($kop->nama_jabatan ?: $kop->nama_unit); @endphp
-@if (!empty($logoSk))
-    <table width="100%" style="border-collapse:collapse; border-bottom:1.5px solid #000; padding-bottom:6px; margin-bottom:14px;">
-        <tr>
-            <td width="30%" align="center" valign="middle">
-                <img src="{{ $logoSk }}" width="80" style="display:block; margin:0 auto;">
-            </td>
-            <td width="76%" align="center" valign="middle" style="font-family:Arial, sans-serif; padding:0 6px 8px;">
-                <div style="font-size:14pt; line-height:1.15;">PEMERINTAH KOTA BATAM</div>
-                <div style="font-size:18pt; font-weight:bold; line-height:1.15; margin:2px 0 5px;">{{ $jabatanKop }}</div>
-                <div style="font-size:9pt; line-height:1.3;">{{ $kop->alamat }}</div>
-                <div style="font-size:9pt; line-height:1.3;">Telepon {{ $kop->telepon }}</div>
-                <div style="font-size:9pt; line-height:1.3;">Laman {{ $kop->website }}, Pos-el: {{ $kop->email }}</div>
-            </td>
-            <td width="12%"></td>
-        </tr>
-    </table>
-@else
-    <table width="100%" style="border-bottom:1.5px solid #000; padding-bottom:6px; margin-bottom:14px;">
-        <tr>
-            <td width="90" align="center">
-                @if (!empty($logo)) <img src="{{ $logo }}" width="75"> @endif
-            </td>
-            <td align="center" style="font-family:Arial, sans-serif;">
-                <div style="font-size:15pt;">PEMERINTAH KOTA BATAM</div>
-                <div style="font-size:19pt; font-weight:bold;">{{ $jabatanKop }}</div>
-                <div style="font-size:10pt;">{{ $kop->alamat }}</div>
-                <div style="font-size:10pt;">Telepon {{ $kop->telepon }}</div>
-                <div style="font-size:10pt;">Laman {{ $kop->website }}, Pos-el: {{ $kop->email }}</div>
-            </td>
-        </tr>
-    </table>
-@endif
+@php
+    $jabatanKop = mb_strtoupper($kop->nama_jabatan ?: $kop->nama_unit);
+    $logoSrc = $logoSk ?: ($logo ?? null);
+
+    if (empty($logoSrc)) {
+        $logoSrc = public_path('images/logobatam.jpg');
+    }
+@endphp
+
+<table width="100%" style="border-collapse:collapse; table-layout:fixed;">
+    <tr>
+        {{-- kolom kiri & kanan SAMA lebar supaya teks tepat di tengah halaman --}}
+        <td width="18%" align="left" valign="middle" style="padding-left:4px;">
+            @if ($logoSrc)
+                <img src="{{ $logoSrc }}" style="display:block; width:auto; height:92px; max-width:92px; object-fit:contain;">
+            @endif
+        </td>
+
+        <td width="64%" align="center" valign="middle" style="font-family:Arial, sans-serif; padding-left:8px; padding-right:8px;">
+            <div style="font-size:14pt; line-height:1.15;">PEMERINTAH KOTA BATAM</div>
+            <div style="font-size:16pt; font-weight:bold; line-height:1.15; margin:2px 0 4px;">{{ $jabatanKop }}</div>
+            <div style="font-size:9pt; line-height:1.3;">{{ $kop->alamat }}</div>
+            <div style="font-size:9pt; line-height:1.3;">Telp. {{ $kop->telepon }} &nbsp; Email : {{ $kop->email }}</div>
+            <div style="font-size:9pt; line-height:1.3;">Laman {{ $kop->website }}</div>
+        </td>
+
+        <td width="18%"></td>
+    </tr>
+</table>
+
+{{-- garis ganda: tebal di atas, tipis di bawah --}}
+<div style="border-top:3px solid #000; border-bottom:1px solid #000; height:2px; margin:6px 0 14px;"></div>
